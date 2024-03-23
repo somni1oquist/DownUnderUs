@@ -1,0 +1,15 @@
+# Ignore virtual environment
+.venv/
+venv/
+
+# Ignore compiled python files
+__pycache__/
+
+# Ignore database
+instance/
+
+# Ignore migrations except versions and file_template for alembic
+!flask/migrations/
+flask/migrations/*
+!flask/migrations/versions/
+!flask/migrations/alembic.ini
