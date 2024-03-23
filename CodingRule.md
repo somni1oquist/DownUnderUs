@@ -1,6 +1,14 @@
-# Front-End Coding Rules
+# Coding Rules
 
-## HTML
+## Git
+
+### Workflow
+
+### Hooks
+
+## Front-End
+
+### HTML
 
 - Use semantic HTML tags to improve accessibility and SEO.
 - Indent HTML code with **2** spaces.
@@ -8,7 +16,7 @@
 - Avoid inline styles and scripts.
 - Comment your code to improve readability i.e. `<!-- Comment -->`.
 
-## CSS
+### CSS
 
 - Use meaningful class and ID names.
 - Organize CSS properties alphabetically.
@@ -16,7 +24,7 @@
 - Avoid using !important.
 - Comment your code to explain complex styles i.e. `/* Comment */`.
 
-## JavaScript
+### JavaScript
 
 - Use **camelCase** for variable and function names.
 - Declare variables with `const` or `let` instead of `var`.
@@ -38,13 +46,13 @@
  */
 ```
 
-## Bootstrap
+### Bootstrap
 
 - Follow Bootstrap's documentation and guidelines.
 - Use Bootstrap's grid system for responsive layouts.
 - Customize Bootstrap's styles using custom CSS.
 
-## jQuery
+### jQuery
 
 - Use jQuery's API documentation for reference.
 - Cache jQuery selectors for better performance.
@@ -52,7 +60,7 @@
 - Avoid unnecessary DOM manipulation.
 - Comment your code to explain jQuery usage.
 
-## General
+### General
 
 - Use version control (e.g., Git) to track changes.
 - Write clean and readable code.
@@ -60,9 +68,9 @@
 - Test your code in different browsers and devices.
 - Stay up to date with the latest web development trends and best practices.
 
-# Back-End Coding Rules
+## Back-End
 
-## Python
+### Python
 
 - Use meaningful variable and function names.
 - Follow PEP 8 style guide for code formatting. (Indent python code with **4** spaces)
@@ -70,7 +78,7 @@
 - Avoid using global variables.
 - Comment your code to explain complex logic or algorithms.
 
-## Flask
+### Flask
 
 - Follow Flask's documentation and best practices.
 - Use Flask's routing system for defining routes.
@@ -78,7 +86,7 @@
 - Use Flask's request object to handle incoming requests.
 - Comment your code to explain Flask-specific functionality.
 
-## SQLite
+### SQLite
 
 - Use **snake_case** naming method for tables and columns.
 - Use appropriate data types for columns.
@@ -86,7 +94,7 @@
 - Use transactions for atomicity and data integrity.
 - Comment your code to explain SQL queries and database operations.
 
-## Migrations
+### Migrations
 
 - Do NOT upload your local database file `.db`.
 - **Always** check if there is new migrations on Git before you commit a migration.
@@ -94,7 +102,7 @@
 - Make **meaningful** comment when you migrate, e.g. `flask db migrate -m "add user table"`.
 
 
-## General
+### General
 
 - Use version control (e.g., Git) to track changes.
 - Write clean and readable code.
