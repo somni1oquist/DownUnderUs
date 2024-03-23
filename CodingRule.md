@@ -2,9 +2,9 @@
 
 ## Git
 
-### Workflow
-
-### Hooks
+- Copy the executable files in `git-hooks/` in you git folder `<project>/.git/hooks`.
+- New branch should use prefix: `features/`, `tests/`, `bigfix/`, `hotfix/`, `release/`.
+- Comment concisely and descriptively when commit.
 
 ## Front-End
 
