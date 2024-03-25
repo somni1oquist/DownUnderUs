@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# An example hook script to verify what is about to be committed.
+# Called by "git commit" with no arguments.  The hook should
+# exit with non-zero status after issuing an appropriate message if
+# it wants to stop the commit.
+#
+# To enable this hook, rename this file to "pre-commit".
+
+# Get the full name of the current branch
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+
+# Define the regular expression for branch name validation
+BRANCH_REGEX='^(main|development|master|(features|tests|(bug|hot)fix|docs)(\/[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*){1,2}|release\/[0-9]+(\.[0-9]+)*(-(alpha|beta|rc)[0-9]*)?)$'
+
+# Check if the branch name matches the defined regex using grep
+if ! [[ $BRANCH_NAME =~ $BRANCH_REGEX ]]; then
+   echo "Error: Invalid branch name format."	
+   exit 1
+fi
