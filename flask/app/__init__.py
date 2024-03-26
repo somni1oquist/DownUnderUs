@@ -2,9 +2,11 @@ import os
 from flask import Flask, jsonify, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 db = SQLAlchemy()
 migrate = Migrate()
+loginManager = LoginManager()
 
 def create_app(test_config=None):
     # create and configure the app
@@ -23,12 +25,18 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # Initialize database and migration
+    # Initialiations
     db.init_app(app)
     migrate.init_app(app, db)
+    loginManager.init_app(app)
 
-    # Import models
-    from app import models
+    # Import models (must after db init)
+    from . import models
+
+    # Register blueprints
+    from . import auth, dashboard
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(dashboard.bp)
 
     @app.route("/")
     def index():
