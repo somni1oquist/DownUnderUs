@@ -3,7 +3,7 @@
 ## Git
 
 - Copy the executable files in `git-hooks/` in you git folder `<project>/.git/hooks`.
-- New branch should use prefix: `features/`, `tests/`, `bigfix/`, `hotfix/`, `release/`.
+- New branch should use prefix: `features/`, `tests/`, `bugfix/`, `hotfix/`, `release/`.
 - Comment concisely and descriptively when commit.
 
 ## Front-End
@@ -97,7 +97,7 @@
 ### Migrations
 
 - Do NOT upload your local database file `.db`.
-- **Always** check if there is new migrations on Git before you commit a migration.
+- **Always** check if there are new migrations on Git before you commit a migration.
 - Follow the migrate-upgrade workflow with command `flask db migrate -m "comment"` then `flask db upgrade` after checking.
 - Make **meaningful** comment when you migrate, e.g. `flask db migrate -m "add user table"`.
 
