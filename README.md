@@ -13,12 +13,14 @@ a description of the purpose of the application, explaining the its design and u
 # Summary of Architecture
 
 # Instructions for Launching Application
+
 0. Make sure the directory in terminal is correct: in `flask` folder.
 1. Generate virtual environment for app: `python3 -m venv .venv`.
 2. Activate virtual environment: `. .venv/bin/activate`.
-3. Install all packages: `pip install -r requirememts.txt`.
-4. Create databse if first time: `flask db init`. This should create the database file.
-5. Check if all migrations are there and execuete: `flask db upgrade`. It will apply all migrations to the database file.
-6. Launch the app: `flask run`.
+3. Install all required packages: `pip install -r requirements.txt`.
+4. Check if migrations are up-to-date and execuete: `flask db upgrade` to apply all migrations to the database file.
+5. Launch the app: `flask run` (add `--debug` parameter when developing).
 
 # Instructions for Testing
+
+0. for Ras to go on
