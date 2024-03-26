@@ -2,9 +2,25 @@
 
 ## Git
 
-- Copy the executable files in `git-hooks/` in you git folder `<project>/.git/hooks`.
-- New branch should use prefix: `features/`, `tests/`, `bigfix/`, `hotfix/`, `release/`.
+- Copy the executable files in `git-hooks/` in your git folder: `<project directory>/.git/hooks`.
+- New branch name should use prefix: `features/`, `tests/`, `bugfix/`, `hotfix/`, `release/` e.g. `git branch features/edit-profile`
 - Comment concisely and descriptively when commit.
+- Follow the workflow when developing a new function: 
+
+0. Create a new branch `git branch <branch-name>`.
+1. Checkout the target branch `git checkout <branch-name>`.
+2. Make changes.
+3. Commit `git commit -m "<comment>"` after completing part of your function.
+4. Push to remote repository `git push origin <branch-name>`.
+
+- Follow the workflow before creating pull request:
+
+0. Checkout to master branch and confirm the branch is up-to-date by `git pull`.
+1. If you have few commits behind `master` branch, reabase using `git rebase master`.
+2. If necessary, resolve the conflicts manually or using merge tools.
+3. (Optional) Squash Commits: If you've made multiple commits, consider squashing them into a single commit before merging.
+4. Review your change and make sure the app work properly.
+5. Create pull request. 
 
 ## Front-End
 
@@ -97,13 +113,14 @@
 ### Migrations
 
 - Do NOT upload your local database file `.db`.
-- **Always** check if there is new migrations on Git before you commit a migration.
+- **Always** check if there are new migrations on Git before you commit a migration.
 - Follow the migrate-upgrade workflow with command `flask db migrate -m "comment"` then `flask db upgrade` after checking.
 - Make **meaningful** comment when you migrate, e.g. `flask db migrate -m "add user table"`.
 
 
 ### General
 
+- If new libraries/extensions are added, update `requirements.txt` by using `pip freeze > requirements.txt` command.
 - Use version control (e.g., Git) to track changes.
 - Write clean and readable code.
 - Follow the DRY (Don't Repeat Yourself) principle.
