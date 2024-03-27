@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block container %}
+  <h1>Sign In</h1>
+  <form action="{{ url_for('auth.signin') }}" method="post">
+    <label for="email">Email</label>
+    <input type="email" name="email" id="email">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password">
+    <button type="submit">Sign In</button>
+  </form>
+  <p>Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign Up</a></p>
+{% endblock %}

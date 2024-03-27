@@ -6,13 +6,13 @@
   <title>Document</title>
 </head>
 <body>
-  {% nav %}
+  {% block nav %}{% endblock %}
 
   Hello, Down Under Us!
   <br>
-  {% block content %}{% endblock %}
+  {% block container %}{% endblock %}
 
   <!-- Import js files in footer component -->
-  {% footer %}
+  {% block footer %}{% endblock %}
 </body>
 </html>

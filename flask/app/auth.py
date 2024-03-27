@@ -11,11 +11,13 @@ from app.models import User
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/signup', methods=['GET', 'POST'])
-def sign_up():
+def signup():
     if request.method == 'POST':
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
+        # TODO: Refactor using JSON data
+        form = request.form
+        username = form.get('username')
+        password = form.get('password')
+        email = form.get('email')
         error = None
 
         # TODO: Validate input
@@ -30,29 +32,29 @@ def sign_up():
         if error is None:
             try: 
                 # TODO: Insert complete user data
-                db.session.add(User(username=username, password=generate_password_hash(password)))
+                db.session.add(User(username=username, email=email, password_hash=generate_password_hash(password)))
                 db.session.commit()
             except IntegrityError:
                 error = f"User {username} already exists."
             else:
-                # TODO: Redirect to dashboard page
-                return redirect(url_for("auth.signin"))
+                return redirect(url_for("index"))
 
         flash(error)
 
     return render_template('auth/signup.html')
 
 @bp.route('/signin', methods=['GET', 'POST'])
-def sign_in():
+def signin():
     if request.method == 'POST':
-        data = request.get_json()
-        username = data.get('username')
-        password = data.get('password')
+        # TODO: Refactor using JSON data
+        form = request.form
+        email = form.get('email')
+        password = form.get('password')
         error = None
-        user = User.query.filter_by(username=username).first()
-
-        if user is None or not check_password_hash(user.password, password):
-            error = 'Incorrect username or password.'
+        user = User.query.filter_by(email=email).first()
+        
+        if user is None or not check_password_hash(user.password_hash, password):
+            error = 'Incorrect email or password.'
 
         if error is None:
             login_user(user)
@@ -62,8 +64,8 @@ def sign_in():
         
     return render_template('auth/signin.html')
 
-@bp.route('/signout', methods=['POST'])
-def sign_out():
+@bp.route('/signout', methods=['GET'])
+def signout():
     logout_user()
     return redirect(url_for('index'))
 
