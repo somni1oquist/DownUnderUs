@@ -19,6 +19,7 @@ def sign_up():
         error = None
 
         # TODO: Validate input
+        
         if not username:
             error = 'Username is required.'
         elif not password:
@@ -55,7 +56,7 @@ def sign_in():
 
         if error is None:
             login_user(user)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('index'))
         
         flash(error)
         

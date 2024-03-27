@@ -2,7 +2,7 @@ import os
 from flask import Flask, jsonify, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -33,13 +33,16 @@ def create_app(test_config=None):
     # Import models (must after db init)
     from . import models
 
-    # Register blueprints
-    from . import auth, dashboard
+    # Register blueprints for views
+    from . import auth
+    from . import profile   
     app.register_blueprint(auth.bp)
-    app.register_blueprint(dashboard.bp)
+    app.register_blueprint(profile.bp)
 
     @app.route("/")
     def index():
+        if current_user.is_authenticated:
+            return render_template("index.html")
         return render_template("index.html")
 
     return app
