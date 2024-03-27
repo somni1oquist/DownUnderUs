@@ -7,11 +7,11 @@
 - Comment concisely and descriptively when commit.
 - Follow the workflow when developing a new function: 
 
-0. Create a new branch `git branch <branch-name>`.
-1. Checkout the target branch `git checkout <branch-name>`.
-2. Make changes.
-3. Commit `git commit -m "<comment>"` after completing part of your function.
-4. Push to remote repository `git push origin <branch-name>`.
+0. Checkout the new branch `git checkout -b <branch-name>`.
+1. Make changes.
+2. Stage `git add <modified-files>` and commit `git commit -m "<comment>"` after completing part of your function.
+3. Push to remote repository `git push origin <branch-name>`.
+4. Continue developing your function iteratively, repeating steps 2-4 as needed until your feature is complete. Remember to pull changes from the remote repository periodically to incorporate updates from other developers: `git pull origin <target-branch>`
 
 - Follow the workflow before creating pull request:
 
