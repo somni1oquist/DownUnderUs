@@ -42,7 +42,7 @@ def create_app(test_config=None):
     @app.route("/")
     def index():
         if current_user.is_authenticated:
-            return render_template("index.html")
+            return render_template("index.html", user=current_user)
         return render_template("index.html")
 
     return app
