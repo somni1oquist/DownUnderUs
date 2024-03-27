@@ -1,4 +1,4 @@
-from datetime import datetime
+from sqlalchemy import func, event
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import db, loginManager
@@ -25,9 +25,37 @@ def load_user(id):
     
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(140))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime)
+    title = db.Column(db.String(140), index=True, nullable=False)
+    body = db.Column(db.String(255))
+    views = db.Column(db.Integer, default=0)
+    timestamp = db.Column(db.DateTime, index=True, default=func.now())
+    last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    replies = db.relationship('Reply', backref='post', lazy='dynamic')
     
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+
+class Reply(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.String(255))
+    votes = db.Column(db.Integer, default=0)
+    timestamp = db.Column(db.DateTime, index=True, default=func.now())
+    last_edited = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    accepted = db.Column(db.Boolean, default=False)
+    
+    def __repr__(self):
+        return '<Reply {}>'.format(self.body)
+    
+@event.listens_for(Post, 'before_update')
+def update_post(mapper, connection, target):
+    if (Post.body.history.has_changes() or
+        Post.title.history.has_changes()):
+        target.last_edited = func.now()
+
+@event.listens_for(Reply, 'before_update')
+def update_reply(mapper, connection, target):
+    if Reply.body.history.has_changes():
+        target.last_edited = func.now()

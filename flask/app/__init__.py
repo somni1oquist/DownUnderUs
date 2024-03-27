@@ -35,9 +35,11 @@ def create_app(test_config=None):
 
     # Register blueprints for views
     from . import auth
-    from . import profile   
+    from . import profile
+    from . import post
     app.register_blueprint(auth.bp)
     app.register_blueprint(profile.bp)
+    app.register_blueprint(post.bp)
 
     @app.route("/")
     def index():
