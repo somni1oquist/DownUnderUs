@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block container %}
+  <h1>{{ post.title }}</h1>
+  <p>{{ post.body }}</p>
+  <p>{{ post.timestamp }}</p>
+  <p>{{ post.user_id }}</p>
+
+  {% for reply in post.replies %}
+    <p>{{ reply.body }}</p>
+    <p>{{ reply.timestamp }}</p>
+    <p>{{ reply.user_id }}</p>
+    
+  {% endfor %}
+{% endblock %}
