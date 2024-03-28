@@ -2,6 +2,7 @@ from sqlalchemy import func, event
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import db, loginManager
+from sqlalchemy.orm.attributes import get_history
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +32,7 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref='author_posts')
     replies = db.relationship('Reply', backref='post', lazy='dynamic')
     
     def __repr__(self):
@@ -43,6 +45,7 @@ class Reply(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref='replies')
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     accepted = db.Column(db.Boolean, default=False)
     
@@ -51,11 +54,11 @@ class Reply(db.Model):
     
 @event.listens_for(Post, 'before_update')
 def update_post(mapper, connection, target):
-    if (Post.body.history.has_changes() or
-        Post.title.history.has_changes()):
+    if get_history(target, 'body').has_changes() or\
+        get_history(target, 'title').has_changes():
         target.last_edited = func.now()
 
 @event.listens_for(Reply, 'before_update')
 def update_reply(mapper, connection, target):
-    if Reply.body.history.has_changes():
+    if get_history(target, 'body').has_changes():
         target.last_edited = func.now()

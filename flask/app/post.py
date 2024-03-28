@@ -1,15 +1,20 @@
 from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
-from sqlalchemy.orm import lazyload
+from sqlalchemy.orm import subqueryload
 from app import db
-from app.models import Post, Reply
+from app.models import Post, Reply, User
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
 
 # Get post with replies
-def get_post(id):
-    post = Post.query.options(lazyload(Post.replies)).get(id)
+def load_post(id):
+    post = Post.query.get(id)
+    if not post:
+        return None
+    post.user = User.query.get(post.user_id)
+    for reply in post.replies:
+        reply.user = User.query.get(reply.user_id)
     return post
 
 # Check if user is author of post/reply
@@ -19,7 +24,9 @@ def check_author(subject, user):
 # Get post detail by id
 @bp.route('/<int:post_id>', methods=['GET'])
 def post(post_id):
-    post = get_post(post_id)
+    post = load_post(post_id)
+    if not post:
+        return 404
     return render_template("post/index.html", post=post)
 
 # Edit post
