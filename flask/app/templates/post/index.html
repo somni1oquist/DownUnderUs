@@ -1,15 +1,48 @@
 {% extends 'base.html' %}
 
 {% block container %}
-  <h1>{{ post.title }}</h1>
-  <p>{{ post.body }}</p>
-  <p>{{ post.timestamp }}</p>
-  <p>{{ post.user_id }}</p>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">
+            {{ post.body }}
+          </p>
+          <p class="card-text">
+            <small class="text-body-secondary">
+              Created at {{ post.timestamp }} by {{ post.user_id }}<br>
+              {% if post.last_edited %}
+                (last edited at {{ post.last_edited }})
+              {% endif %}
+            </small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   {% for reply in post.replies %}
-    <p>{{ reply.body }}</p>
-    <p>{{ reply.timestamp }}</p>
-    <p>{{ reply.user_id }}</p>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ reply.title }}</h5>
+            <p class="card-text">
+              {{ reply.body }}
+            </p>
+            <p class="card-text">
+              <small class="text-body-secondary">
+                Created at {{ reply.timestamp }} by {{ reply.user_id }}<br>
+                {% if reply.last_edited %}
+                  (last edited at {{ reply.last_edited }})
+                {% endif %}
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
     
   {% endfor %}
 {% endblock %}
