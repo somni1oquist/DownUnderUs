@@ -106,7 +106,7 @@ def delete_reply(post_id, reply_id):
 
 # Vote on a reply
 @login_required
-@bp.route('/<int:post_id>/reply/<int:reply_id>/vote', methods=['POST'])
+@bp.route('/<int:post_id>/reply/<int:reply_id>/vote', methods=['PUT'])
 def vote(post_id, reply_id):
     data = request.get_json()
     post = Post.query.get(post_id)
@@ -114,8 +114,10 @@ def vote(post_id, reply_id):
 
     if not post or not reply:
         return 404
+    elif check_author(reply, current_user):
+        return 403
 
-    vote = data.get('vote')
+    vote = int(data.get('vote'))
     reply.votes += vote
     db.session.commit()
 
