@@ -3,6 +3,10 @@
     padding: 2rem;
 }
 
+.post-container h1 {
+    text-align: center;
+}
+
 .post-container .row {
     margin-block: 2rem;
 }
