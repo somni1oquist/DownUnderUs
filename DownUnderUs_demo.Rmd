@@ -1,0 +1,24 @@
+---
+title: "DOWNUNERUS demo"
+output:
+  pdf_document: default
+  html_document: default
+date: "2024-03-28"
+---
+
+## DEMO LINK
+
+Here is the Web page prototype link
+
+You can use it as a reference
+
+<https://modao.cc/proto/1jJRRjb2sav3umLkDQseJY/sharing?view_mode=device&screen=rbpU7xaAA14VORTVH&canvasId=sskp7ortU7xkH4kr34zN2g>
+
+## Color Hex
+
+| ELEMENT         | HEX      | RGB           |
+|-----------------|----------|---------------|
+| div background  | \--white | \--white      |
+| page background | #d3f0e3  | (139,196,191) |
+| footer          | #63AFAE  | (99,175,174)  |
+| button          | #F4CE98  | (244,206,152) |
