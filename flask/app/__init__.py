@@ -39,9 +39,11 @@ def create_app(test_config=None):
     from . import auth
     from . import profile
     from . import post
+    from . import create_post
     app.register_blueprint(auth.bp)
     app.register_blueprint(profile.bp)
     app.register_blueprint(post.bp)
+    app.register_blueprint(create_post.bp)
 
 
     @app.route("/")
