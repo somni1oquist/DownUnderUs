@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from flask_login import login_required
+from flask_login import current_user, login_required
 from sqlalchemy.orm import lazyload
 from app import db
 from app.models import Post, Reply
@@ -11,6 +11,10 @@ bp = Blueprint('post', __name__, url_prefix='/post')
 def get_post(id):
     post = Post.query.options(lazyload(Post.replies)).get(id)
     return post
+
+# Check if user is author of post/reply
+def check_author(subject, user):
+    return subject.user_id == user.id
 
 # Get post detail by id
 @bp.route('/<int:post_id>', methods=['GET'])
@@ -27,6 +31,8 @@ def edit(post_id):
 
     if not post:
         return 404
+    elif not check_author(post, current_user):
+        return 403
     
     post.title = data.get('title')
     post.body = data.get('body')
@@ -42,6 +48,8 @@ def delete(post_id):
 
     if not post:
         return 404
+    elif not check_author(post, current_user):
+        return 403
     
     db.session.delete(post)
 
@@ -72,6 +80,8 @@ def edit_reply(post_id, reply_id):
 
     if not post or not reply:
         return 404
+    elif not check_author(reply, current_user):
+        return 403
 
     reply.body = data.get('body')
     db.session.commit()
@@ -87,6 +97,8 @@ def delete_reply(post_id, reply_id):
 
     if not post or not reply:
         return 404
+    elif not check_author(reply, current_user):
+        return 403
     
     db.session.delete(reply)
 

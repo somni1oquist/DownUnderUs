@@ -3,7 +3,7 @@
 {% block container %}
   <div class="row">
     <div class="col-12">
-      <div class="card">
+      <div id="post" class="card">
         <div class="card-body">
           <h5 class="card-title">{{ post.title }}</h5>
           <p class="card-text">
@@ -33,7 +33,7 @@
   {% for reply in post.replies %}
     <div class="row">
       <div class="col-12">
-        <div class="card">
+        <div id="reply{{ reply.id }}" class="card">
           <div class="card-body">
             <h5 class="card-title">{{ reply.title }}</h5>
             <p class="card-text">
@@ -53,9 +53,9 @@
               <a href="{{ url_for('post.edit', post_id=reply.id) }}" class="btn btn-primary">Edit</a>
               <a href="{{ url_for('post.delete', post_id=reply.id) }}" class="btn btn-danger">Delete</a>
             {% endif %}
+          </div>
         </div>
       </div>
     </div>
-    
   {% endfor %}
 {% endblock %}
