@@ -1,0 +1,25 @@
+/* Post detail */
+.post-container {
+    padding: 2rem;
+}
+
+.post-container .row {
+    margin-block: 2rem;
+}
+
+.author {
+    float: left;
+    padding: 2rem;
+}
+
+.action-panel {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translate(-50%, -50%);
+}
+
+.action-panel a {
+    display: block;
+    margin-block: 1rem;
+}

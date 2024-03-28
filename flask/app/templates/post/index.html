@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
 
 {% block container %}
-  <div class="container-fluid">
+  <div class="container-fluid post-container">
     <div class="row">
       <div class="col-12">
         <div id="post" class="card">
           <div class="card-body">
+            <div class="author">
+              <h1><i class="fa-solid fa-circle-user"></i></h1>
+            </div>
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">
               {{ post.body }}
@@ -19,14 +22,20 @@
                 {% endif %}
               </small>
             </p>
-          </div>
-          <div class="card-footer text-end">
-            {% if current_user.id == post.user_id %}
-              <a href="{{ url_for('post.edit', post_id=post.id) }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-              <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-            {% else %}
-              <a href="{{ url_for('post.reply', post_id=post.id) }}" class="btn btn-primary"><i class="fa-solid fa-reply"></i></a>
-            {% endif %}
+            <div class="action-panel">
+              {% if current_user.id == post.user_id %}
+                <a href="{{ url_for('post.edit', post_id=post.id) }}" class="btn btn-primary">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-danger">
+                  <i class="fa-solid fa-trash"></i>
+                </a>
+              {% else %}
+                <a href="{{ url_for('post.reply', post_id=post.id) }}" class="btn btn-primary">
+                  <i class="fa-solid fa-reply"></i>
+                </a>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
@@ -37,6 +46,9 @@
         <div class="col-12">
           <div id="reply{{ reply.id }}" class="card">
             <div class="card-body">
+              <div class="author">
+                <h1><i class="fa-solid fa-circle-user"></i></h1>
+              </div>
               <h5 class="card-title">{{ reply.title }}</h5>
               <p class="card-text">
                 {{ reply.body }}
@@ -50,15 +62,23 @@
                   {% endif %}
                 </small>
               </p>
-            </div>
-            <div class="card-footer text-end">
-              {% if current_user.id == reply.user_id %}
-                <a href="{{ url_for('post.edit', post_id=reply.id) }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="{{ url_for('post.delete', post_id=reply.id) }}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-              {% else %}
-                <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" class="btn btn-success"><i class="fa-solid fa-thumbs-up"></i></a>
-                <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" class="btn btn-secondary"><i class="fa-solid fa-thumbs-down"></i></a>
-              {% endif %}
+              <div class="action-panel">
+                {% if current_user.id == reply.user_id %}
+                  <a href="{{ url_for('post.edit', post_id=reply.id) }}" class="btn btn-primary">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+                  <a href="{{ url_for('post.delete', post_id=reply.id) }}" class="btn btn-danger">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                  {% else %}
+                  <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" class="btn btn-success">
+                    <i class="fa-solid fa-thumbs-up"></i>
+                  </a>
+                  <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" class="btn btn-secondary">
+                    <i class="fa-solid fa-thumbs-down"></i>
+                  </a>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
