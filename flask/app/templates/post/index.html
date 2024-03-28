@@ -22,10 +22,10 @@
           </div>
           <div class="card-footer text-end">
             {% if current_user.id == post.user_id %}
-              <a href="{{ url_for('post.edit', post_id=post.id) }}" class="btn btn-primary">Edit</a>
-              <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-danger">Delete</a>
+              <a href="{{ url_for('post.edit', post_id=post.id) }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+              <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
             {% else %}
-              <a href="{{ url_for('post.reply', post_id=post.id) }}" class="btn btn-primary">Reply</a>
+              <a href="{{ url_for('post.reply', post_id=post.id) }}" class="btn btn-primary"><i class="fa-solid fa-reply"></i></a>
             {% endif %}
           </div>
         </div>
@@ -53,11 +53,11 @@
             </div>
             <div class="card-footer text-end">
               {% if current_user.id == reply.user_id %}
-                <a href="{{ url_for('post.edit', post_id=reply.id) }}" class="btn btn-primary">Edit</a>
-                <a href="{{ url_for('post.delete', post_id=reply.id) }}" class="btn btn-danger">Delete</a>
+                <a href="{{ url_for('post.edit', post_id=reply.id) }}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="{{ url_for('post.delete', post_id=reply.id) }}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
               {% else %}
-                <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" class="btn btn-success">Upvote</a>
-                <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" class="btn btn-secondary">Downvote</a>
+                <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" class="btn btn-success"><i class="fa-solid fa-thumbs-up"></i></a>
+                <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" class="btn btn-secondary"><i class="fa-solid fa-thumbs-down"></i></a>
               {% endif %}
             </div>
           </div>
