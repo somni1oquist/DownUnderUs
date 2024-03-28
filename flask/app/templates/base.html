@@ -8,13 +8,14 @@
   <title>Down Under Us</title>
 </head>
 <body>
-  {% block nav %}{% endblock %}
+  {% include 'nav.html' %}
 
   Hello, Down Under Us!
+  <i class="fa-regular fa-user"></i>
   <br>
   {% block container %}{% endblock %}
 
   <!-- Import js files in footer component -->
-  {% block footer %}{% endblock %}
+  {% include 'footer.html' %}
 </body>
 </html>
