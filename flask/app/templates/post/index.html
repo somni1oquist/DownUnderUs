@@ -18,6 +18,14 @@
             </small>
           </p>
         </div>
+        <div class="card-footer">
+          {% if current_user.id == post.user_id %}
+            <a href="{{ url_for('post.edit', post_id=post.id) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-danger">Delete</a>
+          {% else %}
+            <a href="{{ url_for('post.reply', post_id=post.id) }}" class="btn btn-primary">Reply</a>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
@@ -40,6 +48,11 @@
               </small>
             </p>
           </div>
+          <div class="card-footer">
+            {% if current_user.id == reply.user_id %}
+              <a href="{{ url_for('post.edit', post_id=reply.id) }}" class="btn btn-primary">Edit</a>
+              <a href="{{ url_for('post.delete', post_id=reply.id) }}" class="btn btn-danger">Delete</a>
+            {% endif %}
         </div>
       </div>
     </div>
