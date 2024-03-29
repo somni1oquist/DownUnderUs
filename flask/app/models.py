@@ -1,4 +1,4 @@
-from sqlalchemy import func, event
+from sqlalchemy import UniqueConstraint, func, event
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import db, loginManager
@@ -62,3 +62,17 @@ def update_post(mapper, connection, target):
 def update_reply(mapper, connection, target):
     if get_history(target, 'body').has_changes():
         target.last_edited = func.now()
+
+class Vote(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    reply_id = db.Column(db.Integer, db.ForeignKey('reply.id'), nullable=False)
+    vote_type = db.Column(db.Enum('upvote', 'downvote'), nullable=False)
+    
+    # Unique constraint to ensure a user can vote only once on a reply
+    __table_args__ = (
+        UniqueConstraint('user_id', 'reply_id'),
+    )
+
+    def __repr__(self):
+        return f'<Vote {self.vote_type} by User {self.user_id} on Reply {self.reply_id}>'

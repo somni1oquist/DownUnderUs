@@ -24,7 +24,6 @@ $(() => {
                 break;
             case Action.UPVOTE:
             case Action.DOWNVOTE:
-                console.log(action);
                 vote(url, action);
                 break;
         }
@@ -44,7 +43,7 @@ $(() => {
     }
 
     /**
-     * Edit
+     * Edit reply
      * @param {*} $target container
      */
     const edit = ($target) => {
@@ -89,7 +88,9 @@ $(() => {
                 window.location.reload();
             },
             error: (err) => {
-                console.log(err);
+                // TODO: Use toast instead of alert
+                // Vote already cast
+                alert(err.responseJSON.message);
             }
         });
     }

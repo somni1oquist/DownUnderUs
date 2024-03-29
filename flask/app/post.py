@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, render_template, request
 from flask_login import current_user, login_required
 from sqlalchemy.orm import subqueryload
 from app import db
-from app.models import Post, Reply, User
+from app.models import Post, Reply, User, Vote
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
@@ -17,7 +17,8 @@ response = {
     'reply_added': {'message': 'Reply added successfully'},
     'reply_edited': {'message': 'Reply edited successfully'},
     'reply_deleted': {'message': 'Reply deleted successfully'},
-    'vote': {'message': 'Vote successful'}
+    'voted': {'message': 'Vote successful'},
+    'already_voted': {'message': 'Vote already cast'}
 }
 
 # Get post with replies
@@ -140,9 +141,12 @@ def vote(post_id, reply_id):
         return jsonify(response['not_found']), 404
     elif check_author(reply, current_user):
         return jsonify(response['unauthorised']), 403
+    elif Vote.query.filter_by(user_id=current_user.id, reply_id=reply_id).first() is not None:
+        return jsonify(response['already_voted']), 403
 
     vote_type = data.get('vote')
     reply.votes += 1 if vote_type == 'upvote' else -1
+    db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
     db.session.commit()
 
-    return jsonify(response['vote']), 200
+    return jsonify(response['voted']), 200
