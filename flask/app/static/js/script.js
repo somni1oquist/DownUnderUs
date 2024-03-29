@@ -11,11 +11,16 @@ $(() => {
         const action = $(this).data('action');
         const $target = $(this).closest('div[id^="reply"]');
         switch(action) {
+            case Action.REPLY: // Reply to post 
+                reply($target);
+                break;
             case Action.EDIT:
-                editReply($target);
+                edit($target);
                 break;
             case Action.DELETE:
-                console.log('Delete');
+                const url = $(this).attr('href');
+                if (confirm('Are you sure you want to delete this reply?'))
+                    del(url);
                 break;
             case Action.UPVOTE:
                 console.log('Upvote');
@@ -25,7 +30,40 @@ $(() => {
                 break;
         }
     });
-    const editReply = ($target) => {
-        
+
+    /**
+     * Reply to post
+     * @param {*} $target reply box
+     */
+    const reply = ($target) => {
+        body = $target.find('textarea').val();
+        console.log(body);
+    }
+
+    /**
+     * Edit
+     * @param {*} $target container
+     */
+    const edit = ($target) => {
+        body = $target.find('div[class="card-text"]')[0].innerHTML.trim();
+        console.log(body);
+    }
+
+    /**
+     * Delete
+     * @param {*} url delete endpoint
+     */
+    const del = (url) => {
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            success: function(response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
     }
 })

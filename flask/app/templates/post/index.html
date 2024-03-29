@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div id="reply" class="row">
+    <div id="replybox" class="row">
       <div class="col-1"></div>
       <div class="col-10">
         {% if current_user.is_authenticated and current_user.id != post.user_id %}
@@ -54,7 +54,7 @@
       <div class="col-1">
         <div class="action-panel">
           {% if current_user.is_authenticated and current_user.id != post.user_id %}
-            <a href="{{ url_for('post.reply', post_id=post.id) }}" class="btn btn-primary">
+            <a href="{{ url_for('post.reply', post_id=post.id) }}" data-action="reply" class="btn btn-primary">
               <i class="fa-solid fa-reply"></i>
             </a>
           {% endif %}
@@ -93,10 +93,10 @@
         <div class="col-1">
           <div class="action-panel">
             {% if current_user.id == reply.user_id %}
-              <a href="{{ url_for('post.edit', post_id=reply.id) }}" data-action="edit" class="btn btn-primary">
+              <a href="{{ url_for('post.edit_reply', post_id=post.id, reply_id=reply.id) }}" data-action="edit" class="btn btn-primary">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
-              <a href="{{ url_for('post.delete', post_id=reply.id) }}" data-action="delete" class="btn btn-danger">
+              <a href="{{ url_for('post.delete_reply', post_id=post.id, reply_id=reply.id) }}" data-action="delete" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can"></i>
               </a>
               {% else %}
