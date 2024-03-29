@@ -3,7 +3,7 @@
 ## Git
 
 - Copy the executable files in `git-hooks/` in your git folder: `<project directory>/.git/hooks`.
-- New branch name should use prefix: `features/`, `tests/`, `bugfix/`, `hotfix/`, `release/` e.g. `git branch features/edit-profile`
+- New branch name should use prefix: `features/`, `tests/`, `bugfix/`, `hotfix/`, `release/` and `refactor/` e.g. `git branch features/edit-profile`
 - Comment concisely and descriptively when commit.
 - Follow the workflow when developing a new function: 
 
