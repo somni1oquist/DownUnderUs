@@ -5,28 +5,27 @@ $(() => {
         REPLY: 'reply',
         UPVOTE: 'upvote',
         DOWNVOTE: 'downvote'
-    }
+    };
     $('div[id^="reply"] a[class*="btn"]').click(function(e) {
         e.preventDefault();
         const action = $(this).data('action');
+        const url = $(this).attr('href');
         const $target = $(this).closest('div[id^="reply"]');
         switch(action) {
             case Action.REPLY: // Reply to post 
-                reply($target);
+                reply($target, url);
                 break;
             case Action.EDIT:
-                edit($target);
+                edit($target, url);
                 break;
             case Action.DELETE:
-                const url = $(this).attr('href');
                 if (confirm('Are you sure you want to delete this reply?'))
                     del(url);
                 break;
             case Action.UPVOTE:
-                console.log('Upvote');
-                break;
             case Action.DOWNVOTE:
-                console.log('Downvote');
+                console.log(action);
+                vote(url, action);
                 break;
         }
     });
@@ -34,10 +33,14 @@ $(() => {
     /**
      * Reply to post
      * @param {*} $target reply box
+     * @param {*} url reply endpoint
      */
-    const reply = ($target) => {
+    const reply = ($target, url) => {
         body = $target.find('textarea').val();
-        console.log(body);
+        data = {
+            body: body
+        };
+        create(url, data);
     }
 
     /**
@@ -50,6 +53,48 @@ $(() => {
     }
 
     /**
+     * Create
+     * @param {*} url create endpoint
+     * @param {*} data data to be sent
+     */
+    const create = (url, data) => {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: (res) => {
+                window.location.reload();
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    /**
+     * Vote
+     * @param {*} url vote endpoint
+     * @param {*} action upvote or downvote
+     */
+    const vote = (url, action) => {
+        $.ajax({
+            type: 'PUT',
+            url: url,
+            contentType: 'application/json',
+            data: JSON.stringify({
+                vote: action
+            }),
+            success: (res) => {
+                window.location.reload();
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        });
+    }
+
+    /**
      * Delete
      * @param {*} url delete endpoint
      */
@@ -57,12 +102,11 @@ $(() => {
         $.ajax({
             type: 'DELETE',
             url: url,
-            success: function(response) {
-                console.log(response);
+            success: (res) => {
                 window.location.reload();
             },
-            error: function(error) {
-                console.log(error);
+            error: (err) => {
+                console.log(err);
             }
         });
     }

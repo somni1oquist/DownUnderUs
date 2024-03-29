@@ -87,7 +87,7 @@ def reply(post_id):
         return jsonify(response['not_found']), 404
 
     body = data.get('body')
-    reply = Reply(body=body, post_id=post_id)
+    reply = Reply(body=body, post_id=post_id, user_id=current_user.id)
     db.session.add(reply)
     db.session.commit()
 
@@ -138,11 +138,11 @@ def vote(post_id, reply_id):
 
     if not post or not reply:
         return jsonify(response['not_found']), 404
-    elif not check_author(reply, current_user):
+    elif check_author(reply, current_user):
         return jsonify(response['unauthorised']), 403
 
-    vote = int(data.get('vote'))
-    reply.votes += vote
+    vote_type = data.get('vote')
+    reply.votes += 1 if vote_type == 'upvote' else -1
     db.session.commit()
 
     return jsonify(response['vote']), 200

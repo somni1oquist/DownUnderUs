@@ -31,7 +31,7 @@ class Post(db.Model):
     views = db.Column(db.Integer, default=0)
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref='author_posts')
     replies = db.relationship('Reply', backref='post', lazy='dynamic')
     
@@ -44,9 +44,9 @@ class Reply(db.Model):
     votes = db.Column(db.Integer, default=0)
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref='replies')
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
     accepted = db.Column(db.Boolean, default=False)
     
     def __repr__(self):
