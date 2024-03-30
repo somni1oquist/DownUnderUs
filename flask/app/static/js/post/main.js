@@ -1,5 +1,5 @@
 import { Action } from '../enum.js';
-import { del, reply, editReply, save, vote } from './function.js';
+import { editPost, abortEdit, del, reply, editReply, save, vote } from './function.js';
 $(() => {
   // Event listener for post actions
   $('div[id="post"] a[class*="btn"]').click(function (e) {
@@ -10,15 +10,17 @@ $(() => {
 
     switch (action) {
       case Action.EDIT:
-        console.log('Edit post');
+        editPost($target);
         break;
 
       case Action.SAVE:
-        console.log('Save post');
+        const title = $('#title-box').text();
+        const body = $target.find('div[contenteditable="true"]').text();
+        save(url, { title: title, body: body });
         break;
 
       case Action.ABORT:
-        console.log('Abort edit');
+        abortEdit($target);
         break;
 
       case Action.DELETE:
@@ -45,19 +47,12 @@ $(() => {
         break;
 
       case Action.SAVE:
-        const body = $target.find('div[class="card-text"]').text();
+        const body = $target.find('div[contenteditable="true"]').text();
         save(url, { body: body });
         break;
 
       case Action.ABORT:
-        const $original = $target.find('div[class*="card-text"]:not([contenteditable="true"])');
-        const $editor = $target.find('div[class="card-text"][contenteditable="true"]');
-        // Show original text and edit button
-        $original.removeClass('d-none');
-        $target.find('.btn[data-action="edit"]').removeClass('d-none');
-        // Hide save and cancel buttons and remove editor
-        $editor.remove();
-        $target.find('.btn[data-action="save"], .btn[data-action="abort"]').addClass('d-none');
+        abortEdit($target);
         break;
 
       case Action.DELETE:
