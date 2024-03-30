@@ -5,7 +5,9 @@
     <h1>{{ post.title }}</h1>
     <div id="post" class="row">
       <div class="col-1">
+        <!-- Author Info -->
         <div class="author">
+          <!-- TODO: Should replace icon with profile picture -->
           <h1><i class="fa-solid fa-circle-user"></i></h1>
         </div>
       </div>
@@ -32,11 +34,17 @@
       <div class="col-1">
         <div class="action-panel">
           {% if current_user.id == post.user_id %}
-            <a href="{{ url_for('post.edit', post_id=post.id) }}" class="btn btn-primary">
+            <a href="" data-action="edit" class="btn btn-primary">
               <i class="fa-solid fa-pen-to-square"></i>
             </a>
-            <a href="{{ url_for('post.delete', post_id=post.id) }}" class="btn btn-danger">
-              <i class="fa-solid fa-trash"></i>
+            <a href="{{ url_for('post.edit', post_id=post.id) }}" data-action="save" class="btn btn-success d-none">
+              <i class="fa-solid fa-circle-check"></i>
+            </a>
+            <a href="" data-action="abort" class="btn btn-primary d-none">
+              <i class="fa-solid fa-circle-xmark"></i>
+            </a>
+            <a href="{{ url_for('post.delete', post_id=post.id) }}" data-action="delete" class="btn btn-danger">
+              <i class="fa-solid fa-trash-can"></i>
             </a>
           {% endif %}
         </div>
@@ -64,7 +72,9 @@
     {% for reply in post.replies %}
       <div id="reply{{ reply.id }}" class="row">
         <div class="col-1">
+          <!-- Author Info -->
           <div class="author">
+            <!-- TODO: Should replace icon with profile picture -->
             <h1><i class="fa-solid fa-circle-user"></i></h1>
           </div>
         </div>

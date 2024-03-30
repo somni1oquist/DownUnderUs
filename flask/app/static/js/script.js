@@ -1,4 +1,5 @@
 $(() => {
+    // Constants for actions
     const Action = {
         EDIT: 'edit',
         SAVE: 'save',
@@ -8,22 +9,55 @@ $(() => {
         UPVOTE: 'upvote',
         DOWNVOTE: 'downvote'
     };
+
+    // Event listener for post actions
+    $('div[id="post"] a[class*="btn"]').click(function(e) {
+        e.preventDefault(); // Prevent default action
+        const action = $(this).data('action');
+        const url = $(this).attr('href');
+        const $target = $(this).closest('div[id="post"]');
+
+        switch(action) {
+            case Action.EDIT:
+                console.log('Edit post');
+                break;
+
+            case Action.SAVE:
+                console.log('Save post');
+                break;
+
+            case Action.ABORT:
+                console.log('Abort edit');
+                break;
+
+            case Action.DELETE:
+                if (confirm('Are you sure you want to delete this post?'))
+                    del(url);
+                break;
+        }
+    });
+
+    // Even listener for reply actions
     $('div[id^="reply"] a[class*="btn"]').click(function(e) {
-        e.preventDefault();
+        e.preventDefault(); // Prevent default action
         const action = $(this).data('action');
         const url = $(this).attr('href');
         const $target = $(this).closest('div[id^="reply"]');
+
         switch(action) {
             case Action.REPLY: // Reply to post 
                 reply($target, url);
                 break;
+
             case Action.EDIT:
-                edit($target, url);
+                editReply($target, url);
                 break;
+
             case Action.SAVE:
                 const body = $target.find('div[class="card-text"]').text();
                 save(url, { body: body });
                 break;
+
             case Action.ABORT:
                 const $original = $target.find('div[class*="card-text"]:not([contenteditable="true"])');
                 const $editor = $target.find('div[class="card-text"][contenteditable="true"]');
@@ -34,10 +68,12 @@ $(() => {
                 $editor.remove();
                 $target.find('.btn[data-action="save"], .btn[data-action="abort"]').addClass('d-none');
                 break;
+
             case Action.DELETE:
                 if (confirm('Are you sure you want to delete this reply?'))
                     del(url);
                 break;
+
             case Action.UPVOTE:
             case Action.DOWNVOTE:
                 vote(url, action);
@@ -51,8 +87,8 @@ $(() => {
      * @param {*} url reply endpoint
      */
     const reply = ($target, url) => {
-        body = $target.find('textarea').val();
-        data = {
+        const body = $target.find('textarea').val();
+        const data = {
             body: body
         };
         create(url, data);
@@ -62,14 +98,17 @@ $(() => {
      * Edit reply
      * @param {*} $target container
      */
-    const edit = ($target) => {
-        body = $target.find('div[class="card-text"]')[0].innerHTML.trim();
+    const editReply = ($target) => {
+        const body = $target.find('div[class="card-text"]')[0].innerHTML.trim();
+
         const $original = $target.find('div[class="card-text"]');
         // TODO: Integrate WYSIWYG editor instead of pure text
         const $editor = $('<div contenteditable="true" class="card-text"></div>').text(body);
+
         // Hide original text and edit button
         $original.addClass('d-none');
         $target.find('.btn[data-action="edit"]').addClass('d-none');
+
         // Reveal save and cancel buttons and append editor
         $target.find('.btn[data-action="save"], .btn[data-action="abort"]').removeClass('d-none');
         $target.find('div[class="card-body"]').append($editor);
@@ -88,9 +127,11 @@ $(() => {
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: (res) => {
+                // TODO: Use toast or moal before reload
                 window.location.reload();
             },
             error: (err) => {
+                // TODO: Use toast instead of alert or console.log
                 console.log(err);
             }
         });
@@ -108,9 +149,11 @@ $(() => {
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: (res) => {
+                // TODO: Use toast or moal before reload
                 window.location.reload();
             },
             error: (err) => {
+                // TODO: Use toast instead of alert or console.log
                 console.log(err);
             }
         });
@@ -130,6 +173,7 @@ $(() => {
                 vote: action
             }),
             success: (res) => {
+                // TODO: Use toast before reload
                 window.location.reload();
             },
             error: (err) => {
@@ -149,9 +193,11 @@ $(() => {
             type: 'DELETE',
             url: url,
             success: (res) => {
+                // TODO: Use toast or modal before reload
                 window.location.reload();
             },
             error: (err) => {
+                // TODO: Use toast instead of alert or consolg.log
                 console.log(err);
             }
         });
