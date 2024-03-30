@@ -9,4 +9,15 @@ const Action = {
   DOWNVOTE: 'downvote'
 };
 
-export { Action };
+const BsType = {
+  SUCCESS: 'success',
+  DANGER: 'danger',
+  WARNING: 'warning',
+  INFO: 'info',
+  PRIMARY: 'primary',
+  SECONDARY: 'secondary',
+  LIGHT: 'light',
+  DARK: 'dark'
+};
+
+export { Action, BsType };

@@ -1,3 +1,48 @@
+import { BsType } from '../enum.js';
+
+/**
+ * Make a toast
+ * @param {*} message message to be displayed
+ * @param {*} type type of toast e.g. success, danger, warning, info
+ */
+const makeToast = (message, type) => {
+  const typeClass = `text-bg-${type}`;
+
+  switch (type) {
+    case BsType.SUCCESS:
+      message = `<i class="fa-solid fa-circle-check"></i> ${message}`;
+      break;
+    case BsType.DANGER:
+      message = `<i class="fa-solid fa-circle-exclamation"></i> ${message}`;
+      break;
+    case BsType.WARNING:
+      message = `<i class="fa-solid fa-triangle-exclamation"></i> ${message}`;
+      break;
+    case BsType.INFO:
+      message = `<i class="fa-solid fa-circle-info"></i> ${message}`;
+      break;
+  }
+
+  return new Promise((resolve, reject) => {
+    const $actionToast = $('div#action-toast');
+    $actionToast.find('div.toast-body').html(message);
+    $actionToast.addClass(typeClass);
+    const toast = new bootstrap.Toast($actionToast[0], {
+      autohide: true,
+      delay: 2000 // 2 seconds
+    });
+
+    const handleHidden = () => {
+      $actionToast.removeClass(typeClass);
+      $actionToast.off('hidden.bs.toast', handleHidden); // Remove the event listener
+      resolve(); // Resolve the Promise when the toast is hidden
+    };
+
+    $actionToast.on('hidden.bs.toast', handleHidden);
+    toast.show();
+  });
+};
+
 /**
  * Edit post
  * @param {*} $target container
@@ -69,6 +114,7 @@ const abortEdit = ($target) => {
   // Hide save and cancel buttons and remove editor
   $editor.remove();
   $target.find('.btn[data-action="save"], .btn[data-action="abort"]').addClass('d-none');
+  makeToast('Edit aborted', BsType.WARNING);
 }
 
 /**
@@ -83,12 +129,12 @@ const save = (url, data) => {
     contentType: 'application/json',
     data: JSON.stringify(data),
     success: (res) => {
-      // TODO: Use toast or moal before reload
-      window.location.reload();
+      makeToast('Edit saved', BsType.SUCCESS)
+        .then(() => window.location.reload());
     },
     error: (err) => {
-      // TODO: Use toast instead of alert or console.log
-      console.log(err);
+      const message = err.responseJSON.message;
+      makeToast(`Edit failed: ${message}`, BsType.DANGER);
     }
   });
 }
@@ -105,12 +151,12 @@ const create = (url, data) => {
     contentType: 'application/json',
     data: JSON.stringify(data),
     success: (res) => {
-      // TODO: Use toast or moal before reload
-      window.location.reload();
+      makeToast('Reply posted', BsType.SUCCESS)
+        .then(() => window.location.reload());
     },
     error: (err) => {
-      // TODO: Use toast instead of alert or console.log
-      console.log(err);
+      const message = err.responseJSON.message;
+      makeToast(`Reply failed: ${message}`, BsType.DANGER);
     }
   });
 }
@@ -129,13 +175,12 @@ const vote = (url, action) => {
       vote: action
     }),
     success: (res) => {
-      // TODO: Use toast before reload
-      window.location.reload();
+      makeToast('Vote cast', BsType.SUCCESS)
+        .then(() => window.location.reload());
     },
     error: (err) => {
-      // TODO: Use toast instead of alert
-      // Vote already cast
-      alert(err.responseJSON.message);
+      const message = err.responseJSON.message;
+      makeToast(`Vote failed: ${message}`, BsType.DANGER);
     }
   });
 }
@@ -149,12 +194,12 @@ const del = (url) => {
     type: 'DELETE',
     url: url,
     success: (res) => {
-      // TODO: Use toast or modal before reload
-      window.location.reload();
+      makeToast('Post deleted', BsType.SUCCESS)
+        .then(() => window.location.reload());
     },
     error: (err) => {
-      // TODO: Use toast instead of alert or consolg.log
-      console.log(err);
+      const message = err.responseJSON.message;
+      makeToast(`Delete failed: ${message}`, BsType.DANGER);
     }
   });
 }
