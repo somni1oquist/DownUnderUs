@@ -136,15 +136,25 @@ def vote(post_id, reply_id):
     data = request.get_json()
     post = Post.query.get(post_id)
     reply = Reply.query.get(reply_id)
+    vote = Vote.query.filter_by(user_id=current_user.id, reply_id=reply_id).first()
+    vote_type = data.get('vote')
 
     if not post or not reply:
         return jsonify(response['not_found']), 404
     elif check_author(reply, current_user):
         return jsonify(response['unauthorised']), 403
-    elif Vote.query.filter_by(user_id=current_user.id, reply_id=reply_id).first() is not None:
-        return jsonify(response['already_voted']), 403
-
-    vote_type = data.get('vote')
+    # Check if user has already voted
+    elif vote is not None:
+        # If vote type is same as previous vote, return error
+        if vote.vote_type == vote_type:
+            return jsonify(response['already_voted']), 403
+        # Else, update vote
+        else:
+            vote.vote_type = vote_type
+            reply.votes += 1 if vote_type == 'upvote' else -1
+            db.session.commit()
+            return jsonify(response['voted']), 200
+    # If user has not voted, add vote and update reply
     reply.votes += 1 if vote_type == 'upvote' else -1
     db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
     db.session.commit()
