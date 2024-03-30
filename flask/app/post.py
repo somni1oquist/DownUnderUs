@@ -41,6 +41,11 @@ def post(post_id):
     post = load_post(post_id)
     if not post:
         return jsonify(response['not_found']), 404
+    
+    # Increment view count
+    post.views += 1
+    db.session.commit()
+
     return render_template("post/index.html", post=post)
 
 # Edit post
