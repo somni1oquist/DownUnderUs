@@ -129,7 +129,8 @@ const save = (url, data) => {
     contentType: 'application/json',
     data: JSON.stringify(data),
     success: (res) => {
-      makeToast('Edit saved', BsType.SUCCESS)
+      const message = res.message;
+      makeToast(message, BsType.SUCCESS)
         .then(() => window.location.reload());
     },
     error: (err) => {
@@ -151,7 +152,8 @@ const create = (url, data) => {
     contentType: 'application/json',
     data: JSON.stringify(data),
     success: (res) => {
-      makeToast('Reply posted', BsType.SUCCESS)
+      const message = res.message;
+      makeToast(message, BsType.SUCCESS)
         .then(() => window.location.reload());
     },
     error: (err) => {
@@ -168,14 +170,15 @@ const create = (url, data) => {
  */
 const vote = (url, action) => {
   $.ajax({
-    type: 'PUT',
+    type: 'POST',
     url: url,
     contentType: 'application/json',
     data: JSON.stringify({
       vote: action
     }),
     success: (res) => {
-      makeToast('Vote cast', BsType.SUCCESS)
+      const message = res.message;
+      makeToast(message, BsType.SUCCESS)
         .then(() => window.location.reload());
     },
     error: (err) => {
@@ -194,7 +197,8 @@ const del = (url) => {
     type: 'DELETE',
     url: url,
     success: (res) => {
-      makeToast('Post deleted', BsType.SUCCESS)
+      const message = res.message;
+      makeToast(message, BsType.SUCCESS)
         .then(() => window.location.reload());
     },
     error: (err) => {

@@ -19,13 +19,14 @@
   padding: 2rem;
 }
 
-.col-1:has(.action-panel) {
+.col-sm-1:has(.action-panel) {
   display: grid;
   place-items: center;
 }
 
 .action-panel {
   text-align: center;
+  max-width: 3rem;
 }
 
 .action-panel a {

@@ -9,16 +9,17 @@ bp = Blueprint('post', __name__, url_prefix='/post')
 
 # Reponse messages
 response = {
-    'not_found': {'error': 'Post or reply not found'},
-    'unauthorised': {'error': 'Unauthorised'},
+    'not_found': {'message': 'Post or reply not found'},
+    'unauthorised': {'message': 'Unauthorised'},
     'created': {'message': 'Post created successfully'},
     'edited': {'message': 'Post edited successfully'},
     'deleted': {'message': 'Post deleted successfully'},
     'reply_added': {'message': 'Reply added successfully'},
     'reply_edited': {'message': 'Reply edited successfully'},
     'reply_deleted': {'message': 'Reply deleted successfully'},
-    'voted': {'message': 'Vote successful'},
-    'already_voted': {'message': 'Vote already cast'}
+    'voted': {'message': 'Vote cast successfully'},
+    'vote_updated': {'message': 'Vote updated successfully'},
+    'vote_revoked': {'message': 'Vote revoked successfully'}
 }
 
 # Get post with replies
@@ -136,7 +137,7 @@ def delete_reply(post_id, reply_id):
 
 # Vote on a reply
 @login_required
-@bp.route('/<int:post_id>/reply/<int:reply_id>/vote', methods=['PUT'])
+@bp.route('/<int:post_id>/reply/<int:reply_id>/vote', methods=['POST'])
 def vote(post_id, reply_id):
     data = request.get_json()
     post = Post.query.get(post_id)
@@ -150,15 +151,18 @@ def vote(post_id, reply_id):
         return jsonify(response['unauthorised']), 403
     # Check if user has already voted
     elif vote is not None:
-        # If vote type is same as previous vote, return error
+        # If same vote type, revoke vote and update reply
         if vote.vote_type == vote_type:
-            return jsonify(response['already_voted']), 403
-        # Else, update vote
+            reply.votes += 1 if vote_type == 'downvote' else -1
+            db.session.delete(vote)
+            db.session.commit()
+            return jsonify(response['vote_revoked']), 200
+        # Else, update vote and reply
         else:
             vote.vote_type = vote_type
-            reply.votes += 1 if vote_type == 'upvote' else -1
+            reply.votes += 2 if vote_type == 'upvote' else -2
             db.session.commit()
-            return jsonify(response['voted']), 200
+            return jsonify(response['vote_updated']), 200
     # If user has not voted, add vote and update reply
     reply.votes += 1 if vote_type == 'upvote' else -1
     db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
