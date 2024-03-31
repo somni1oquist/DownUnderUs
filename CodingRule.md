@@ -116,6 +116,7 @@
 - **Always** check if there are new migrations on Git before you commit a migration.
 - Follow the migrate-upgrade workflow with command `flask db migrate -m "comment"` then `flask db upgrade` after checking.
 - Make **meaningful** comment when you migrate, e.g. `flask db migrate -m "add user table"`.
+- Commit your migratio lastly, i.e. right before you are about to make a pull request, in order to avoid version conflict.
 
 
 ### General
