@@ -25,13 +25,14 @@ def load_user(id):
     
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), index=True, nullable=False)
+    title = db.Column(db.String(140), index=True, nullable=True)
     body = db.Column(db.String(255))
     views = db.Column(db.Integer, default=0)
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     replies = db.relationship('Reply', backref='post', lazy='dynamic')
+    topic = db.Column(db.String(100), nullable=True)
     
     def __repr__(self):
         return '<Post {}>'.format(self.body)
