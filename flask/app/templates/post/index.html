@@ -4,14 +4,16 @@
   <div class="container-fluid post-container">
     <h1 id="title">{{ post.title }}</h1>
     <div id="post" class="row">
-      <div class="col-1">
+      <div class="col-sm-2">
         <!-- Author Info -->
+        <!-- TODO: Should replace icon with profile picture -->
         <div class="author">
-          <!-- TODO: Should replace icon with profile picture -->
-          <h1><i class="fa-solid fa-circle-user"></i></h1>
+          <h1>
+            <i class="fa-solid fa-circle-user"></i>
+          </h1>
         </div>
       </div>
-      <div class="col-10">
+      <div class="col-sm-8">
         <div class="card">
           <div class="card-body">
             <div class="card-text">
@@ -31,16 +33,16 @@
           </div>
         </div>
       </div>
-      <div class="col-1">
+      <div class="col-sm-2">
         <div class="action-panel">
           {% if current_user.id == post.user_id %}
             <a href="" data-action="edit" class="btn btn-primary">
               <i class="fa-solid fa-pen-to-square"></i>
             </a>
-            <a href="{{ url_for('post.edit', post_id=post.id) }}" data-action="save" class="btn btn-success d-none">
+            <a href="{{ url_for('post.edit', post_id=post.id) }}" data-action="save" class="btn btn-primary d-none">
               <i class="fa-solid fa-circle-check"></i>
             </a>
-            <a href="" data-action="abort" class="btn btn-primary d-none">
+            <a href="" data-action="abort" class="btn btn-secondary d-none">
               <i class="fa-solid fa-circle-xmark"></i>
             </a>
             <a href="{{ url_for('post.delete', post_id=post.id) }}" data-action="delete" class="btn btn-danger">
@@ -51,17 +53,17 @@
       </div>
     </div>
     <div id="replybox" class="row">
-      <div class="col-1"></div>
-      <div class="col-10">
-        {% if current_user.is_authenticated and current_user.id != post.user_id %}
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        {% if current_user.is_authenticated %}
           <textarea rows="5" class="form-control"></textarea>
         {% elif not current_user.is_authenticated %}
           <textarea rows="5" class="form-control" disabled>Login to reply</textarea>
         {% endif %}
       </div>
-      <div class="col-1">
+      <div class="col-sm-2">
         <div class="action-panel">
-          {% if current_user.is_authenticated and current_user.id != post.user_id %}
+          {% if current_user.is_authenticated %}
             <a href="{{ url_for('post.reply', post_id=post.id) }}" data-action="reply" class="btn btn-primary">
               <i class="fa-solid fa-reply"></i>
             </a>
@@ -71,14 +73,14 @@
     </div>
     {% for reply in post.replies %}
       <div id="reply{{ reply.id }}" class="row">
-        <div class="col-1">
+        <div class="col-sm-2">
           <!-- Author Info -->
           <div class="author">
             <!-- TODO: Should replace icon with profile picture -->
             <h1><i class="fa-solid fa-circle-user"></i></h1>
           </div>
         </div>
-        <div class="col-10">
+        <div class="col-sm-8">
           <div class="card">
             <div class="card-body">
               <div class="card-text">
@@ -97,7 +99,7 @@
             </div>
           </div>
         </div>
-        <div class="col-1">
+        <div class="col-sm-2">
           <div class="action-panel">
             {% if current_user.id == reply.user_id %}
               <h5>{{ reply.votes }}</h5>
@@ -114,10 +116,10 @@
                 <i class="fa-solid fa-trash-can"></i>
               </a>
               {% else %}
+              <h5>{{ reply.votes }}</h5>
               <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" data-action="upvote" class="btn btn-secondary {% if not current_user.is_authenticated %}disabled{% endif %}">
                 <i class="fa-solid fa-up-long"></i>
               </a>
-              <h5>{{ reply.votes }}</h5>
               <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" data-action="downvote" class="btn btn-secondary {% if not current_user.is_authenticated %}disabled{% endif %}">
                 <i class="fa-solid fa-down-long"></i>
               </a>
