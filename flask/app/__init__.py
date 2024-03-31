@@ -1,8 +1,10 @@
+from datetime import datetime
 import os
 from flask import Flask, jsonify, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
+import pytz
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -42,7 +44,13 @@ def create_app(test_config=None):
     @app.route("/")
     def index():
         if current_user.is_authenticated:
-            return render_template("index.html", current_user=current_user)
+            # Timezone conversion
+            zone = 'Australia/Perth' # Should load from user profile
+            format = '%Y-%m-%d %H:%M:%S %Z' # Need to refine
+            timezone = pytz.timezone(zone)
+            current_time = datetime.now() # Get stamp from db
+            timestamp = timezone.localize(current_time).strftime(format)
+            return render_template("index.html", current_user=current_user, timestamp=timestamp)
         return render_template("index.html")
 
     return app
