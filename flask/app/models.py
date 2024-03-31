@@ -33,7 +33,7 @@ class Post(db.Model):
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref='author_posts')
-    replies = db.relationship('Reply', backref='post', lazy='dynamic')
+    replies = db.relationship('Reply', backref='post', lazy='dynamic', cascade='all, delete-orphan')
     
     def __repr__(self):
         return '<Post {}>'.format(self.body)
@@ -42,6 +42,7 @@ class Reply(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(255))
     votes = db.Column(db.Integer, default=0)
+    vote_records = db.relationship('Vote', backref='reply', lazy='dynamic', cascade='all, delete-orphan')
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
