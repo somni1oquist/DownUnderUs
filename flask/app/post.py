@@ -15,6 +15,7 @@ response = {
     'edited': {'message': 'Post edited successfully'},
     'deleted': {'message': 'Post deleted successfully'},
     'reply_added': {'message': 'Reply added successfully'},
+    'reply_accepted': {'message': 'Reply accepted successfully'},
     'reply_edited': {'message': 'Reply edited successfully'},
     'reply_deleted': {'message': 'Reply deleted successfully'},
     'voted': {'message': 'Vote cast successfully'},
@@ -99,6 +100,23 @@ def reply(post_id):
     db.session.commit()
 
     return jsonify(response['reply_added']), 201
+
+# Accept a reply
+@login_required
+@bp.route('/<int:post_id>/reply/<int:reply_id>/accept', methods=['PUT'])
+def accept_reply(post_id, reply_id):
+    post = Post.query.get(post_id)
+    reply = Reply.query.get(reply_id)
+
+    if not post or not reply:
+        return jsonify(response['not_found']), 404
+    elif not check_author(post, current_user):
+        return jsonify(response['unauthorised']), 403
+
+    reply.accepted = True
+    db.session.commit()
+
+    return jsonify(response['reply_accepted']), 200
 
 # Edit a reply
 @login_required

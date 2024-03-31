@@ -1,5 +1,6 @@
 // Constants for actions
 const Action = {
+  ACCEPT: 'accept',
   EDIT: 'edit',
   SAVE: 'save',
   ABORT: 'abort',

@@ -21,3 +21,8 @@
 .action-panel {
   text-align: center;
 }
+
+.action-panel a {
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}

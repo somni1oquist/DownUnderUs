@@ -101,8 +101,13 @@
         </div>
         <div class="col-sm-2">
           <div class="action-panel">
+            <h5>{{ reply.votes }}</h5>
+            {% if current_user.id == post.user_id %}
+              <a href="{{ url_for('post.accept_reply', post_id=post.id, reply_id=reply.id )}}" data-action="accept" class="btn btn-success {% if reply.accepted %}disabled{% endif %}">
+                <i class="fa-solid fa-check-double"></i>
+              </a>
+            {% endif %}
             {% if current_user.id == reply.user_id %}
-              <h5>{{ reply.votes }}</h5>
               <a href="" data-action="edit" class="btn btn-primary">
                 <i class="fa-solid fa-pen-to-square"></i>
               </a>
@@ -115,8 +120,7 @@
               <a href="{{ url_for('post.delete_reply', post_id=post.id, reply_id=reply.id) }}" data-action="delete" class="btn btn-danger">
                 <i class="fa-solid fa-trash-can"></i>
               </a>
-              {% else %}
-              <h5>{{ reply.votes }}</h5>
+            {% else %}
               <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" data-action="upvote" class="btn btn-secondary {% if not current_user.is_authenticated %}disabled{% endif %}">
                 <i class="fa-solid fa-up-long"></i>
               </a>

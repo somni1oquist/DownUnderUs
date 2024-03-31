@@ -79,6 +79,26 @@ const reply = ($target, url) => {
   };
   create(url, data);
 }
+/**
+ * Accept reply
+ * @param {*} url accept endpoint
+ */
+const acceptReply = (url) => {
+  $.ajax({
+    type: 'PUT',
+    url: url,
+    contentType: 'application/json',
+    success: (res) => {
+      const message = res.message;
+      makeToast(message, BsType.SUCCESS)
+        .then(() => window.location.reload());
+    },
+    error: (err) => {
+      const message = err.responseJSON.message;
+      makeToast(`Accept failed: ${message}`, BsType.DANGER);
+    }
+  });
+};
 
 /**
  * Edit reply
@@ -208,4 +228,4 @@ const del = (url) => {
   });
 }
 
-export { editPost, reply, editReply, abortEdit, save, create, vote, del };
+export { editPost, reply, acceptReply, editReply, abortEdit, save, create, vote, del };

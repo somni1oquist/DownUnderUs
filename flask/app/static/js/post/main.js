@@ -1,5 +1,5 @@
 import { Action } from '../enum.js';
-import { editPost, abortEdit, del, reply, editReply, save, vote } from './function.js';
+import { editPost, abortEdit, del, reply, acceptReply, editReply, save, vote } from './function.js';
 $(() => {
   // Event listener for post actions
   $('div[id="post"] a[class*="btn"]').click(function (e) {
@@ -40,6 +40,10 @@ $(() => {
     switch (action) {
       case Action.REPLY: // Reply to post 
         reply($target, url);
+        break;
+
+      case Action.ACCEPT: // Accept reply
+        acceptReply(url);
         break;
 
       case Action.EDIT:
