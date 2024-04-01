@@ -1,4 +1,4 @@
-import { BsType } from './enum.js';
+import { BsType } from './enums.js';
 /**
  * Make a toast
  * @param {*} message message to be displayed

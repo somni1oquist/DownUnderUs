@@ -1,5 +1,5 @@
-import { BsType } from "./enum.js";
-import { makeToast } from "./utils.js";
+import { BsType } from "../enums.js";
+import { makeToast } from "../utils.js";
 // for create post feature
 // This script is used to generate the drawdown list of topic
 $(document).ready(function () {
@@ -44,7 +44,7 @@ $(document).ready(function () {
     const formData = new FormData(form);
     $.ajax({
       type: 'POST',
-      url: '/post/create-post',
+      url: '/post/create',
       data: formData,
       contentType: false,
       processData: false,
