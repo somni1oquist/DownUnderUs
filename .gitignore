@@ -11,3 +11,7 @@ instance/
 # Ignore README in migrations
 !flask/migrations/
 flask/migrations/README
+
+# Ignore .DS_Store files
+.DS_Store
+**/.DS_Store
