@@ -3,15 +3,15 @@
 ## Git
 
 - Copy the executable files in `git-hooks/` in your git folder: `<project directory>/.git/hooks`.
-- New branch name should use prefix: `features/`, `tests/`, `bugfix/`, `hotfix/`, `release/` e.g. `git branch features/edit-profile`
+- New branch name should use prefix: `features/`, `tests/`, `bugfix/`, `hotfix/`, `release/` and `refactor/` e.g. `git branch features/edit-profile`
 - Comment concisely and descriptively when commit.
 - Follow the workflow when developing a new function: 
 
-0. Create a new branch `git branch <branch-name>`.
-1. Checkout the target branch `git checkout <branch-name>`.
-2. Make changes.
-3. Commit `git commit -m "<comment>"` after completing part of your function.
-4. Push to remote repository `git push origin <branch-name>`.
+0. Checkout the new branch `git checkout -b <branch-name>`.
+1. Make changes.
+2. Stage `git add <modified-files>` and commit `git commit -m "<comment>"` after completing part of your function.
+3. Push to remote repository `git push origin <branch-name>`.
+4. Continue developing your function iteratively, repeating steps 2-4 as needed until your feature is complete. Remember to pull changes from the remote repository periodically to incorporate updates from other developers: `git pull origin <target-branch>`
 
 - Follow the workflow before creating pull request:
 
@@ -116,6 +116,7 @@
 - **Always** check if there are new migrations on Git before you commit a migration.
 - Follow the migrate-upgrade workflow with command `flask db migrate -m "comment"` then `flask db upgrade` after checking.
 - Make **meaningful** comment when you migrate, e.g. `flask db migrate -m "add user table"`.
+- Commit your migratio lastly, i.e. right before you are about to make a pull request, in order to avoid version conflict.
 
 
 ### General
