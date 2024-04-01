@@ -35,6 +35,23 @@ class Topic(Enum):
     FOOD ='Food',
     ART ='Art'
 
+
+# Reponse messages
+response = {
+    'not_found': {'message': 'Post or reply not found'},
+    'unauthorised': {'message': 'Unauthorised'},
+    'created': {'message': 'Post created successfully'},
+    'edited': {'message': 'Post edited successfully'},
+    'deleted': {'message': 'Post deleted successfully'},
+    'reply_added': {'message': 'Reply added successfully'},
+    'reply_accepted': {'message': 'Reply accepted successfully'},
+    'reply_edited': {'message': 'Reply edited successfully'},
+    'reply_deleted': {'message': 'Reply deleted successfully'},
+    'voted': {'message': 'Vote cast successfully'},
+    'vote_updated': {'message': 'Vote updated successfully'},
+    'vote_revoked': {'message': 'Vote revoked successfully'}
+}
+
 # Get topic list
 @bp.route('/topics', methods=['GET'])
 def get_topic():
@@ -56,27 +73,10 @@ def create_post():
         db.session.add(quest)
         db.session.commit()
         # return message
-        return jsonify({"status":"success", "message": "Post created successfully", "post_id": quest.id})
+        return jsonify({"status":"success", "message": "Post created successfully", "post_id": quest.id}), 201
     else:
         errors = form.errors
         return jsonify({"status":"error", "message": "Validation failed", "errors": errors}), 400
-
-
-# Reponse messages
-response = {
-    'not_found': {'message': 'Post or reply not found'},
-    'unauthorised': {'message': 'Unauthorised'},
-    'created': {'message': 'Post created successfully'},
-    'edited': {'message': 'Post edited successfully'},
-    'deleted': {'message': 'Post deleted successfully'},
-    'reply_added': {'message': 'Reply added successfully'},
-    'reply_accepted': {'message': 'Reply accepted successfully'},
-    'reply_edited': {'message': 'Reply edited successfully'},
-    'reply_deleted': {'message': 'Reply deleted successfully'},
-    'voted': {'message': 'Vote cast successfully'},
-    'vote_updated': {'message': 'Vote updated successfully'},
-    'vote_revoked': {'message': 'Vote revoked successfully'}
-}
 
 # Get post with replies
 def load_post(id):

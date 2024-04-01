@@ -1,3 +1,5 @@
+import { BsType } from "./enum.js";
+import { makeToast } from "./utils.js";
 // for create post feature
 // This script is used to generate the drawdown list of topic
 $(document).ready(function () {
@@ -24,8 +26,7 @@ $(document).ready(function () {
       });
     },
     error: (err) => {
-      // TODO: Use toast to show error message
-      console.log('Failed to get topic list');
+      makeToast(`Failed to get topics: ${err.responseJSON.message}`, BsType.DANGER);
     }
   });
 
@@ -48,20 +49,22 @@ $(document).ready(function () {
       contentType: false,
       processData: false,
       success: (res) => {
-          // close modal
-          // TODO: Use toast to show success message
-          alert(res.message);
-          document.querySelector('.btn-secondary[data-bs-dismiss="modal"]').click();
-          // clear form
-          form.reset();
-          // clear form errors
-          clearFormErrors();
-          // Redirect to the post page
-          window.location.href = `/post/${res.post_id}`
+        // Make a toast
+        makeToast(res.message, BsType.SUCCESS)
+          .then(() => {
+            // close modal
+            document.querySelector('.btn-secondary[data-bs-dismiss="modal"]').click();
+            // clear form
+            form.reset();
+            // clear form errors
+            clearFormErrors();
+            // Redirect to the post page
+            window.location.href = `/post/${res.post_id}`
+          });
       },
       error: (err) => {
-        displayFormErrors(res.errors);
-        alert('Request failed');
+        displayFormErrors(err.responseJSON.errors);
+        makeToast(`Create post failed: ${err.responseJSON.message}`, BsType.DANGER);
       }
     });
   };
