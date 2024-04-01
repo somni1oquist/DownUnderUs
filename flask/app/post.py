@@ -1,10 +1,7 @@
-from enum import Enum
-from flask import Blueprint, jsonify, render_template, request, redirect, flash, jsonify, request
+from flask import Blueprint, jsonify, render_template, request, jsonify, request
 from flask_login import current_user, login_required, current_user
-import wtforms
-from wtforms.validators import length
-from wtforms import validators
-from sqlalchemy.orm import subqueryload
+from wtforms import Form, StringField
+from wtforms.validators import Length, InputRequired
 from app.models import Post, Reply, User, Vote
 from app.enum import Topic, ResponseMessage
 from app import db
@@ -12,11 +9,11 @@ from app import db
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
 
-#validate the form
-class QuestForm(wtforms.Form):
-    title = wtforms.StringField(validators=[length(min=3,max=100, message="Title fromatting error!!")])
-    body = wtforms.StringField(validators=[length(min=3,message="Content fromatting error!!")])
-    topic = wtforms.StringField(validators=[validators.InputRequired(message="Please select a topic!!")])
+# Validate the form
+class QuestForm(Form):
+    title = StringField(validators=[Length(min=3,max=100, message="Title fromatting error!!")])
+    body = StringField(validators=[Length(min=3,message="Content fromatting error!!")])
+    topic = StringField(validators=[InputRequired(message="Please select a topic!!")])
 
 # Get topic list
 @bp.route('/topics', methods=['GET'])
