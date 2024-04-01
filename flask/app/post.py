@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, render_template, request, jsonify, request
 from flask_login import current_user, login_required
+from markupsafe import escape
 from wtforms import Form, StringField
 from wtforms.validators import Length, InputRequired
 from app.models import Post, Reply, User, Vote
@@ -47,8 +48,11 @@ def load_post(id):
     if not post:
         return None
     post.user = User.query.get(post.user_id)
+    # Sanitise body to prevent XSS
+    post.body = escape(post.body)
     for reply in post.replies:
         reply.user = User.query.get(reply.user_id)
+        reply.body = escape(reply.body)
     return post
 
 def check_author(subject, user):
