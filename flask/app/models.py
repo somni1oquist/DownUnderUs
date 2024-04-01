@@ -29,6 +29,7 @@ class Post(db.Model):
     title = db.Column(db.String(140), index=True, nullable=False)
     body = db.Column(db.String(255))
     views = db.Column(db.Integer, default=0)
+    votes = db.Column(db.Integer, default=0)
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
