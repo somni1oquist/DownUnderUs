@@ -1,5 +1,5 @@
-import { Action } from '../enum.js';
-import { editPost, abortEdit, del, reply, acceptReply, editReply, save, vote } from './function.js';
+import { Action } from '../enums.js';
+import { editPost, abortEdit, del, reply, acceptReply, editReply, save, vote } from './functions.js';
 $(() => {
   // Event listener for post actions
   $('div[id="post"] a[class*="btn"]').click(function (e) {

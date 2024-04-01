@@ -1,4 +1,4 @@
-import { BsType } from '../enum.js';
+import { BsType } from '../enums.js';
 import { makeToast } from '../utils.js';
 /**
  * Edit post

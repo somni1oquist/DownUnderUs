@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, render_template, request, jsonify, request
-from flask_login import current_user, login_required, current_user
+from flask_login import current_user, login_required
 from wtforms import Form, StringField
 from wtforms.validators import Length, InputRequired
 from app.models import Post, Reply, User, Vote
-from app.enum import Topic, ResponseMessage
+from app.enums import Topic, ResponseMessage
 from app import db
 
 # Define prefix for url
@@ -17,11 +17,11 @@ class QuestForm(Form):
 
 # Get topic list
 @bp.route('/topics', methods=['GET'])
-def get_topic():
+def topics():
     return jsonify([topic.value for topic in Topic])
 
 # Create post
-@bp.route('/create-post', methods=['GET', 'POST'])
+@bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_post():
     if request.method == 'GET':
