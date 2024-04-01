@@ -5,7 +5,7 @@ from wtforms import Form, StringField
 from wtforms.validators import Length, InputRequired
 from app.models import Post, Reply, User, Vote
 from app.enums import Topic, ResponseMessage
-from app import db
+
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
@@ -25,10 +25,7 @@ def topics():
 @bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_post():
-    if request.method == 'GET':
-        return render_template('post/create-post.html', current_user=current_user)
-    
-    form = QuestForm(request.form)
+    form = Quest_form(request.form)
     if form.validate():
         title = form.title.data
         body = form.body.data
@@ -37,11 +34,13 @@ def create_post():
         db.session.add(quest)
         db.session.commit()
         # return message
-        return jsonify({"status":"success", "message": "Post created successfully", "post_id": quest.id}), 201
+        return jsonify({"status":"success", "message": "Post created successfully"})
     else:
         errors = form.errors
         return jsonify({"status":"error", "message": "Validation failed", "errors": errors}), 400
 
+
+# Get post with replies
 def load_post(id):
     '''Load post by id and return post with user and replies'''
     post = Post.query.get(id)
