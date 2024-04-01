@@ -103,7 +103,7 @@ def delete(post_id):
     db.session.delete(post)
     db.session.commit()
 
-    return jsonify(ResponseMessage.DELETED]), 200
+    return jsonify(ResponseMessage.DELETED), 200
 
 # Reply to a post
 @login_required

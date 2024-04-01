@@ -47,7 +47,7 @@
           <!-- post body -->
           <div class="mb-3">
             <div class="d-flex align-items-center mb-2">
-              <img src="../../static/images/icons8-bmo-48.png" style="width: 48px; height: 48px; border-radius: 50%;"
+              <img src="{{ url_for('static', filename='/images/icons8-bmo-48.png') }}" style="width: 48px; height: 48px; border-radius: 50%;"
                 alt="profile photo">
               <span class="mb-3" id="author">
                 {{ current_user.username }}
