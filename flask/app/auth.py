@@ -47,7 +47,7 @@ def signup():
 def signin():
     if request.method == 'POST':
         # TODO: Refactor using JSON data
-        form = request.form
+        form = request.form # data = request.get_json()
         email = form.get('email')
         password = form.get('password')
         error = None
@@ -60,7 +60,7 @@ def signin():
             login_user(user)
             return redirect(url_for('index'))
         
-        flash(error)
+        flash(error, 'error')
         
     return render_template('auth/signin.html')
 
