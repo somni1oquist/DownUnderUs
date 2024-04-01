@@ -7,18 +7,9 @@
         <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="DownUnderUs Logo" class="login-logo">
         <h2 class="mb-3">Login to DownUnderUs</h2>
         <div class="auth-box">
-          <!-- Flash Message Display Section -->
-          {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-          {% for category, message in messages %}
-          <div class="alert {{ 'alert-custom-error' if category == 'error' else 'alert-' + category }} alert-dismissible" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-          {% endfor %}
-          {% endif %}
-          {% endwith %}
-          <form action="{{ url_for('auth.signin') }}" method="post">
+          <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+
+          <form id="login-form" action="{{ url_for('auth.signin') }}" method="post">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
               <input type="text" class="form-control" name="username" id="username" required>
@@ -28,7 +19,7 @@
               <input type="password" class="form-control" name="password" id="password" required>
             </div>
             <div class="d-grid gap-2">
-              <button id="test" type="submit" class="btn btn-primary btn-block">Sign In</button>
+              <button id="signInButton" type="submit" class="btn btn-primary btn-block">Sign In</button>
             </div>
           </form>
         </div>
