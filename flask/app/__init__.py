@@ -43,6 +43,7 @@ def create_app(test_config=None):
     app.register_blueprint(profile.bp)
     app.register_blueprint(post.bp)
 
+
     @app.route("/")
     def index():
         if current_user.is_authenticated:
