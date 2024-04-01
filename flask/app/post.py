@@ -5,8 +5,8 @@ import wtforms
 from wtforms.validators import length
 from wtforms import validators
 from sqlalchemy.orm import subqueryload
-from app import db
 from app.models import Post, Reply, User, Vote
+from app.enum import Topic, ResponseMessage
 from app import db
 
 # Define prefix for url
@@ -18,39 +18,7 @@ class QuestForm(wtforms.Form):
     body = wtforms.StringField(validators=[length(min=3,message="Content fromatting error!!")])
     topic = wtforms.StringField(validators=[validators.InputRequired(message="Please select a topic!!")])
 
-class Topic(Enum):
-    TECHNOLOGY = 'Technology',
-    HEALTH ='Health',
-    SCIENCE ='Science',
-    EDUCATION ='Education',
-    ENVIRONMENT ='Environment',
-    POLITICS ='Politics',
-    ECONOMICS ='Economics',
-    CULTURE ='Culture',
-    SPORTS ='Sports',
-    ENTERTAINMENT ='Entertainment',
-    BUSINESS ='Business',
-    TRAVEL ='Travel',
-    FASHION ='Fashion',
-    FOOD ='Food',
-    ART ='Art'
 
-
-# Reponse messages
-response = {
-    'not_found': {'message': 'Post or reply not found'},
-    'unauthorised': {'message': 'Unauthorised'},
-    'created': {'message': 'Post created successfully'},
-    'edited': {'message': 'Post edited successfully'},
-    'deleted': {'message': 'Post deleted successfully'},
-    'reply_added': {'message': 'Reply added successfully'},
-    'reply_accepted': {'message': 'Reply accepted successfully'},
-    'reply_edited': {'message': 'Reply edited successfully'},
-    'reply_deleted': {'message': 'Reply deleted successfully'},
-    'voted': {'message': 'Vote cast successfully'},
-    'vote_updated': {'message': 'Vote updated successfully'},
-    'vote_revoked': {'message': 'Vote revoked successfully'}
-}
 
 # Get topic list
 @bp.route('/topics', methods=['GET'])
@@ -97,7 +65,7 @@ def check_author(subject, user):
 def post(post_id):
     post = load_post(post_id)
     if not post:
-        return jsonify(response['not_found']), 404
+        return jsonify(ResponseMessage.NOT_FOUND), 404
     
     # Increment view count
     post.views += 1
@@ -113,15 +81,15 @@ def edit(post_id):
     post = Post.query.get(post_id)
 
     if not post:
-        return jsonify(response['not_found']), 404
+        return jsonify(ResponseMessage.NOT_FOUND), 404
     elif not check_author(post, current_user):
-        return jsonify(response['unauthorised']), 403
+        return jsonify(ResponseMessage.UNAUTHORISED), 403
     
     post.title = data.get('title')
     post.body = data.get('body')
     db.session.commit()
 
-    return jsonify(response['edited']), 200
+    return jsonify(ResponseMessage.EDITED), 200
 
 # Delete post
 @login_required
@@ -130,14 +98,14 @@ def delete(post_id):
     post = Post.query.get(post_id)
 
     if not post:
-        return jsonify(response['not_found']), 404
+        return jsonify(ResponseMessage.NOT_FOUND), 404
     elif not check_author(post, current_user):
-        return jsonify(response['unauthorised']), 403
+        return jsonify(ResponseMessage.UNAUTHORISED), 403
     
     db.session.delete(post)
     db.session.commit()
 
-    return jsonify(response['deleted']), 200
+    return jsonify(ResponseMessage.DELETED]), 200
 
 # Reply to a post
 @login_required
@@ -147,14 +115,14 @@ def reply(post_id):
     post = Post.query.get(post_id)
 
     if not post:
-        return jsonify(response['not_found']), 404
+        return jsonify(ResponseMessage.NOT_FOUND), 404
 
     body = data.get('body')
     reply = Reply(body=body, post_id=post_id, user_id=current_user.id)
     db.session.add(reply)
     db.session.commit()
 
-    return jsonify(response['reply_added']), 201
+    return jsonify(ResponseMessage.REPLY_ADDED), 201
 
 # Accept a reply
 @login_required
@@ -164,14 +132,14 @@ def accept_reply(post_id, reply_id):
     reply = Reply.query.get(reply_id)
 
     if not post or not reply:
-        return jsonify(response['not_found']), 404
+        return jsonify(ResponseMessage.NOT_FOUND), 404
     elif not check_author(post, current_user):
-        return jsonify(response['unauthorised']), 403
+        return jsonify(ResponseMessage.UNAUTHORISED), 403
 
     reply.accepted = True
     db.session.commit()
 
-    return jsonify(response['reply_accepted']), 200
+    return jsonify(ResponseMessage.REPLY_ACCEPTED), 200
 
 # Edit a reply
 @login_required
@@ -182,14 +150,14 @@ def edit_reply(post_id, reply_id):
     reply = Reply.query.get(reply_id)
 
     if not post or not reply:
-        return jsonify(response['not_found']), 404
+        return jsonify(ResponseMessage.NOT_FOUND), 404
     elif not check_author(reply, current_user):
-        return jsonify(response['unauthorised']), 403
+        return jsonify(ResponseMessage.UNAUTHORISED), 403
 
     reply.body = data.get('body')
     db.session.commit()
 
-    return jsonify(response['reply_edited']), 200
+    return jsonify(ResponseMessage.REPLY_EDITED, 200
 
 # Delete a reply
 @login_required
@@ -199,14 +167,14 @@ def delete_reply(post_id, reply_id):
     reply = Reply.query.get(reply_id)
 
     if not post or not reply:
-        return jsonify(response['not_found']), 404
+        return jsonify(ResponseMessage.NOT_FOUND), 404
     elif not check_author(reply, current_user):
-        return jsonify(response['unauthorised']), 403
+        return jsonify(ResponseMessage.UNAUTHORISED), 403
     
     db.session.delete(reply)
     db.session.commit()
 
-    return jsonify(response['reply_deleted']), 200
+    return jsonify(ResponseMessage.REPLY_DELETED), 200
 
 # Vote on a reply
 @login_required
@@ -219,9 +187,9 @@ def vote(post_id, reply_id):
     vote_type = data.get('vote')
 
     if not post or not reply:
-        return jsonify(response['not_found']), 404
+        return jsonify(ResponseMessage.NOT_FOUND), 404
     elif check_author(reply, current_user):
-        return jsonify(response['unauthorised']), 403
+        return jsonify(ResponseMessage.UNAUTHORISED), 403
     # Check if user has already voted
     elif vote is not None:
         # If same vote type, revoke vote and update reply
@@ -229,16 +197,16 @@ def vote(post_id, reply_id):
             reply.votes += 1 if vote_type == 'downvote' else -1
             db.session.delete(vote)
             db.session.commit()
-            return jsonify(response['vote_revoked']), 200
+            return jsonify(ResponseMessage.VOTE_REVOKED), 200
         # Else, update vote and reply
         else:
             vote.vote_type = vote_type
             reply.votes += 2 if vote_type == 'upvote' else -2
             db.session.commit()
-            return jsonify(response['vote_updated']), 200
+            return jsonify(ResponseMessage.VOTE_UPDATED), 200
     # If user has not voted, add vote and update reply
     reply.votes += 1 if vote_type == 'upvote' else -1
     db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
     db.session.commit()
 
-    return jsonify(response['voted']), 200
+    return jsonify(ResponseMessage.VOTED), 200
