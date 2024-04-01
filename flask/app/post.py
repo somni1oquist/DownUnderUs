@@ -1,3 +1,4 @@
+from enum import Enum
 from flask import Blueprint, jsonify, render_template, request, redirect, flash, jsonify, request
 from flask_login import current_user, login_required, current_user
 import wtforms
@@ -11,21 +12,41 @@ from app import db
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
 
-# create post part
-@bp.route('/show-create-post')
-def show_create_post():
-    return render_template('./post/create-post.html')
-
 #validate the form
 class QuestForm(wtforms.Form):
     title = wtforms.StringField(validators=[length(min=3,max=100, message="Title fromatting error!!")])
     body = wtforms.StringField(validators=[length(min=3,message="Content fromatting error!!")])
     topic = wtforms.StringField(validators=[validators.InputRequired(message="Please select a topic!!")])
 
+class Topic(Enum):
+    TECHNOLOGY = 'Technology',
+    HEALTH ='Health',
+    SCIENCE ='Science',
+    EDUCATION ='Education',
+    ENVIRONMENT ='Environment',
+    POLITICS ='Politics',
+    ECONOMICS ='Economics',
+    CULTURE ='Culture',
+    SPORTS ='Sports',
+    ENTERTAINMENT ='Entertainment',
+    BUSINESS ='Business',
+    TRAVEL ='Travel',
+    FASHION ='Fashion',
+    FOOD ='Food',
+    ART ='Art'
+
+# Get topic list
+@bp.route('/topics', methods=['GET'])
+def get_topic():
+    return jsonify([topic.value for topic in Topic])
+
 # set route
-@bp.route('/create_post', methods=['GET', 'POST'])
+@bp.route('/create-post', methods=['GET', 'POST'])
 @login_required
 def create_post():
+    if request.method == 'GET':
+        return render_template('post/create-post.html', current_user=current_user)
+    
     form = QuestForm(request.form)
     if form.validate():
         title = form.title.data
@@ -35,18 +56,10 @@ def create_post():
         db.session.add(quest)
         db.session.commit()
         # return message
-        return jsonify({"status":"success", "message": "Post created successfully"})
+        return jsonify({"status":"success", "message": "Post created successfully", "post_id": quest.id})
     else:
         errors = form.errors
         return jsonify({"status":"error", "message": "Validation failed", "errors": errors}), 400
-
-# get user name
-@bp.route('/get_user_name')
-def get_user_name():
-    if current_user.is_authenticated:
-        return jsonify(username=current_user.username)
-    else:
-        return jsonify({"error": "User not logged in"}), 401
 
 
 # Reponse messages
