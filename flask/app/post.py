@@ -18,14 +18,12 @@ class QuestForm(wtforms.Form):
     body = wtforms.StringField(validators=[length(min=3,message="Content fromatting error!!")])
     topic = wtforms.StringField(validators=[validators.InputRequired(message="Please select a topic!!")])
 
-
-
 # Get topic list
 @bp.route('/topics', methods=['GET'])
 def get_topic():
     return jsonify([topic.value for topic in Topic])
 
-# set route
+# Create post
 @bp.route('/create-post', methods=['GET', 'POST'])
 @login_required
 def create_post():
@@ -46,8 +44,8 @@ def create_post():
         errors = form.errors
         return jsonify({"status":"error", "message": "Validation failed", "errors": errors}), 400
 
-# Get post with replies
 def load_post(id):
+    '''Load post by id and return post with user and replies'''
     post = Post.query.get(id)
     if not post:
         return None
@@ -56,8 +54,8 @@ def load_post(id):
         reply.user = User.query.get(reply.user_id)
     return post
 
-# Check if user is author of post/reply
 def check_author(subject, user):
+    '''Check if user is the author of a post or reply'''
     return subject.user_id == user.id
 
 # Get post detail by id
@@ -157,7 +155,7 @@ def edit_reply(post_id, reply_id):
     reply.body = data.get('body')
     db.session.commit()
 
-    return jsonify(ResponseMessage.REPLY_EDITED, 200
+    return jsonify(ResponseMessage.REPLY_EDITED), 200
 
 # Delete a reply
 @login_required
