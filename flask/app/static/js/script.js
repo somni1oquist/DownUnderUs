@@ -1,24 +1,43 @@
 /**
- * Validates the sign-in form input fields.
- * Ensures both email and password are filled in before submitting the form.
- * @return {boolean} Returns true if both fields are filled, false otherwise.
+ * Handles sign-in by validating inputs and 
+ * performing an AJAX request for server authentication.
  */
+document.addEventListener('DOMContentLoaded', function() {
+    // Click event for sign-in button
+    document.getElementById('signInButton').addEventListener('click', function(e) {
+        e.preventDefault(); 
 
-function validateForm() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+        // Retrieves user input
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMessageDiv = document.getElementById('error-message');
 
-  if (username === '' || password === '') {
-    alert('Please fill in all fields.');
-    return false; 
-  }
-  return true; 
-}
-
-$('#test').on('click', (e) => {
-  if (!validateForm())
-    e.preventDefault();
-  else {
-    // send ajax post here
-  }
-})
+        errorMessageDiv.style.display = 'none';
+        
+        // Check if either field is empty
+        if (!username || !password) {
+            errorMessageDiv.innerText = 'Please enter username and password.';
+            errorMessageDiv.style.display = 'block';
+        } else {
+            // AJAX request for sign-in
+            fetch('/auth/signin', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: username, password: password}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    throw new Error(data.message);
+                }
+                window.location.href = data.redirect;
+            })
+            .catch(error => {
+                // Handles fetch errors
+                console.error('Error:', error);
+                errorMessageDiv.innerText = error.message;
+                errorMessageDiv.style.display = 'block';
+            });
+        }
+    });
+});
