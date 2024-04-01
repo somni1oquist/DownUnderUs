@@ -26,7 +26,7 @@ def load_user(id):
     
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), index=True, nullable=True)
+    title = db.Column(db.String(140), index=True, nullable=False)
     body = db.Column(db.String(255))
     views = db.Column(db.Integer, default=0)
     timestamp = db.Column(db.DateTime, index=True, default=func.now())

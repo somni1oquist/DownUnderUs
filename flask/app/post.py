@@ -14,65 +14,19 @@ bp = Blueprint('post', __name__, url_prefix='/post')
 # create post part
 @bp.route('/show-create-post')
 def show_create_post():
-   
     return render_template('./post/create-post.html')
 
 #validate the form
-class Quest_form(wtforms.Form):
+class QuestForm(wtforms.Form):
     title = wtforms.StringField(validators=[length(min=3,max=100, message="Title fromatting error!!")])
     body = wtforms.StringField(validators=[length(min=3,message="Content fromatting error!!")])
     topic = wtforms.StringField(validators=[validators.InputRequired(message="Please select a topic!!")])
 
 # set route
 @bp.route('/create_post', methods=['GET', 'POST'])
-
-#decorator for login
 @login_required
-
 def create_post():
-    form = Quest_form(request.form)
-    if form.validate():
-        title = form.title.data
-        body = form.body.data
-        topic = form.topic.data
-        quest = Post(title=title, body=body, user_id=current_user.id, topic=topic)
-        db.session.add(quest)
-        db.session.commit()
-        # return message
-        return jsonify({"status":"success", "message": "Post created successfully"})
-    else:
-        errors = form.errors
-        return jsonify({"status":"error", "message": "Validation failed", "errors": errors}), 400
-
-# get user name
-@bp.route('/get_user_name')
-def get_user_name():
-    if current_user.is_authenticated:
-        return jsonify(username=current_user.username)
-    else:
-        return jsonify({"error": "User not logged in"}), 401
-
-
-# create post part
-@bp.route('/show-create-post')
-def show_create_post():
-   
-    return render_template('./post/create-post.html')
-
-#validate the form
-class Quest_form(wtforms.Form):
-    title = wtforms.StringField(validators=[length(min=3,max=100, message="Title fromatting error!!")])
-    body = wtforms.StringField(validators=[length(min=3,message="Content fromatting error!!")])
-    topic = wtforms.StringField(validators=[validators.InputRequired(message="Please select a topic!!")])
-
-# set route
-@bp.route('/create_post', methods=['GET', 'POST'])
-
-#decorator for login
-@login_required
-
-def create_post():
-    form = Quest_form(request.form)
+    form = QuestForm(request.form)
     if form.validate():
         title = form.title.data
         body = form.body.data
