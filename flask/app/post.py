@@ -5,6 +5,7 @@ from wtforms import Form, StringField
 from wtforms.validators import Length, InputRequired
 from app.models import Post, Reply, User, Vote
 from app.enums import Topic, ResponseMessage
+from app import db
 
 
 # Define prefix for url
@@ -25,7 +26,10 @@ def topics():
 @bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_post():
-    form = Quest_form(request.form)
+    if request.method == 'GET':
+        return render_template('post/create-post.html', current_user=current_user)
+
+    form = QuestForm(request.form)
     if form.validate():
         title = form.title.data
         body = form.body.data
@@ -34,11 +38,68 @@ def create_post():
         db.session.add(quest)
         db.session.commit()
         # return message
-        return jsonify({"status":"success", "message": "Post created successfully"})
+        return jsonify({"status":"success", "message": "Post created successfully", "post_id": quest.id}), 201
     else:
         errors = form.errors
         return jsonify({"status":"error", "message": "Validation failed", "errors": errors}), 400
 
+
+#search part
+
+# search view html
+@bp.route('/search_view')
+def show_search_view():
+    return render_template('./post/search.html')
+
+#validate the saerch input 
+
+# set route
+@bp.route('/search', methods=['GET'])
+
+def search():
+    query = request.args.get('q')
+    sort_by = request.args.get('sort')
+    filter_by = request.args.get('topic')
+    if query and len(query) >= 3:
+        # Search for posts title and body
+        query_filter =Post.query.filter(
+            db.or_(
+           #ilike is case insensitive
+            Post.body.ilike(f"%{query}%"),
+            Post.title.ilike(f"%{query}%")
+            )
+        )
+        
+        # filter by topic
+        if filter_by:
+            query_filter = query_filter.filter(Post.topic == filter_by)
+        
+        # sort the results by views
+        if sort_by == "views_desc":
+            results = query_filter.order_by(Post.views.desc()).all()
+        #  sort_by == "timestamp_desc" as default
+        else:
+            results = query_filter.order_by(Post.timestamp.desc()).all()
+
+        # return the results
+        posts = []
+        for post in results:
+            post_dict ={
+                "id": post.id,
+                "title": post.title,
+                "body": post.body,
+                "topic": post.topic,
+                "user_id": post.user_id,
+                "views": post.views,
+                "timestamp": post.timestamp,
+                "username":post.user.username
+            }
+            posts.append(post_dict)
+        return jsonify(posts)
+    elif len(query) < 3 :
+        return jsonify({"status":"error", "message": "Query too short"}), 400
+    else:
+        return jsonify({"status": "error", "message": "Missing query parameter"}), 400    
 
 # Get post with replies
 def load_post(id):
