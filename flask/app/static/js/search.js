@@ -1,25 +1,26 @@
+
 // this script is used to generate search results
-document.getElementById('search-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const query = document.getElementById('search-input').value;
-    const sortBy = document.getElementById('search-sort').value;
-    const topic = document.getElementById('search-filter').value;
+document.getElementById('search-form').addEventListener('submit', function (event) {
+	event.preventDefault();
+	const query = document.getElementById('search-input').value;
+	const sortBy = document.getElementById('search-sort').value;
+	const topic = document.getElementById('search-filter').value;
 
-    // encodeURIComponent is used to encode special characters in the query
-    fetch(`/post/search?q=${encodeURIComponent(query)}&sort=${encodeURIComponent(sortBy)}&topic=${encodeURIComponent(topic)}`)
-    .then(response => response.json())
-    .then(data=> {
-        console.log(data);
-        const searchResults = document.getElementById('search-result-container');
-        // clear the search results
-        searchResults.innerHTML = '';
-        if (data.length === 0) {
-            searchResults.innerHTML = '<p> No results found </p>';
-        } else {
-            data.forEach(post => {  
+	// encodeURIComponent is used to encode special characters in the query
+	fetch(`/post/search?q=${encodeURIComponent(query)}&sort=${encodeURIComponent(sortBy)}&topic=${encodeURIComponent(topic)}`)
+		.then(response => response.json())
+		.then(data => {
+			console.log(data);
+			const searchResults = document.getElementById('search-result-container');
+			// clear the search results
+			searchResults.innerHTML = '';
+			if (data.length === 0) {
+				searchResults.innerHTML = '<p> No results found </p>';
+			} else {
+				data.forEach(post => {
 
-                const resultBox = document.createElement('div');
-                resultBox.innerHTML = `
+					const resultBox = document.createElement('div');
+					resultBox.innerHTML = `
                     <div class="search-result-box">
                         <h4><a href="/post/${post.id}">${post.title}</a></h4>
 
@@ -41,37 +42,42 @@ document.getElementById('search-form').addEventListener('submit', function(event
                         </div>
                     </div>
                 `;
-                searchResults.appendChild(resultBox);
-            })
-        }
-    })
-    .catch(error => console.error('Error fetching search results:', error));
+					searchResults.appendChild(resultBox);
+				})
+			}
+		})
+		.catch(error => console.error('Error fetching search results:', error));
 
 })
 
 // this script is used to validate the search input
-document.getElementById('search-input').addEventListener('input', function() {
-    const inputValue = this.value;
-    if (inputValue.length > 0 && inputValue.length < 3) {
-        document.getElementById('input-error').style.display = 'flex';
-    } else {
-        document.getElementById('input-error').style.display = 'none';
-    }
+document.getElementById('search-input').addEventListener('input', function () {
+	const inputValue = this.value;
+	if (inputValue.length > 0 && inputValue.length < 3) {
+		document.getElementById('input-error').style.display = 'flex';
+	} else {
+		document.getElementById('input-error').style.display = 'none';
+	}
 });
 
-// This script is used to generate the drawdown filter list of topic
-document.addEventListener('DOMContentLoaded', function() {
-    //get topic list
-    fetch('../../static/files/topic.txt')
-        .then(response => response.text())
-        .then(text => {
-            const lines = text.split('\n');
-            const menu = document.getElementById('search-filter');
-            lines.forEach(line => {
-                const option = document.createElement('option');
-                option.value = line.trim();
-                option.textContent = line.trim();
-                menu.appendChild(option);});
-        })
-        .catch(error => console.error('Error fetching topic list', error));
-})
+
+document.addEventListener('DOMContentLoaded', function () {
+
+	fetch('/post/topics')
+			.then(response => response.json()) 
+			.then(topics => {
+					const menu = document.getElementById('search-filter');
+					// create a default option
+					const defaultOption = document.createElement('option');
+					defaultOption.value = ''; 
+					defaultOption.textContent = 'All Topics'; 
+					menu.appendChild(defaultOption);
+					topics.forEach(topic => {
+							const option = document.createElement('option');
+							option.value = topic; 
+							option.textContent = topic; 
+							menu.appendChild(option);
+					});
+			})
+			.catch(error => console.error('Error fetching topic list', error));
+});
