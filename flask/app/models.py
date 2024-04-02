@@ -26,8 +26,8 @@ def load_user(id):
     
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), index=True, nullable=True)
-    body = db.Column(db.String(255))
+    title = db.Column(db.String(140), index=True, nullable=False)
+    body = db.Column(db.String(255) , nullable=False)
     views = db.Column(db.Integer, default=0)
     votes = db.Column(db.Integer, default=0)
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
@@ -35,7 +35,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref='author_posts')
     replies = db.relationship('Reply', backref='post', lazy='dynamic', cascade='all, delete-orphan')
-    topic = db.Column(db.String(100), nullable=True)
+    topic = db.Column(db.String(100), nullable=False)
     
     def __repr__(self):
         return '<Post {}>'.format(self.body)
