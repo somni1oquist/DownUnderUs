@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<form  id="search-form" method="post">
+  <div style="display: flex; justify-content: center;">
+    <input id="search-input" type="text" name="query" placeholder="Search...">
+    <label style="margin: 20px;" for="filter">Filter:</label>
+    <!-- filter -->
+    <select name="filter" id="search-filter">
+            <!-- dropdwn items will be added here -->
+    </select>
+    <!-- sort -->
+    <label style="margin: 20px;" for="sort_by">Sort by:</label>
+    <select name="sort_by" id="search-sort">
+        <option value="timestamp_desc">Latest</option>
+        <option value="views_desc">Most Popular</option>
+    </select>
+    <button type="submit" style="background-color: #F4CE98;">Search</button>
+  </div>
+  <!-- div for topic errors -->
+  <div id="input-error"; class="invalid-feedback" style="display: none; justify-content: center;"> Search keyword need to be at least 3 characters!!</div>
+</form>
+
+<div  id="search-result-container" >
+    <!-- search result will be here -->
+</div>
+
+
+
+<script type="module" src="{{ url_for('static', filename='js/search.js') }}"></script>
+{% endblock %}
+
+
+
+
+
+
