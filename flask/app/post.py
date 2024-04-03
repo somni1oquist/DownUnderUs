@@ -92,7 +92,7 @@ def search():
                 "user_id": post.user_id,
                 "views": post.views,
                 "timestamp": post.timestamp,
-                "username":post.user.username
+                "username": User.query.get(post.user_id).username
             }
             posts.append(post_dict)
         return jsonify(posts)
@@ -119,12 +119,16 @@ def check_author(subject, user):
     '''Check if user is the author of a post or reply'''
     return subject.user_id == user.id
 
+def load_message(message):
+    '''Load message and return as json response'''
+    return jsonify({"message": message})
+
 # Get post detail by id
 @bp.route('/<int:post_id>', methods=['GET'])
 def post(post_id):
     post = load_post(post_id)
     if not post:
-        return jsonify(ResponseMessage.NOT_FOUND), 404
+        return load_message(ResponseMessage.NOT_FOUND), 404
     
     # Increment view count
     post.views += 1
@@ -140,15 +144,15 @@ def edit(post_id):
     post = Post.query.get(post_id)
 
     if not post:
-        return jsonify(ResponseMessage.NOT_FOUND), 404
+        return load_message(ResponseMessage.NOT_FOUND), 404
     elif not check_author(post, current_user):
-        return jsonify(ResponseMessage.UNAUTHORISED), 403
+        return load_message(ResponseMessage.UNAUTHORISED), 403
     
     post.title = data.get('title')
     post.body = data.get('body')
     db.session.commit()
 
-    return jsonify(ResponseMessage.EDITED), 200
+    return jsonify(ResponseMessage.EDITED.value), 200
 
 # Delete post
 @login_required
@@ -157,14 +161,14 @@ def delete(post_id):
     post = Post.query.get(post_id)
 
     if not post:
-        return jsonify(ResponseMessage.NOT_FOUND), 404
+        return load_message(ResponseMessage.NOT_FOUND), 404
     elif not check_author(post, current_user):
-        return jsonify(ResponseMessage.UNAUTHORISED), 403
+        return load_message(ResponseMessage.UNAUTHORISED), 403
     
     db.session.delete(post)
     db.session.commit()
 
-    return jsonify(ResponseMessage.DELETED), 200
+    return load_message(ResponseMessage.DELETED), 200
 
 # Reply to a post
 @login_required
@@ -174,14 +178,14 @@ def reply(post_id):
     post = Post.query.get(post_id)
 
     if not post:
-        return jsonify(ResponseMessage.NOT_FOUND), 404
+        return load_message(ResponseMessage.NOT_FOUND), 404
 
     body = data.get('body')
     reply = Reply(body=body, post_id=post_id, user_id=current_user.id)
     db.session.add(reply)
     db.session.commit()
 
-    return jsonify(ResponseMessage.REPLY_ADDED), 201
+    return load_message(ResponseMessage.REPLY_ADDED), 201
 
 # Accept a reply
 @login_required
@@ -191,14 +195,14 @@ def accept_reply(post_id, reply_id):
     reply = Reply.query.get(reply_id)
 
     if not post or not reply:
-        return jsonify(ResponseMessage.NOT_FOUND), 404
+        return load_message(ResponseMessage.NOT_FOUND), 404
     elif not check_author(post, current_user):
-        return jsonify(ResponseMessage.UNAUTHORISED), 403
+        return load_message(ResponseMessage.UNAUTHORISED), 403
 
     reply.accepted = True
     db.session.commit()
 
-    return jsonify(ResponseMessage.REPLY_ACCEPTED), 200
+    return load_message(ResponseMessage.REPLY_ACCEPTED), 200
 
 # Edit a reply
 @login_required
@@ -209,14 +213,14 @@ def edit_reply(post_id, reply_id):
     reply = Reply.query.get(reply_id)
 
     if not post or not reply:
-        return jsonify(ResponseMessage.NOT_FOUND), 404
+        return load_message(ResponseMessage.NOT_FOUND), 404
     elif not check_author(reply, current_user):
-        return jsonify(ResponseMessage.UNAUTHORISED), 403
+        return load_message(ResponseMessage.UNAUTHORISED), 403
 
     reply.body = data.get('body')
     db.session.commit()
 
-    return jsonify(ResponseMessage.REPLY_EDITED), 200
+    return load_message(ResponseMessage.REPLY_EDITED), 200
 
 # Delete a reply
 @login_required
@@ -226,14 +230,14 @@ def delete_reply(post_id, reply_id):
     reply = Reply.query.get(reply_id)
 
     if not post or not reply:
-        return jsonify(ResponseMessage.NOT_FOUND), 404
+        return load_message(ResponseMessage.NOT_FOUND), 404
     elif not check_author(reply, current_user):
-        return jsonify(ResponseMessage.UNAUTHORISED), 403
+        return load_message(ResponseMessage.UNAUTHORISED), 403
     
     db.session.delete(reply)
     db.session.commit()
 
-    return jsonify(ResponseMessage.REPLY_DELETED), 200
+    return load_message(ResponseMessage.REPLY_DELETED), 200
 
 # Vote on a reply
 @login_required
@@ -246,9 +250,9 @@ def vote(post_id, reply_id):
     vote_type = data.get('vote')
 
     if not post or not reply:
-        return jsonify(ResponseMessage.NOT_FOUND), 404
+        return load_message(ResponseMessage.NOT_FOUND), 404
     elif check_author(reply, current_user):
-        return jsonify(ResponseMessage.UNAUTHORISED), 403
+        return load_message(ResponseMessage.UNAUTHORISED), 403
     # Check if user has already voted
     elif vote is not None:
         # If same vote type, revoke vote and update reply
@@ -256,16 +260,16 @@ def vote(post_id, reply_id):
             reply.votes += 1 if vote_type == 'downvote' else -1
             db.session.delete(vote)
             db.session.commit()
-            return jsonify(ResponseMessage.VOTE_REVOKED), 200
+            return load_message(ResponseMessage.VOTE_REVOKED), 200
         # Else, update vote and reply
         else:
             vote.vote_type = vote_type
             reply.votes += 2 if vote_type == 'upvote' else -2
             db.session.commit()
-            return jsonify(ResponseMessage.VOTE_UPDATED), 200
+            return load_message(ResponseMessage.VOTE_UPDATED), 200
     # If user has not voted, add vote and update reply
     reply.votes += 1 if vote_type == 'upvote' else -1
     db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
     db.session.commit()
 
-    return jsonify(ResponseMessage.VOTED), 200
+    return load_message(ResponseMessage.VOTED), 200
