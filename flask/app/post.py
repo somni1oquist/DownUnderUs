@@ -92,7 +92,7 @@ def search():
                 "user_id": post.user_id,
                 "views": post.views,
                 "timestamp": post.timestamp,
-                "username":post.user.username
+                "username": User.query.get(post.user_id).username
             }
             posts.append(post_dict)
         return jsonify(posts)
