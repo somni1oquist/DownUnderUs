@@ -50,7 +50,7 @@ document.getElementById('search-form').addEventListener('submit', function (even
 			}
 		},
 		error: function (error) {
-			makeToast(`Search error: ${error.responseJSON.message}`, BsType.WARNING);
+			makeToast(`Search error: ${error.responseJSON.message}`, BsType.WARNING, false);
 		}
 	});
 });
