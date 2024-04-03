@@ -255,21 +255,13 @@ def vote(post_id, reply_id):
         return load_message(ResponseMessage.UNAUTHORISED), 403
     # Check if user has already voted
     elif vote is not None:
-        # If same vote type, revoke vote and update reply
-        if vote.vote_type == vote_type:
-            reply.votes += 1 if vote_type == 'downvote' else -1
-            db.session.delete(vote)
-            db.session.commit()
-            return load_message(ResponseMessage.VOTE_REVOKED), 200
-        # Else, update vote and reply
-        else:
-            vote.vote_type = vote_type
-            reply.votes += 2 if vote_type == 'upvote' else -2
-            db.session.commit()
-            return load_message(ResponseMessage.VOTE_UPDATED), 200
+        reply.votes -= 1
+        db.session.delete(vote)
+        db.session.commit()
     # If user has not voted, add vote and update reply
-    reply.votes += 1 if vote_type == 'upvote' else -1
-    db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
-    db.session.commit()
+    else:
+        reply.votes += 1
+        db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
+        db.session.commit()
 
     return load_message(ResponseMessage.VOTED), 200

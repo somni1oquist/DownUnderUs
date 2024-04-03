@@ -143,15 +143,14 @@ const create = (url, data) => {
 /**
  * Vote
  * @param {*} url vote endpoint
- * @param {*} action upvote or downvote
  */
-const vote = (url, action) => {
+const vote = (url) => {
   $.ajax({
     type: 'POST',
     url: url,
     contentType: 'application/json',
     data: JSON.stringify({
-      vote: action
+      vote: 'upvote'
     }),
     success: (res) => {
       const message = res.message;
