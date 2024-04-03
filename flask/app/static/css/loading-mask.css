@@ -3,7 +3,7 @@
  * From CodPen https://codepen.io/bartezic/pen/ByqeNq
  */
 .lmask {
-  position: absolute;
+  position: fixed;
   height: 100%;
   width: 100%; 
   background-color: #000;
