@@ -6,6 +6,9 @@ import { BsType } from './enums.js';
  */
 const makeToast = (message, type) => {
   const typeClass = `text-bg-${type}`;
+  // Disable user interaction with the page
+  const $mask = $('div.lmask');
+  $mask.show();
 
   switch (type) {
     case BsType.SUCCESS:
@@ -34,6 +37,9 @@ const makeToast = (message, type) => {
     const handleHidden = () => {
       $actionToast.removeClass(typeClass);
       $actionToast.off('hidden.bs.toast', handleHidden); // Remove the event listener
+      // Allow the user to interact with the page again
+      $mask.hide();
+
       resolve(); // Resolve the Promise when the toast is hidden
     };
 
