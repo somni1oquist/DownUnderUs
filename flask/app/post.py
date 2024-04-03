@@ -264,4 +264,23 @@ def vote(post_id, reply_id):
         db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
         db.session.commit()
 
-    return load_message(ResponseMessage.VOTED), 200
+    return jsonify(ResponseMessage.VOTED), 200
+
+#posts filter in homepage
+@login_required
+@bp.route('/topics/<topic>', methods=['GET'])
+def posts_by_topic(topic):
+    posts = Post.query.filter_by(topic=topic).order_by(Post.timestamp.desc()).all()
+    posts_data = [{
+        'id': post.id,
+        'title': post.title,
+        'body': post.body,
+        'topic': post.topic,
+        'user_id': post.user_id,
+        'views': post.views,
+        'timestamp': post.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
+        'username': post.author.username
+    } for post in posts]
+
+    return jsonify(posts_data)
+
