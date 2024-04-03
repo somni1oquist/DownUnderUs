@@ -26,7 +26,7 @@ $(document).ready(function () {
       });
     },
     error: (err) => {
-      makeToast(`Failed to get topics: ${err.responseJSON.message}`, BsType.DANGER);
+      makeToast(`Failed to get topics: ${err.responseJSON.message}`, BsType.DANGER, false);
     }
   });
 
@@ -64,7 +64,7 @@ $(document).ready(function () {
       },
       error: (err) => {
         displayFormErrors(err.responseJSON.errors);
-        makeToast(`Create post failed: ${err.responseJSON.message}`, BsType.DANGER);
+        makeToast(`Create post failed: ${err.responseJSON.message}`, BsType.DANGER, false);
       }
     });
   };

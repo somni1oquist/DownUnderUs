@@ -91,7 +91,7 @@ const abortEdit = ($target) => {
   // Hide save and cancel buttons and remove editor
   $editor.remove();
   $target.find('.btn[data-action="save"], .btn[data-action="abort"]').addClass('d-none');
-  makeToast('Edit aborted', BsType.WARNING);
+  makeToast('Edit aborted', BsType.WARNING, false);
 }
 
 /**
@@ -112,7 +112,7 @@ const save = (url, data) => {
     },
     error: (err) => {
       const message = err.responseJSON.message;
-      makeToast(`Edit failed: ${message}`, BsType.DANGER);
+      makeToast(`Edit failed: ${message}`, BsType.DANGER, false);
     }
   });
 }
@@ -135,7 +135,7 @@ const create = (url, data) => {
     },
     error: (err) => {
       const message = err.responseJSON.message;
-      makeToast(`Reply failed: ${message}`, BsType.DANGER);
+      makeToast(`Reply failed: ${message}`, BsType.DANGER, false);
     }
   });
 }
@@ -159,7 +159,7 @@ const vote = (url) => {
     },
     error: (err) => {
       const message = err.responseJSON.message;
-      makeToast(`Vote failed: ${message}`, BsType.DANGER);
+      makeToast(`Vote failed: ${message}`, BsType.DANGER, false);
     }
   });
 }
@@ -179,7 +179,7 @@ const del = (url) => {
     },
     error: (err) => {
       const message = err.responseJSON.message;
-      makeToast(`Delete failed: ${message}`, BsType.DANGER);
+      makeToast(`Delete failed: ${message}`, BsType.DANGER, false);
     }
   });
 }
