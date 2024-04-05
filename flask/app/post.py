@@ -6,7 +6,8 @@ from wtforms.validators import Length, InputRequired
 from app.models import Post, Reply, User, Vote
 from app.enums import Topic, ResponseMessage
 from app import db
-
+import pytz
+from datetime import datetime
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
@@ -270,6 +271,10 @@ def vote(post_id, reply_id):
 @login_required
 @bp.route('/topics/<topic>', methods=['GET'])
 def posts_by_topic(topic):
+    zone = 'Australia/Perth'
+    format = '%Y-%m-%d %H:%M:%S %Z'
+    timezone = pytz.timezone(zone)
+    current_time = datetime.now()
     posts = Post.query.filter_by(topic=topic).order_by(Post.timestamp.desc()).all()
     posts_data = [{
         'id': post.id,
@@ -278,8 +283,8 @@ def posts_by_topic(topic):
         'topic': post.topic,
         'user_id': post.user_id,
         'views': post.views,
-        'timestamp': post.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
-        'username': post.author.username
+        'timestamp': timezone.localize(current_time).strftime(format),
+        'username': User.query.get(post.user_id).username
     } for post in posts]
 
     return jsonify(posts_data)

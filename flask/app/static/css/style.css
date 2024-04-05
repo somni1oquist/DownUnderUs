@@ -153,3 +153,57 @@
 .search-footer span {
     margin-right: 20px;
 }
+
+/* post part */
+div.topicContainer {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 23%;
+    background-color: #f1f1f1;
+    position: fixed;
+    top: 180px;
+    left: 0;
+    height: auto;
+    overflow: auto;
+}
+div.postContainer{
+    list-style-type: none;
+    top:200px;
+    margin-left: 25%;
+    margin-top: 120px;
+    height: auto;
+    overflow: auto;
+}
+    /*nav style */
+ul.topnav{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color:#d3f0e3;
+    position: initial;
+    top:0;
+    height: 50px;
+    width: 100%;
+    z-index: 1000;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.topnav li a:hover:not(.active) {background-color:#8bc4bf;}
+
+ul.topnav li.right {float: right;}
+
+@media screen and (max-width: 600px) {
+  ul.topnav li.right,
+  ul.topnav li {float: none;}
+}
