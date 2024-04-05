@@ -11,3 +11,6 @@ instance/
 # Ignore README in migrations
 !flask/migrations/
 flask/migrations/README
+
+#Ignore IDE configuration directory
+.idea/

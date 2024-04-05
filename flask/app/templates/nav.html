@@ -1,44 +1,10 @@
-<!-- TODO: Implement navbar elements -->
-<style>
-    ul.topnav{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color:#d3f0e3;
-    position: initial;
-    top:0;
-    height: 50px;
-    width: 100%;
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-    z-index: 1000;
-}
-
-ul.topnav li {float: left;}
-
-ul.topnav li a {
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-ul.topnav li a:hover:not(.active) {background-color:#8bc4bf;}
-
-ul.topnav li.right {float: right;}
-
-@media screen and (max-width: 600px) {
-  ul.topnav li.right,
-  ul.topnav li {float: none;}
-}
-</style>
-
-   <nav>
-        <ul class="topnav">
-          <li><a href="/">Home</a></li>
-          <li><a href="/post/search_view">Posts</a></li>
-          <li><a href="/post/create">I have a question</a></li>
-          <li class="right"><a href="/profile/">Profile</a></li>
-        </ul>
-    </nav>
+<nav>
+  <ul class="topnav">
+    <li><a href="/">Home</a></li>
+    <li><a href="/post/search_view">Posts</a></li>
+    <li><a href="/post/create">I have a question</a></li>
+    <li class="right"><a href="/profile/">Profile</a></li>
+  </ul>
+</nav>
