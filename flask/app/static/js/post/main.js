@@ -20,12 +20,11 @@ $(() => {
         break;
 
       case Action.ABORT:
-        abortEdit($target);
+        confirm('Are you sure you want to abort editing?') && abortEdit($target);
         break;
 
       case Action.DELETE:
-        if (confirm('Are you sure you want to delete this post?'))
-          del(url);
+        confirm('Are you sure you want to delete this post?') && del(url);
         break;
     }
   });
@@ -39,11 +38,11 @@ $(() => {
 
     switch (action) {
       case Action.REPLY: // Reply to post 
-        reply($target, url);
+        confirm('Are you sure to reply?') && reply($target, url);
         break;
 
       case Action.ACCEPT: // Accept reply
-        acceptReply(url);
+        confirm('Are you sure to accept this reply?') && acceptReply(url);
         break;
 
       case Action.EDIT:
@@ -56,17 +55,15 @@ $(() => {
         break;
 
       case Action.ABORT:
-        abortEdit($target);
+        confirm('Are you sure to abort editing?') && abortEdit($target);
         break;
 
       case Action.DELETE:
-        if (confirm('Are you sure you want to delete this reply?'))
-          del(url);
+        confirm('Are you sure to delete this reply?') && del(url);
         break;
 
       case Action.UPVOTE:
-      case Action.DOWNVOTE:
-        vote(url, action);
+        vote(url);
         break;
     }
   });

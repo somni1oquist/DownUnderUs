@@ -36,16 +36,19 @@
     <div class="col-sm-2">
       <div class="action-panel">
         {% if current_user.id == post.user_id %}
-        <a href="" data-action="edit" class="btn btn-primary">
+        <a href="" data-action="edit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Edit the post">
           <i class="fa-solid fa-pen-to-square"></i>
         </a>
-        <a href="{{ url_for('post.edit', post_id=post.id) }}" data-action="save" class="btn btn-primary d-none">
+        <a href="{{ url_for('post.edit', post_id=post.id) }}" data-action="save" data-bs-toggle="tooltip"
+          data-bs-title="Save the edit" class="btn btn-primary d-none">
           <i class="fa-solid fa-circle-check"></i>
         </a>
-        <a href="" data-action="abort" class="btn btn-secondary d-none">
+        <a href="" data-action="abort" class="btn btn-secondary d-none" data-bs-toggle="tooltip"
+          data-bs-title="Abort the edit">
           <i class="fa-solid fa-circle-xmark"></i>
         </a>
-        <a href="{{ url_for('post.delete', post_id=post.id) }}" data-action="delete" class="btn btn-danger">
+        <a href="{{ url_for('post.delete', post_id=post.id) }}" data-action="delete" data-bs-toggle="tooltip"
+          data-bs-title="Delete the post" class="btn btn-danger">
           <i class="fa-solid fa-trash-can"></i>
         </a>
         {% endif %}
@@ -64,7 +67,8 @@
     <div class="col-sm-2">
       <div class="action-panel">
         {% if current_user.is_authenticated %}
-        <a href="{{ url_for('post.reply', post_id=post.id) }}" data-action="reply" class="btn btn-primary">
+        <a href="{{ url_for('post.reply', post_id=post.id) }}" data-action="reply" class="btn btn-primary"
+          data-bs-toggle="tooltip" data-bs-title="Send reply">
           <i class="fa-solid fa-reply"></i>
         </a>
         {% endif %}
@@ -102,39 +106,37 @@
     <div class="col-sm-2">
       <div class="action-panel">
         {% if reply.accepted %}
-          <h2 class="text-success"><i class="fa-solid fa-check-double"></i></h2>
+        <h2 class="text-success" data-bs-toggle="tooltip" data-bs-title="This reply has been accepted by {{ post.user.username }}"><i
+            class="fa-solid fa-check-double"></i></h2>
         {% endif %}
         <h5>{{ reply.votes }}</h5>
         {% if current_user.id == post.user_id %}
         <a href="{{ url_for('post.accept_reply', post_id=post.id, reply_id=reply.id )}}" data-action="accept"
           class="btn btn-success {% if reply.accepted %}disabled{% endif %}" {% if reply.accepted %}aria-disabled="true"
-          {% endif %}>
+          {% endif %} data-bs-toggle="tooltip" data-bs-title="Accept this reply">
           <i class="fa-solid fa-check-double"></i>
         </a>
         {% endif %}
         {% if current_user.id == reply.user_id %}
-        <a href="" data-action="edit" class="btn btn-primary">
+        <a href="" data-action="edit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Edit the reply">
           <i class="fa-solid fa-pen-to-square"></i>
         </a>
         <a href="{{ url_for('post.edit_reply', post_id=post.id, reply_id=reply.id) }}" data-action="save"
-          class="btn btn-primary d-none">
+          class="btn btn-primary d-none" data-bs-toggle="tooltip" data-bs-title="Save the edit">
           <i class="fa-solid fa-circle-check"></i>
         </a>
-        <a href="" data-action="abort" class="btn btn-secondary d-none">
+        <a href="" data-action="abort" class="btn btn-secondary d-none" data-bs-toggle="tooltip"
+          data-bs-title="Abort the edit">
           <i class="fa-solid fa-circle-xmark"></i>
         </a>
         <a href="{{ url_for('post.delete_reply', post_id=post.id, reply_id=reply.id) }}" data-action="delete"
-          class="btn btn-danger">
+          class="btn btn-danger" data-bs-toggle="tooltip" data-bs-title="Delete the reply">
           <i class="fa-solid fa-trash-can"></i>
         </a>
         {% elif current_user.is_authenticated %}
         <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" data-action="upvote"
-          class="btn btn-secondary">
-          <i class="fa-solid fa-up-long"></i>
-        </a>
-        <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" data-action="downvote"
-          class="btn btn-secondary">
-          <i class="fa-solid fa-down-long"></i>
+          class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-title="Upvote the reply">
+          <i class="fa-solid fa-thumbs-up"></i>
         </a>
         {% endif %}
       </div>
