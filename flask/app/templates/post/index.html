@@ -74,81 +74,44 @@
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('post.reply', post_id=post.id) }}" data-action="reply" class="btn btn-primary"
           data-bs-toggle="tooltip" data-bs-title="Send reply">
-          <i class="fa-solid fa-reply"></i>
+          <i class="fa-solid fa-paper-plane"></i>
         </a>
         {% endif %}
       </div>
     </div>
   </div>
-  {% for reply in post.replies %}
-  <div id="reply{{ reply.id }}" class="row">
-    <div class="col-sm-2">
-      <!-- Author Info -->
-      <div class="author">
-        <!-- TODO: Should replace icon with profile picture -->
-        <h1><i class="fa-solid fa-circle-user"></i></h1>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
-          <div class="card-text">
-            {{ reply.body | safe }}
-          </div>
+  
+  {% set current_user = current_user %}
+  {% set post = post %}
+  {% include 'post/replies.html' %}
+  <!-- Modal -->
+  <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="replyModalLabel">Reply to ...</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="card-footer">
-          <p class="card-text text-end">
-            <small class="text-body-secondary">
-              Created at {{ reply.real_timestamp }} by {{ reply.user.username }}<br>
-              {% if reply.last_edited %}
-              (last edited at {{ reply.real_last_edited }})
-              {% endif %}
-            </small>
-          </p>
+        <div class="modal-body">
+          <textarea rows="5" class="form-control"></textarea>
         </div>
-      </div>
-    </div>
-    <div class="col-sm-2">
-      <div class="action-panel">
-        {% if reply.accepted %}
-        <h2 class="text-success" data-bs-toggle="tooltip" data-bs-title="This reply has been accepted by {{ post.user.username }}"><i
-            class="fa-solid fa-check-double"></i></h2>
-        {% endif %}
-        <h5>{{ reply.votes }}</h5>
-        {% if current_user.id == post.user_id %}
-        <a href="{{ url_for('post.accept_reply', post_id=post.id, reply_id=reply.id )}}" data-action="accept"
-          class="btn btn-success {% if reply.accepted %}disabled{% endif %}" {% if reply.accepted %}aria-disabled="true"
-          {% endif %} data-bs-toggle="tooltip" data-bs-title="Accept this reply">
-          <i class="fa-solid fa-check-double"></i>
-        </a>
-        {% endif %}
-        {% if current_user.id == reply.user_id %}
-        <a href="" data-action="edit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Edit the reply">
-          <i class="fa-solid fa-pen-to-square"></i>
-        </a>
-        <a href="{{ url_for('post.edit_reply', post_id=post.id, reply_id=reply.id) }}" data-action="save"
-          class="btn btn-primary d-none" data-bs-toggle="tooltip" data-bs-title="Save the edit">
-          <i class="fa-solid fa-circle-check"></i>
-        </a>
-        <a href="" data-action="abort" class="btn btn-secondary d-none" data-bs-toggle="tooltip"
-          data-bs-title="Abort the edit">
-          <i class="fa-solid fa-circle-xmark"></i>
-        </a>
-        <a href="{{ url_for('post.delete_reply', post_id=post.id, reply_id=reply.id) }}" data-action="delete"
-          class="btn btn-danger" data-bs-toggle="tooltip" data-bs-title="Delete the reply">
-          <i class="fa-solid fa-trash-can"></i>
-        </a>
-        {% elif current_user.is_authenticated %}
-        <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" data-action="upvote"
-          class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-title="Upvote the reply">
-          <i class="fa-solid fa-thumbs-up"></i>
-        </a>
-        {% endif %}
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <i class="fa-solid fa-circle-xmark"></i>
+            Close
+          </button>
+          <button type="button" class="btn btn-primary">
+            <i class="fa-solid fa-paper-plane"></i>
+            Send
+          </button>
+        </div>
       </div>
     </div>
   </div>
-  {% endfor %}
 </div>
+{% endblock %}
 
-<script type="module" src="{{ url_for('static', filename='js/post/main.js') }}"></script>
+{% block script %}
+  {{ super() }}
+  <script type="module" src="{{ url_for('static', filename='js/post/main.js') }}"></script>
 {% endblock %}
