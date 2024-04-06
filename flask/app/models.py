@@ -1,8 +1,10 @@
+import pytz
 from sqlalchemy import UniqueConstraint, func, event
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import db, loginManager
 from sqlalchemy.orm.attributes import get_history
+from app.tools import convert_timezone
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +37,14 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     replies = db.relationship('Reply', backref='post', lazy='dynamic', cascade='all, delete-orphan')
     topic = db.Column(db.String(100), nullable=False)
+    # TODO: get timezone from user settings
+    @property
+    def real_timestamp(self):
+        return convert_timezone(self.timestamp, None)
+    # TODO: get timezone from user settings
+    @property
+    def real_last_edited(self):
+        return convert_timezone(self.last_edited, None)
     
     def __repr__(self):
         return '<Post {}>'.format(self.body)
@@ -50,6 +60,15 @@ class Reply(db.Model):
     user = db.relationship('User', backref='replies')
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
     accepted = db.Column(db.Boolean, default=False)
+
+    # TODO: get timezone from user settings
+    @property
+    def real_timestamp(self):
+        return convert_timezone(self.timestamp, None)
+    # TODO: get timezone from user settings
+    @property
+    def real_last_edited(self):
+        return convert_timezone(self.last_edited, None)
     
     def __repr__(self):
         return '<Reply {}>'.format(self.body)
