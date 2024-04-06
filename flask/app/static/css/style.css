@@ -50,12 +50,13 @@
 /* post part */
 div.topicContainer {
   list-style-type: none;
+  text-align: center;
   margin: 0;
   padding: 0;
   width: 23%;
   background-color: #f1f1f1;
   position: fixed;
-  top: 180px;
+  top: 10%;
   left: 0;
   height: auto;
   overflow: auto;

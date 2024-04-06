@@ -10,7 +10,7 @@
 }
 
 /* Adjustments for better visual integration */
-.auth-container {
+.container {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 5px;
   padding: 20px;

@@ -2,13 +2,12 @@
 
 {% block head %}
   {{ super() }}
-  <!-- Additional content for the head block -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 {% endblock %}
 
 {% block container %}
 <div class="auth-background">
-  <div class="auth-container">
+  <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-4 text-center">
         <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="DownUnderUs Logo" class="login-logo">
@@ -40,4 +39,9 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block script %}
+  {{ super() }}
+  <script type="module" src="{{ url_for('static', filename='js/auth/main.js') }}"></script>
 {% endblock %}
