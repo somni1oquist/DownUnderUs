@@ -2,21 +2,21 @@ from enum import Enum
 
 
 class Topic(Enum):
-    TECHNOLOGY = 'Technology'
-    HEALTH = 'Health'
-    SCIENCE = 'Science'
-    EDUCATION = 'Education'
+    HOUSING = 'Housing'
+    NEIGHBOURHOOD = 'Neighbourhood'
+    FAMILY = 'Family'
+    EVENTS = 'Events'
+    SCHOOLS = 'Schools'
+    PARKS = 'Parks'
+    SAFETY = 'Safety'
+    TRANSPORTATION = 'Transportation'
+    LOCAL_BUSINESS = 'Local Business'
     ENVIRONMENT = 'Environment'
-    POLITICS = 'Politics'
-    ECONOMICS = 'Economics'
-    CULTURE = 'Culture'
-    SPORTS = 'Sports'
-    ENTERTAINMENT = 'Entertainment'
-    BUSINESS = 'Business'
-    TRAVEL = 'Travel'
-    FASHION = 'Fashion'
-    FOOD = 'Food'
-    ART = 'Art'
+    HEALTH = 'Health'
+    PETS = 'Pets'
+    GARDENING = 'Gardening'
+    UTILITIES = 'Utilities'
+    RECYCLING = 'Recycling'
 
 
 # Reponse messages

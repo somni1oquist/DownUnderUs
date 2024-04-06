@@ -26,21 +26,17 @@ document.getElementById('search-form').addEventListener('submit', function (even
 					resultBox.innerHTML = `
 										<div class="search-result-box">
 											<h4><a href="/post/${post.id}">${post.title}</a></h4>
-
 											<div class="search-author-info">
 												<img src="../../static/images/icons8-bmo-48.png" alt="author photo">
 												<span>${post.username}</span>
-
 											</div>
-
 											<div class="search-post-body">
 												<p>${post.body}</p>
 											</div>
-
 											<div class="search-footer">
-												<span>Published: ${post.timestamp}</span>
+												<span><i class="fa-solid fa-feather"></i> ${post.timestamp}</span>
 												<span>
-													Views: ${post.views}
+													<i class="fa-solid fa-eye"></i> ${post.views}
 												</span>
 											</div>
 										</div>

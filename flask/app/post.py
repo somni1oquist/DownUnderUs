@@ -6,8 +6,6 @@ from wtforms.validators import Length, InputRequired
 from app.models import Post, Reply, User, Vote
 from app.enums import Topic, ResponseMessage
 from app import db
-import pytz
-from datetime import datetime
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
@@ -264,14 +262,10 @@ def vote(post_id, reply_id):
 
     return load_message(ResponseMessage.VOTED), 200
 
-#posts filter in homepage
+# Posts filter in portal
 @login_required
-@bp.route('/topics/<topic>', methods=['GET'])
+@bp.route('/topics/<string:topic>', methods=['GET'])
 def posts_by_topic(topic):
-    # TODO: Get timezone from user settings
-    zone = 'Australia/Perth'
-    format = '%a %d %B %Y %H:%M:%S'
-    timezone = pytz.timezone(zone)
     posts = Post.query.filter_by(topic=topic).order_by(Post.timestamp.desc()).all()
     posts_data = [{
         'id': post.id,
