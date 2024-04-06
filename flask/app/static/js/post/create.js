@@ -30,11 +30,7 @@ $(document).ready(function () {
     }
   });
 
-});
-
-
-// This script is used to handle the form submission for creating a new post
-$(document).ready(function () {
+  // Handle the form submission for creating a new post
   const form = document.getElementById('createModal').querySelector('form');
   form.onsubmit = function (event) {
     //prevent form submission
@@ -68,39 +64,38 @@ $(document).ready(function () {
       }
     });
   };
-
-  // display form errors function
-  function displayFormErrors(errors) {
-    var errorDivs = document.querySelectorAll('.invalid-feedback');
-    errorDivs.forEach(function (errorDiv) {
-      errorDiv.style.display = 'none';
-      errorDiv.innerHTML = '';
-    });
-
-    for (var key in errors) {
-      if (errors.hasOwnProperty(key)) {
-        var input = form.querySelector('input[name="' + key + '"], textarea[name="' + key + '"]');
-        if (input) {
-          var errorDiv = input.nextElementSibling;
-          if (errorDiv && errorDiv.classList.contains('invalid-feedback')) {
-            errorDiv.style.display = 'block';
-            errorDiv.innerHTML = errors[key].join(', ');
-          } else {
-            console.error('No sibling with class "invalid-feedback" found for input', input);
-          }
-        } else {
-          console.error('No input element found with name', key);
-        }
-      }
-
-    }
-  };
-
-  function clearFormErrors() {
-    var errorDivs = document.querySelectorAll('.invalid-feedback');
-    errorDivs.forEach(function (errorDiv) {
-      errorDiv.style.display = 'none';
-      errorDiv.innerHTML = '';
-    });
-  }
 });
+// display form errors function
+function displayFormErrors(errors) {
+  var errorDivs = document.querySelectorAll('.invalid-feedback');
+  errorDivs.forEach(function (errorDiv) {
+    errorDiv.style.display = 'none';
+    errorDiv.innerHTML = '';
+  });
+
+  for (var key in errors) {
+    if (errors.hasOwnProperty(key)) {
+      var input = form.querySelector('input[name="' + key + '"], textarea[name="' + key + '"]');
+      if (input) {
+        var errorDiv = input.nextElementSibling;
+        if (errorDiv && errorDiv.classList.contains('invalid-feedback')) {
+          errorDiv.style.display = 'block';
+          errorDiv.innerHTML = errors[key].join(', ');
+        } else {
+          console.error('No sibling with class "invalid-feedback" found for input', input);
+        }
+      } else {
+        console.error('No input element found with name', key);
+      }
+    }
+
+  }
+};
+
+function clearFormErrors() {
+  var errorDivs = document.querySelectorAll('.invalid-feedback');
+  errorDivs.forEach(function (errorDiv) {
+    errorDiv.style.display = 'none';
+    errorDiv.innerHTML = '';
+  });
+}

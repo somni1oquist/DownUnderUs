@@ -89,7 +89,7 @@ def search():
                 "topic": post.topic,
                 "user_id": post.user_id,
                 "views": post.views,
-                "timestamp": post.timestamp,
+                "timestamp": post.real_timestamp,
                 "username": User.query.get(post.user_id).username
             }
             posts.append(post_dict)
@@ -280,7 +280,7 @@ def posts_by_topic(topic):
         'topic': post.topic,
         'user_id': post.user_id,
         'views': post.views,
-        'timestamp': post.timestamp.replace(tzinfo=pytz.utc).astimezone(timezone).strftime(format),
+        'timestamp': post.real_timestamp,
         'username': User.query.get(post.user_id).username
     } for post in posts]
 

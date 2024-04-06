@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user, login_required
 from werkzeug.exceptions import Unauthorized
+from .enums import Topic
 import pytz
 
 db = SQLAlchemy()
@@ -59,12 +60,7 @@ def create_app(test_config=None):
     @app.route("/portal")
     @login_required
     def portal():
-        # Timezone conversion
-        zone = 'Australia/Perth' # TODO: Should load from user profile
-        format = '%a %d %B %Y %H:%M:%S' # Need to refine
-        timezone = pytz.timezone(zone)
-        stamp = datetime.now().replace(tzinfo=pytz.utc) # TODO: Get UTC stamp from db
-        timestamp = stamp.astimezone(timezone).strftime(format)
-        return render_template('list-view.html', current_user=current_user, timestamp=timestamp)
+        topics = [topic.value for topic in Topic]
+        return render_template('list-view.html', current_user=current_user, topics=topics)
 
     return app

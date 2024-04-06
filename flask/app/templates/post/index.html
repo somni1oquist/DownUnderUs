@@ -29,9 +29,9 @@
           <p class="card-text text-end">
             <small class="text-body-secondary">
               <i class="fa-solid fa-eye"></i> {{ post.views }}<br>
-              Created at {{ post.timestamp }} by {{ post.user.username }}<br>
+              Created at {{ post.real_timestamp }} by {{ post.user.username }}<br>
               {% if post.last_edited %}
-              (last edited at {{ post.last_edited }})
+              (last edited at {{ post.real_last_edited }})
               {% endif %}
             </small>
           </p>
@@ -99,9 +99,9 @@
         <div class="card-footer">
           <p class="card-text text-end">
             <small class="text-body-secondary">
-              Created at {{ reply.timestamp }} by {{ reply.user.username }}<br>
+              Created at {{ reply.real_timestamp }} by {{ reply.user.username }}<br>
               {% if reply.last_edited %}
-              (last edited at {{ reply.last_edited }})
+              (last edited at {{ reply.real_last_edited }})
               {% endif %}
             </small>
           </p>
