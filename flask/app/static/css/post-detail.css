@@ -26,3 +26,26 @@
   margin-top: .5rem;
   margin-bottom: .5rem;
 }
+
+/* Replies */
+ul.reply-thread {
+  padding: 0
+}
+ul, li {
+  list-style: none;
+}
+ul.reply-thread li ul {
+  margin-left: 2rem;
+  position: relative;
+}
+ul.reply-thread li ul::before {
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: .5rem;
+  left: 2.5rem;
+  border: 1px solid gray;
+  border-radius: 15px 0 0 15px;
+  background-color: gray;
+}
