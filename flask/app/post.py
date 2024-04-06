@@ -273,9 +273,8 @@ def vote(post_id, reply_id):
 def posts_by_topic(topic):
     # TODO: Get timezone from user settings
     zone = 'Australia/Perth'
-    format = '%Y-%m-%d %H:%M:%S %Z'
+    format = '%a %d %B %Y %H:%M:%S'
     timezone = pytz.timezone(zone)
-    current_time = datetime.now()
     posts = Post.query.filter_by(topic=topic).order_by(Post.timestamp.desc()).all()
     posts_data = [{
         'id': post.id,
@@ -284,7 +283,7 @@ def posts_by_topic(topic):
         'topic': post.topic,
         'user_id': post.user_id,
         'views': post.views,
-        'timestamp': timezone.localize(current_time).strftime(format),
+        'timestamp': post.timestamp.replace(tzinfo=pytz.utc).astimezone(timezone).strftime(format),
         'username': User.query.get(post.user_id).username
     } for post in posts]
 
