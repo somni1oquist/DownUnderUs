@@ -2,7 +2,27 @@
   <ul class="topnav">
     <li><a href="/">Home</a></li>
     <li><a href="{{ url_for('post.search_page') }}">Posts</a></li>
-    <li><a href="{{ url_for('post.create') }}">I have a question</a></li>
-    <li class="right"><a href="/profile/">Profile</a></li>
+    <li><a href="#createModal" id="create" data-bs-toggle="modal">I have a question</a></li>
+    {% if not current_user.is_authenticated %}
+    <li class="right">
+      <a href="{{ url_for('auth.signin') }}">
+        Sign In
+        <i class="fas fa-sign-in-alt"></i>
+      </a>
+    </li>
+    {% else %}
+    <li class="right">
+      <a href="{{ url_for('auth.signout') }}">
+        Sign Out
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </li>
+    <li class="right">
+      <a href="/profile/">
+        <i class="fas fa-user"></i>
+        {{ current_user.username }}
+      </a>
+    </li>
+    {% endif %}
   </ul>
 </nav>

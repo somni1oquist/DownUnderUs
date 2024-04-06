@@ -24,12 +24,9 @@ def topics():
     return jsonify([topic.value for topic in Topic])
 
 # Create post
-@bp.route('/create', methods=['GET', 'POST'])
+@bp.route('/create', methods=['POST'])
 @login_required
 def create():
-    if request.method == 'GET':
-        return render_template('post/create-post.html', current_user=current_user)
-
     form = QuestForm(request.form)
     if form.validate():
         title = form.title.data

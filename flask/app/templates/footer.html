@@ -1,4 +1,69 @@
 <!-- Footer -->
+<!-- Modal #create-post -->
+{% if current_user.is_authenticated %}
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+
+
+        <h1 class="modal-title fs-5" id="createModalLabel">
+          Start a New Post
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <!-- Modal body -->
+      <form method="post">
+        <div class="modal-body">
+          <!-- post title -->
+          <div class="mb-3">
+            <label for="title" class="col-form-label">Give it a title:</label>
+            <input type="text" class="form-control" id="title" name="title">
+            <!-- div for title errors -->
+            <div class="invalid-feedback" style="display: none;"></div>
+          </div>
+
+          <!-- post topic -->
+          <div class="input-group mb-3">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">Please select a topic</button>
+            <ul class="dropdown-menu" id="topic-list">
+              <!-- dropdwn items will be added here -->
+            </ul>
+            <input id="topic" name="topic" type="text" class="form-control"
+              aria-label="Text input with dropdown button">
+            <!-- div for topic errors -->
+            <div class="invalid-feedback" style="display: none;"></div>
+          </div>
+          
+          <!-- post body -->
+          <div class="mb-3">
+            <div class="d-flex align-items-center mb-2">
+              <img src="{{ url_for('static', filename='images/icons8-bmo-48.png') }}" style="width: 48px; height: 48px; border-radius: 50%;"
+                alt="profile photo">
+              <span class="mb-3" id="author">
+                {{ current_user.username }}
+              </span>
+            </div>
+            <textarea class="form-control" id="body" name="body" placeholder="Share the details.." rows="6"></textarea>
+            <!-- div for topic errors -->
+            <div class="invalid-feedback" style="display: none;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Post</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+{% endif %}
 <!-- Toast -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
   <div id="action-toast" class="toast align-items-center border-0" role="alert" aria-live="assertive"

@@ -35,7 +35,7 @@ $(document).ready(function () {
 
 // This script is used to handle the form submission for creating a new post
 $(document).ready(function () {
-  const form = document.getElementById('exampleModal').querySelector('form');
+  const form = document.getElementById('createModal').querySelector('form');
   form.onsubmit = function (event) {
     //prevent form submission
     event.preventDefault();
