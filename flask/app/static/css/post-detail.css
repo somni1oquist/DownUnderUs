@@ -1,0 +1,28 @@
+/* Post detail */
+.post-container {
+  padding: 2rem;
+}
+
+.post-container h1 {
+  text-align: center;
+}
+
+.post-container .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-block: 1rem;
+}
+
+.post-container .card {
+  min-height: 170px;
+}
+
+.action-panel {
+  text-align: center;
+}
+
+.action-panel a {
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}

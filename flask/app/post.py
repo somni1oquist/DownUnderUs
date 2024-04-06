@@ -26,7 +26,7 @@ def topics():
 # Create post
 @bp.route('/create', methods=['GET', 'POST'])
 @login_required
-def create_post():
+def create():
     if request.method == 'GET':
         return render_template('post/create-post.html', current_user=current_user)
 
@@ -48,8 +48,8 @@ def create_post():
 #search part
 
 # search view html
-@bp.route('/search_view')
-def show_search_view():
+@bp.route('/search-page', methods=['GET'])
+def search_page():
     return render_template('./post/search.html')
 
 #validate the saerch input 
@@ -265,12 +265,13 @@ def vote(post_id, reply_id):
         db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
         db.session.commit()
 
-    return jsonify(ResponseMessage.VOTED), 200
+    return load_message(ResponseMessage.VOTED), 200
 
 #posts filter in homepage
 @login_required
 @bp.route('/topics/<topic>', methods=['GET'])
 def posts_by_topic(topic):
+    # TODO: Get timezone from user settings
     zone = 'Australia/Perth'
     format = '%Y-%m-%d %H:%M:%S %Z'
     timezone = pytz.timezone(zone)
@@ -287,5 +288,5 @@ def posts_by_topic(topic):
         'username': User.query.get(post.user_id).username
     } for post in posts]
 
-    return jsonify(posts_data)
+    return jsonify(posts_data), 200
 

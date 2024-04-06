@@ -1,0 +1,78 @@
+/* Full Page Background Setup */
+.auth-background {
+  height: 100vh;
+  background-image: url('../images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Adjustments for better visual integration */
+.auth-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  padding: 20px;
+}
+
+/* Adjustments for the login box */
+.auth-box,
+.new-account-box {
+  border: 1px solid #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #e3f1f3;
+}
+
+/* Style for the sign in button */
+.btn-primary {
+  background-color: #191717;
+  border-color: #191717;
+  color: #ffffff;
+}
+
+/* Style for the sign in button when active/clicked */
+.btn-primary:active {
+  background-color: #191717;
+  border-color: #191717;
+  color: #ffffff;
+}
+
+/* Adjust the focus and hover states */
+.btn-primary:focus,
+.btn-primary:hover {
+  background-color: #333333;
+  border-color: #333333;
+  color: #ffffff;
+}
+
+/* Style for input boxes when they are focused */
+.form-control:focus {
+  border-color: #000000;
+}
+
+/* Control the logo size */
+.login-logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Adjusting label styles */
+.form-label {
+  text-align: left;
+  color: #333333;
+  display: block;
+  margin-bottom: .5rem;
+}
+
+/* Styling for error flash messages */
+.alert-custom-error {
+  background-color: #f8d7da;
+  border-color: #d9534f;
+  color: #d9534f;
+}

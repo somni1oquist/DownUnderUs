@@ -1,9 +1,10 @@
 from datetime import datetime
 import os
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, redirect, render_template, url_for
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
+from werkzeug.exceptions import Unauthorized
 import pytz
 
 db = SQLAlchemy()
@@ -43,6 +44,10 @@ def create_app(test_config=None):
     app.register_blueprint(profile.bp)
     app.register_blueprint(post.bp)
 
+    # If user is not authenticated, redirect to signin page
+    @app.errorhandler(Unauthorized)
+    def unauthorized(error):
+        return redirect(url_for('auth.signin'))
 
 
     @app.route("/")

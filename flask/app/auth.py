@@ -1,6 +1,6 @@
 from sqlite3 import IntegrityError
 from flask import (
-    Blueprint, flash, g, jsonify, redirect, render_template, request, session, url_for
+    Blueprint, flash, jsonify, redirect, render_template, request, url_for
 )
 from flask_login import login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -31,11 +31,14 @@ def signup():
         if error is None:
             try: 
                 # TODO: Insert complete user data
-                db.session.add(User(username=username, email=email, password_hash=generate_password_hash(password)))
+                new_user = User(username=username, email=email, password_hash=generate_password_hash(password))
+                db.session.add(new_user)
                 db.session.commit()
             except IntegrityError:
                 error = f"User {username} already exists."
             else:
+                # Login user after successful registration
+                login_user(new_user)
                 return redirect(url_for("index"))
 
         flash(error)
