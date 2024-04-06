@@ -1,12 +1,4 @@
 {% extends 'base.html' %}
 {% block container %}
-  {% if current_user.is_authenticated %}
-    <p>Hello, {{ current_user.username }}!</p>
-    {{ timestamp }}
-    <p><a href="{{ url_for('auth.signout') }}">Sign Out</a></p>
-  {% else %}
-    Information about Down Under Us
-    <p><a href="{{ url_for('auth.signin') }}">Sign In</a></p>
-    <p><a href="{{ url_for('auth.signup') }}">Sign Up</a></p>
-  {% endif %}
+    {% include 'list-view.html' %}
 {% endblock %}
