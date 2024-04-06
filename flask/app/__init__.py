@@ -1,9 +1,11 @@
 from datetime import datetime
 import os
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, redirect, render_template, url_for
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager, current_user, login_required
+from werkzeug.exceptions import Unauthorized
+from .enums import Topic
 import pytz
 
 db = SQLAlchemy()
@@ -43,18 +45,22 @@ def create_app(test_config=None):
     app.register_blueprint(profile.bp)
     app.register_blueprint(post.bp)
 
+    # If user is not authenticated, redirect to signin page
+    @app.errorhandler(Unauthorized)
+    def unauthorized(error):
+        return redirect(url_for('auth.signin'))
 
 
     @app.route("/")
     def index():
         if current_user.is_authenticated:
-            # Timezone conversion
-            zone = 'Australia/Perth' # Should load from user profile
-            format = '%Y-%m-%d %H:%M:%S %Z' # Need to refine
-            timezone = pytz.timezone(zone)
-            current_time = datetime.now() # Get stamp from db
-            timestamp = timezone.localize(current_time).strftime(format)
-            return render_template("index.html", current_user=current_user, timestamp=timestamp)
+            return redirect(url_for('portal'))
         return render_template("index.html")
+    
+    @app.route("/portal")
+    @login_required
+    def portal():
+        topics = [topic.value for topic in Topic]
+        return render_template('list-view.html', current_user=current_user, topics=topics)
 
     return app

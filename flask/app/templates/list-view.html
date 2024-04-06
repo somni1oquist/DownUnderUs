@@ -1,13 +1,25 @@
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% extends 'base.html' %}
 
+{% block container %}
 <div class="container">
   <div class="row">
     <div class="topicContainer">
-      <div id="topicBar" class="list-group"></div>
+      <div id="topicBar" class="list-group">
+        {% for topic in topics %}
+        <a href="#" class="list-group-item list-group-item-action">
+          {{ topic }}
+        </a>
+        {% endfor %}
+      </div>
     </div>
     <div class="postContainer">
       <div id="postList"></div>
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block script %}
+  {{ super() }}
+  <script type="module" src="{{ url_for('static', filename='js/list-view.js') }}"></script>
+{% endblock %}

@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
 {% block container %}
 <div class="auth-background">
   <div class="container">
@@ -33,4 +39,9 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block script %}
+  {{ super() }}
+  <script type="module" src="{{ url_for('static', filename='js/auth/main.js') }}"></script>
 {% endblock %}
