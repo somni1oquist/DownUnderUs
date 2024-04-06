@@ -6,8 +6,6 @@ from wtforms.validators import Length, InputRequired
 from app.models import Post, Reply, User, Vote
 from app.enums import Topic, ResponseMessage
 from app import db
-import pytz
-from datetime import datetime
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
@@ -24,12 +22,9 @@ def topics():
     return jsonify([topic.value for topic in Topic])
 
 # Create post
-@bp.route('/create', methods=['GET', 'POST'])
+@bp.route('/create', methods=['POST'])
 @login_required
-def create_post():
-    if request.method == 'GET':
-        return render_template('post/create-post.html', current_user=current_user)
-
+def create():
     form = QuestForm(request.form)
     if form.validate():
         title = form.title.data
@@ -48,8 +43,8 @@ def create_post():
 #search part
 
 # search view html
-@bp.route('/search_view')
-def show_search_view():
+@bp.route('/search-page', methods=['GET'])
+def search_page():
     return render_template('./post/search.html')
 
 #validate the saerch input 
@@ -92,8 +87,8 @@ def search():
                 "topic": post.topic,
                 "user_id": post.user_id,
                 "views": post.views,
-                "timestamp": post.timestamp,
-                "username": User.query.get(post.user_id).username
+                "timestamp": post.real_timestamp,
+                "username": post.user.username
             }
             posts.append(post_dict)
         return jsonify(posts)
@@ -108,12 +103,11 @@ def load_post(id):
     post = Post.query.get(id)
     if not post:
         return None
-    post.user = User.query.get(post.user_id)
     # Sanitise body to prevent XSS
     post.body = escape(post.body)
     for reply in post.replies:
-        reply.user = User.query.get(reply.user_id)
         reply.body = escape(reply.body)
+
     return post
 
 def check_author(subject, user):
@@ -265,16 +259,12 @@ def vote(post_id, reply_id):
         db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
         db.session.commit()
 
-    return jsonify(ResponseMessage.VOTED), 200
+    return load_message(ResponseMessage.VOTED), 200
 
-#posts filter in homepage
+# Posts filter in portal
 @login_required
-@bp.route('/topics/<topic>', methods=['GET'])
+@bp.route('/topics/<string:topic>', methods=['GET'])
 def posts_by_topic(topic):
-    zone = 'Australia/Perth'
-    format = '%Y-%m-%d %H:%M:%S %Z'
-    timezone = pytz.timezone(zone)
-    current_time = datetime.now()
     posts = Post.query.filter_by(topic=topic).order_by(Post.timestamp.desc()).all()
     posts_data = [{
         'id': post.id,
@@ -283,9 +273,9 @@ def posts_by_topic(topic):
         'topic': post.topic,
         'user_id': post.user_id,
         'views': post.views,
-        'timestamp': timezone.localize(current_time).strftime(format),
-        'username': User.query.get(post.user_id).username
+        'timestamp': post.real_timestamp,
+        'username': post.user.username
     } for post in posts]
 
-    return jsonify(posts_data)
+    return jsonify(posts_data), 200
 

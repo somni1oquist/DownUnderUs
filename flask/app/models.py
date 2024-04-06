@@ -1,8 +1,10 @@
+import pytz
 from sqlalchemy import UniqueConstraint, func, event
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import db, loginManager
 from sqlalchemy.orm.attributes import get_history
+from app.tools import convert_timezone
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -35,6 +37,30 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     replies = db.relationship('Reply', backref='post', lazy='dynamic', cascade='all, delete-orphan')
     topic = db.Column(db.String(100), nullable=False)
+
+    @property
+    def user(self):
+        return User.query.get(self.user_id)
+
+    @property
+    def real_timestamp(self):
+        # return self._real_timestamp(self.user.timezone if self.user.timezone else None)
+        return self._real_timestamp(None)
+    
+    def _real_timestamp(self, timezone):
+        if not self.timestamp:
+            return None
+        return convert_timezone(self.timestamp, timezone)
+    
+    @property
+    def real_last_edited(self):
+        # return self._real_last_edited(self.user.timezone if self.user.timezone else None)
+        return self._real_last_edited(None)
+    
+    def _real_last_edited(self, timezone):
+        if not self.last_edited:
+            return None
+        return convert_timezone(self.last_edited, timezone)
     
     def __repr__(self):
         return '<Post {}>'.format(self.body)
@@ -47,9 +73,32 @@ class Reply(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref='replies')
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
     accepted = db.Column(db.Boolean, default=False)
+
+    @property
+    def user(self):
+        return User.query.get(self.user_id)
+
+    @property
+    def real_timestamp(self):
+        # return self._real_timestamp(self.user.timezone if self.user.timezone else None)
+        return self._real_timestamp(None)
+    
+    def _real_timestamp(self, timezone):
+        if not self.timestamp:
+            return None
+        return convert_timezone(self.timestamp, timezone)
+    
+    @property
+    def real_last_edited(self):
+        # return self._real_last_edited(self.user.timezone if self.user.timezone else None)
+        return self._real_last_edited(None)
+    
+    def _real_last_edited(self, timezone):
+        if not self.last_edited:
+            return None
+        return convert_timezone(self.last_edited, timezone)
     
     def __repr__(self):
         return '<Reply {}>'.format(self.body)

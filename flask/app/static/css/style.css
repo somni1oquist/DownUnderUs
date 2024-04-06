@@ -1,118 +1,11 @@
-/* Full Page Background Setup */
-.auth-background {
-    height: 100vh;
-    background-image: url('/static/images/background.jpg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Adjustments for better visual integration */
-.container {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 5px;
-    padding: 20px;
-}
-
-/* Adjustments for the login box */
-.auth-box,
-.new-account-box {
-    border: 1px solid #ffffff;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #e3f1f3;
-}
-
-/* Style for the sign in button */
-.btn-primary {
-    background-color: #191717;
-    border-color: #191717;
-    color: #ffffff;
-}
-
-/* Style for the sign in button when active/clicked */
-.btn-primary:active {
-    background-color: #191717;
-    border-color: #191717;
-    color: #ffffff;
-}
-
-/* Adjust the focus and hover states */
-.btn-primary:focus,
-.btn-primary:hover {
-    background-color: #333333;
-    border-color: #333333;
-    color: #ffffff;
-}
-
-/* Style for input boxes when they are focused */
-.form-control:focus {
-    border-color: #000000;
-}
-
-/* Control the logo size */
-.login-logo {
-    width: 120px;
-    height: auto;
-    margin-bottom: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Adjusting label styles */
-.form-label {
-    text-align: left;
-    color: #333333;
-    display: block;
-    margin-bottom: .5rem;
-}
-
-/* Styling for error flash messages */
-.alert-custom-error {
-    background-color: #f8d7da;
-    border-color: #d9534f;
-    color: #d9534f;
-}
-/* Post detail */
-.post-container {
-    padding: 2rem;
-}
-
-.post-container h1 {
-    text-align: center;
-}
-
-.post-container .row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-block: 1rem;
-}
-
-.post-container .card {
-    min-height: 170px;
-}
-
-.action-panel {
-    text-align: center;
-}
-
-.action-panel a {
-    margin-top: .5rem;
-    margin-bottom: .5rem;
-}
-
 /* Create post Modal */
 .post-body {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 20px;
-    border: 1px solid #e6e6e6;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 
 }
 
@@ -120,76 +13,81 @@
 
 /* search result */
 #search-result-container {
-    margin: 40px;
-    border: 2px solid #d3f0e3;
-    border-radius: 10px;
-    font-size: 15px;
+  margin: 40px;
+  border: 2px solid #d3f0e3;
+  border-radius: 10px;
+  font-size: 15px;
 }
 
 
 .search-result-box {
-    margin: 40px;
-    padding: 20px;
-    border: 1px solid #fff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 12px 0px #89adf99c;
+  margin: 40px;
+  padding: 20px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 12px 0px #89adf99c;
 }
 
 
 .search-author-info {
-    margin: 5px;
+  margin: 5px;
 }
 
 .search-author-info img {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
 }
 
 .search-author-info span {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .search-footer span {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 /* post part */
 div.topicContainer {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 23%;
-    background-color: #f1f1f1;
-    position: fixed;
-    top: 180px;
-    left: 0;
-    height: auto;
-    overflow: auto;
-}
-div.postContainer{
-    list-style-type: none;
-    top:200px;
-    margin-left: 25%;
-    margin-top: 120px;
-    height: auto;
-    overflow: auto;
-}
-    /*nav style */
-ul.topnav{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color:#d3f0e3;
-    position: initial;
-    top:0;
-    height: 50px;
-    width: 100%;
-    z-index: 1000;
+  list-style-type: none;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 23%;
+  background-color: #f1f1f1;
+  position: fixed;
+  top: 10%;
+  left: 0;
+  height: auto;
+  overflow: auto;
 }
 
-ul.topnav li {float: left;}
+div.postContainer {
+  list-style-type: none;
+  top: 200px;
+  margin-left: 25%;
+  margin-top: 120px;
+  height: auto;
+  overflow: auto;
+}
+
+/*nav style */
+ul.topnav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #d3f0e3;
+  position: initial;
+  top: 0;
+  height: 50px;
+  width: 100%;
+  z-index: 1000;
+}
+
+ul.topnav li {
+  float: left;
+}
 
 ul.topnav li a {
   display: block;
@@ -199,11 +97,18 @@ ul.topnav li a {
   text-decoration: none;
 }
 
-ul.topnav li a:hover:not(.active) {background-color:#8bc4bf;}
+ul.topnav li a:hover:not(.active) {
+  background-color: #8bc4bf;
+}
 
-ul.topnav li.right {float: right;}
+ul.topnav li.right {
+  float: right;
+}
 
 @media screen and (max-width: 600px) {
+
   ul.topnav li.right,
-  ul.topnav li {float: none;}
+  ul.topnav li {
+    float: none;
+  }
 }
