@@ -88,7 +88,7 @@ def search():
                 "user_id": post.user_id,
                 "views": post.views,
                 "timestamp": post.real_timestamp,
-                "username": User.query.get(post.user_id).username
+                "username": post.user.username
             }
             posts.append(post_dict)
         return jsonify(posts)
@@ -103,12 +103,11 @@ def load_post(id):
     post = Post.query.get(id)
     if not post:
         return None
-    post.user = User.query.get(post.user_id)
     # Sanitise body to prevent XSS
     post.body = escape(post.body)
     for reply in post.replies:
-        reply.user = User.query.get(reply.user_id)
         reply.body = escape(reply.body)
+
     return post
 
 def check_author(subject, user):
@@ -275,7 +274,7 @@ def posts_by_topic(topic):
         'user_id': post.user_id,
         'views': post.views,
         'timestamp': post.real_timestamp,
-        'username': User.query.get(post.user_id).username
+        'username': post.user.username
     } for post in posts]
 
     return jsonify(posts_data), 200
