@@ -1,4 +1,24 @@
 {% extends 'base.html' %}
+
 {% block container %}
-    {% include 'list-view.html' %}
+
+{% if current_user.is_authenticated %}
+
+  {% include 'list-view.html' %}
+
+{% else %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="text-center">Welcome to the Down Under Us</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <p class="text-center">Please <a href="{{ url_for('auth.signin') }}">sign in</a> or <a href="{{ url_for('auth.signup') }}">sign up</a> to continue.</p>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
 {% endblock %}
