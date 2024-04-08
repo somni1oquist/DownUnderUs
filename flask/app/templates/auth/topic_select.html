@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width">
-    <title>Select Topics</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
+{% extends 'base.html' %}
+{% block container %}
 <div class="container mt-5">
     <h2 class="mb-4">Select Your Interested Topics</h2>
     <form method="POST" action="{{ url_for('auth.topic_select') }}">
@@ -23,5 +16,4 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-</body>
-</html>
+{% endblock %}

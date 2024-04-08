@@ -1,8 +1,8 @@
 """add interested topics
 
-Revision ID: e8685246c984
+Revision ID: 73aeb5b5a731
 Revises: b0ea06623b67
-Create Date: 2024-04-08 15:11:41.857641
+Create Date: 2024-04-08 16:00:14.594943
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e8685246c984'
+revision = '73aeb5b5a731'
 down_revision = 'b0ea06623b67'
 branch_labels = None
 depends_on = None
