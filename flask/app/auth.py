@@ -69,7 +69,7 @@ def signout():
 @login_required
 def topic_select():
     if request.method == 'POST':
-        selected_topics = request.form.getlist('topics')  # 获取用户选择的标签
+        selected_topics = request.form.getlist('topics')
         if 2 <= len(selected_topics) <= 6:
             current_user.interested_topics = ','.join(selected_topics)
             db.session.commit()
