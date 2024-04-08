@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from markupsafe import escape
 from wtforms import Form, StringField
 from wtforms.validators import Length, InputRequired
-from app.models import Post, Reply, User, Vote
+from app.models import Post, Reply, Vote
 from app.enums import Topic, ResponseMessage
 from app import db
 
@@ -103,11 +103,6 @@ def load_post(id):
     post = Post.query.get(id)
     if not post:
         return None
-    # Sanitise body to prevent XSS
-    post.body = escape(post.body)
-    for reply in post.replies:
-        reply.body = escape(reply.body)
-
     return post
 
 def check_author(subject, user):
@@ -143,8 +138,8 @@ def edit(post_id):
     elif not check_author(post, current_user):
         return load_message(ResponseMessage.UNAUTHORISED), 403
     
-    post.title = data.get('title')
-    post.body = data.get('body')
+    post.title = escape(data.get('title'))
+    post.body = escape(data.get('body'))
     db.session.commit()
 
     return jsonify(ResponseMessage.EDITED.value), 200
@@ -176,7 +171,25 @@ def reply(post_id):
         return load_message(ResponseMessage.NOT_FOUND), 404
 
     body = data.get('body')
-    reply = Reply(body=body, post_id=post_id, user_id=current_user.id)
+    reply = Reply(body=escape(body), post_id=post_id, user_id=current_user.id)
+    db.session.add(reply)
+    db.session.commit()
+
+    return load_message(ResponseMessage.REPLY_ADDED), 201
+
+# Reply to a reply
+@login_required
+@bp.route('/<int:post_id>/reply/<int:reply_id>', methods=['POST'])
+def reply_to_reply(post_id, reply_id):
+    data = request.get_json()
+    post = Post.query.get(post_id)
+    reply = Reply.query.get(reply_id)
+
+    if not post or not reply:
+        return load_message(ResponseMessage.NOT_FOUND), 404
+
+    body = data.get('body')
+    reply = Reply(body=escape(body), user_id=current_user.id, parent_id=reply_id)
     db.session.add(reply)
     db.session.commit()
 
@@ -212,7 +225,7 @@ def edit_reply(post_id, reply_id):
     elif not check_author(reply, current_user):
         return load_message(ResponseMessage.UNAUTHORISED), 403
 
-    reply.body = data.get('body')
+    reply.body = escape(data.get('body'))
     db.session.commit()
 
     return load_message(ResponseMessage.REPLY_EDITED), 200

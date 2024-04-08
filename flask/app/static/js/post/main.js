@@ -37,6 +37,15 @@ $(() => {
     const $target = $(this).closest('div[id^="reply"]');
 
     switch (action) {
+      case Action.MODAL:
+        const $modal = $('#replyModal');
+        const username = $(this).data('reply-username');
+        // Set the modal title
+        $modal.find('.modal-title').text(`Reply to ${username}`);
+        // Set the url to the button
+        $modal.find('button:not([data-bs-dismiss])').data('url', url);
+        $modal.modal('show');
+        break;
       case Action.REPLY: // Reply to post 
         confirm('Are you sure to reply?') && reply($target, url);
         break;
@@ -66,5 +75,13 @@ $(() => {
         vote(url);
         break;
     }
+  });
+
+  // Event listener for reply modal
+  $('#replyModal button:not([data-bs-dismiss])').on('click', function (e) {
+    e.preventDefault(); // Prevent default action
+    const url = $(this).data('url');
+    const $target = $('#replyModal')
+    reply($target, url);
   });
 })

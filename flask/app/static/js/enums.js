@@ -7,7 +7,8 @@ const Action = {
   DELETE: 'delete',
   REPLY: 'reply',
   UPVOTE: 'upvote',
-  DOWNVOTE: 'downvote'
+  DOWNVOTE: 'downvote',
+  MODAL: 'modal'
 };
 
 const BsType = {
