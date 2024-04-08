@@ -1,4 +1,3 @@
-import pytz
 from sqlalchemy import UniqueConstraint, func, event
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -64,6 +63,12 @@ class Post(db.Model):
     
     def __repr__(self):
         return '<Post {}>'.format(self.body)
+    
+@event.listens_for(Post, 'before_update')
+def update_post(mapper, connection, target):
+    if get_history(target, 'body').has_changes() or\
+        get_history(target, 'title').has_changes():
+        target.last_edited = func.now()
 
 class Reply(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -73,8 +78,10 @@ class Reply(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=True)
     accepted = db.Column(db.Boolean, default=False)
+    parent_id = db.Column(db.Integer, db.ForeignKey('reply.id', name='fk_reply_parent_id'))
+    replies = db.relationship('Reply', backref=db.backref('parent', remote_side=[id]), lazy='dynamic', cascade='all, delete-orphan')
 
     @property
     def user(self):
@@ -102,12 +109,6 @@ class Reply(db.Model):
     
     def __repr__(self):
         return '<Reply {}>'.format(self.body)
-    
-@event.listens_for(Post, 'before_update')
-def update_post(mapper, connection, target):
-    if get_history(target, 'body').has_changes() or\
-        get_history(target, 'title').has_changes():
-        target.last_edited = func.now()
 
 @event.listens_for(Reply, 'before_update')
 def update_reply(mapper, connection, target):
