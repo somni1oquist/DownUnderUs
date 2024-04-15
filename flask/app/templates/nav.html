@@ -1,8 +1,21 @@
 <nav>
   <ul class="topnav">
     <li><a href="/">Home</a></li>
-    <li><a href="{{ url_for('post.search_page') }}">Posts</a></li>
-    <li><a href="#createModal" id="create" data-bs-toggle="modal">I have a question</a></li>
+    <li><a href="#createModal" id="create" data-bs-toggle="modal">Create post</a></li>
+    <li class="center">
+      <form  id="nav-search-form" action="{{ url_for('index.search') }}" method="GET">
+
+        <input id="search-input" type="text" name="query">
+        
+        <button id="search-btn" type="submit">
+          <i class="fa fa-search">
+          </i>
+        </button>
+          <!-- div for topic errors -->
+        <div id="input-error"; class="invalid-feedback"> Search keyword need to be at least 3 characters!!</div>
+
+      </form>
+    </li>
     {% if not current_user.is_authenticated %}
     <li class="right">
       <a href="{{ url_for('auth.signin') }}">
@@ -25,4 +38,5 @@
     </li>
     {% endif %}
   </ul>
+  
 </nav>
