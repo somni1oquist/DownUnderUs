@@ -46,6 +46,14 @@
 .search-footer span {
   margin-right: 20px;
 }
+#search-item-container {
+  display: flex; 
+  justify-content: center;
+}
+
+#search-item-container label{
+  margin: 20px;
+}
 
 /* post part */
 div.topicContainer {
@@ -111,4 +119,11 @@ ul.topnav li.right {
   ul.topnav li {
     float: none;
   }
+}
+
+ul.topnav li.center {
+  padding: 10px;
+  position: absolute;   
+  left: 50%;           
+  transform: translateX(-50%); 
 }

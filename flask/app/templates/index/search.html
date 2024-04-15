@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block container %}
+  <div  id="search-item-container" >
+    <!-- filter form -->
+    <form  id="search-filter-form" method="GET" action="{{ url_for('index.filter_search_result') }}">
+        <label for="topic">Filter:</label>
+        <!-- filter -->
+        <select name="topic" id="search-filter">
+                <!-- dropdwn items will be added here -->
+        </select>
+    </form>
+
+      <!-- sort form-->
+    <form id=search-sort-form method="GET" action="{{ url_for('index.sort_search_result') }}">
+      <label for="sort">Sort by:</label>
+      <select name="sort" id="search-sort">
+          <option value="timestamp_desc">Latest</option>
+          <option value="views_desc">Most Popular</option>
+      </select>
+    </form>
+
+  </div>
+    
+  <div  id="search-result-container" >
+    {% if posts %}
+    {% for post in posts %}
+      <div class="search-result-box">
+        <h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
+        <div class="search-author-info">
+          <img src="../../static/images/icons8-bmo-48.png" alt="author photo">
+          <span>{{ post.username }}</span>
+        </div>
+        <div class="search-post-body">
+          <p>{{ post.body }}</p>
+        </div>
+        <div class="search-footer">
+          <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
+          <span>
+            <i class="fa-solid fa-eye"></i> {{ post.views }}
+          </span>
+        </div>
+      </div>
+    {% endfor %}
+    {% else %}
+    <p> No results found </p>
+    {% endif %}
+  </div>
+  
+  <script type="module" src="{{ url_for('static', filename='js/index/search.js') }}"></script>
+{% endblock %}

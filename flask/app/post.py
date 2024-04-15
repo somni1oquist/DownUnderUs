@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request, jsonify, request
+from flask import Blueprint, jsonify, render_template, request, jsonify
 from flask_login import current_user, login_required
 from markupsafe import escape
 from wtforms import Form, StringField
@@ -40,62 +40,7 @@ def create():
         return jsonify({"status":"error", "message": "Validation failed", "errors": errors}), 400
 
 
-#search part
 
-# search view html
-@bp.route('/search-page', methods=['GET'])
-def search_page():
-    return render_template('./post/search.html')
-
-#validate the saerch input 
-
-# set route
-@bp.route('/search', methods=['GET'])
-
-def search():
-    query = request.args.get('q')
-    sort_by = request.args.get('sort')
-    filter_by = request.args.get('topic')
-    if query and len(query) >= 3:
-        # Search for posts title and body
-        query_filter =Post.query.filter(
-            db.or_(
-           #ilike is case insensitive
-            Post.body.ilike(f"%{query}%"),
-            Post.title.ilike(f"%{query}%")
-            )
-        )
-        
-        # filter by topic
-        if filter_by:
-            query_filter = query_filter.filter(Post.topic == filter_by)
-        
-        # sort the results by views
-        if sort_by == "views_desc":
-            results = query_filter.order_by(Post.views.desc()).all()
-        #  sort_by == "timestamp_desc" as default
-        else:
-            results = query_filter.order_by(Post.timestamp.desc()).all()
-
-        # return the results
-        posts = []
-        for post in results:
-            post_dict ={
-                "id": post.id,
-                "title": post.title,
-                "body": post.body,
-                "topic": post.topic,
-                "user_id": post.user_id,
-                "views": post.views,
-                "timestamp": post.real_timestamp,
-                "username": post.user.username
-            }
-            posts.append(post_dict)
-        return jsonify(posts)
-    elif len(query) < 3 :
-        return jsonify({"status":"error", "message": "Query too short"}), 400
-    else:
-        return jsonify({"status": "error", "message": "Missing query parameter"}), 400    
 
 # Get post with replies
 def load_post(id):

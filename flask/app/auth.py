@@ -73,7 +73,7 @@ def topic_select():
         if 2 <= len(selected_topics) <= 6:
             current_user.interested_topics = ','.join(selected_topics)
             db.session.commit()
-            return redirect(url_for('portal'))
+            return redirect(url_for('index.index'))
         else:
             flash('Please select at least 2 topics, but no more than 6.')
 

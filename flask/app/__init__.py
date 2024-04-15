@@ -41,9 +41,11 @@ def create_app(test_config=None):
     from . import auth
     from . import profile
     from . import post
+    from . import index
     app.register_blueprint(auth.bp)
     app.register_blueprint(profile.bp)
     app.register_blueprint(post.bp)
+    app.register_blueprint(index.bp)
 
     # If user is not authenticated, redirect to signin page
     @app.errorhandler(Unauthorized)
@@ -51,16 +53,6 @@ def create_app(test_config=None):
         return redirect(url_for('auth.signin'))
 
 
-    @app.route("/")
-    def index():
-        if current_user.is_authenticated:
-            return redirect(url_for('portal'))
-        return render_template("index.html")
-    
-    @app.route("/portal")
-    @login_required
-    def portal():
-        topics = [topic.value for topic in Topic]
-        return render_template('list-view.html', current_user=current_user, topics=topics)
+
 
     return app
