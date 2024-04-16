@@ -1,37 +1,22 @@
 import { getTopics } from "../utils.js";
 
-// auto submit the search form when the user selects a filter or sort option
-document.addEventListener('DOMContentLoaded', function () {
-
-	const filterSelect = document.getElementById('search-filter');
-	const sortSelect = document.getElementById('search-sort');
-
-
-	if (filterSelect) {
-		getTopics().then(topics => {
-			// create a default option
-			const defaultOption = document.createElement('option');
-			defaultOption.value = '';
-			defaultOption.textContent = 'All Topics';
-			filterSelect.appendChild(defaultOption);
-			topics.forEach(topic => {
-				const option = document.createElement('option');
-				option.value = topic;
-				option.textContent = topic;
-				filterSelect.appendChild(option);
-			});
+$(() => {
+	getTopics().then((topics) => {
+		const $filterMenu = $('ul#filter-menu');
+		topics.forEach((topic) => {
+			const input = $('<input>').addClass('form-check-input')
+				.attr('type', 'checkbox')
+				.attr('role', 'switch')
+				.attr('name', 'topics')
+				.attr('value', topic)
+				.attr('checked', 'checked');
+			const label = $('<label>').addClass('form-check-label').attr('for', topic).text(topic);
+			const switchDiv = $('<div>').addClass('form-check form-switch');
+			switchDiv.append(input);
+			switchDiv.append(label);
+			const listItem = $('<li>').addClass('dropdown-item');
+			listItem.append(switchDiv);
+			$filterMenu.append(listItem);
 		});
-		
-		filterSelect.addEventListener('change', function () {
-			this.form.submit();
-		});
-	}
-
-	if (sortSelect) {
-		sortSelect.addEventListener('change', function () {
-			this.form.submit();
-		});
-	}
-	
-	
-})
+	});
+});
