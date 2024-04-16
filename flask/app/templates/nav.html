@@ -2,44 +2,49 @@
   <ul class="topnav">
     <li><a href="/">Home</a></li>
     <li><a href="#createModal" id="create" data-bs-toggle="modal">Create post</a></li>
+    <!-- Search bar -->
     <li class="center">
       <div class="input-group">
+        <!-- Search button -->
         <button class="btn" type="button" id="search-button">
           <i class="fa-solid fa-search"></i>
         </button>
+        <!-- Search input -->
         <input type="text" class="form-control" id="search-body" placeholder="Enter keyword">
+        <!-- Filter button -->
         <button type="button" class="btn" id="search-filter" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fa-solid fa-filter"></i>
         </button>
         <ul id="filter-menu" class="dropdown-menu">
           <li class="dropdown-item"></li>
         </ul>
-        <button type="button" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+        <!-- Sort button -->
+        <button type="button" id="search-sort" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fa-solid fa-arrow-down-wide-short"></i>
         </button>
         <ul class="dropdown-menu">
           <li class="dropdown-item">
             <input id="timestamp_desc" name="sort-by" type="radio" class="btn-check" value="timestamp_desc" autocomplete="off" checked>
             <label class="btn" for="timestamp_desc">
-              By time desc
+              New to Old
             </label>
           </li>
           <li class="dropdown-item">
             <input id="timestamp_asc" name="sort-by" type="radio" class="btn-check" value="timestamp_asc" autocomplete="off">
             <label class="btn" for="timestamp_asc">
-              By time asc
+              Old to New
             </label>
           </li>
           <li class="dropdown-item">
             <input id="views_desc" name="sort-by" type="radio" class="btn-check" value="views_desc" autocomplete="off">
             <label class="btn" for="views_desc">
-              By views desc
+              Most Views
             </label>
           </li>
           <li class="dropdown-item">
             <input id="views_asc" name="sort-by" type="radio" class="btn-check" value="views_asc" autocomplete="off">
             <label class="btn" for="views_asc">
-              By views asc
+              Least Views
             </label>
           </li>
         </ul>
