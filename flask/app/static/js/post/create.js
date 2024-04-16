@@ -59,14 +59,14 @@ $(document).ready(function () {
           });
       },
       error: (err) => {
-        displayFormErrors(err.responseJSON.errors);
+        displayFormErrors(form, err.responseJSON.errors);
         makeToast(`Create post failed: ${err.responseJSON.message}`, BsType.DANGER, false);
       }
     });
   };
 });
 // display form errors function
-function displayFormErrors(errors) {
+function displayFormErrors(form, errors) {
   var errorDivs = document.querySelectorAll('.invalid-feedback');
   errorDivs.forEach(function (errorDiv) {
     errorDiv.style.display = 'none';
