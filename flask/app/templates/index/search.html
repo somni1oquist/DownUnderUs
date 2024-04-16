@@ -2,7 +2,7 @@
 {% block container %}
 <div id="search-item-container">
   <!-- filter form -->
-  <form id="search-filter-form" method="GET" action="{{ url_for('index.filter_search_result') }}">
+  <form id="search-filter-form" method="GET" action="{{ url_for('index.search') }}">
     <label for="topic">Filter:</label>
     <!-- filter -->
     <select name="topic" id="search-filter">
@@ -11,7 +11,7 @@
   </form>
 
   <!-- sort form-->
-  <form id=search-sort-form method="GET" action="{{ url_for('index.sort_search_result') }}">
+  <form id=search-sort-form method="GET" action="{{ url_for('index.search') }}">
     <label for="sort">Sort by:</label>
     <select name="sort" id="search-sort">
       <option value="timestamp_desc">Latest</option>
@@ -45,8 +45,4 @@
   <p> No results found </p>
   {% endif %}
 </div>
-{% endblock %}
-{% block script %}
-{{ super() }}
-<script type="module" src="{{ url_for('static', filename='js/index/search.js') }}"></script>
 {% endblock %}
