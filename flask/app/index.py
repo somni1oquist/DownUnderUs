@@ -13,10 +13,11 @@ bp = Blueprint('index', __name__, url_prefix='/')
 @bp.route('/search')
 def search():
     query = request.args.get('query')
-    sort_by = request.args.get('sort')
-    filter_by = request.args.get('topic')
+    sort_by = request.args.get('sortBy')
+    filter_by = request.args.get('topics')
     # Search for posts title and body
     posts = search_posts(content=query, topics=filter_by, sort_by=sort_by)
+    
     return render_template('./index/search.html', posts=posts)
 
 @bp.route("/")
