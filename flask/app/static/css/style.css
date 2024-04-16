@@ -46,14 +46,6 @@
 .search-footer span {
   margin-right: 20px;
 }
-#search-item-container {
-  display: flex; 
-  justify-content: center;
-}
-
-#search-item-container label{
-  margin: 20px;
-}
 
 /* post part */
 div.topicContainer {
