@@ -1,3 +1,5 @@
+import { getTopics } from "../utils.js";
+
 // auto submit the search form when the user selects a filter or sort option
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -6,9 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 	if (filterSelect) {
-		fetch('/post/topics')
-		.then(response => response.json())
-		.then(topics => {
+		getTopics().then(topics => {
 			// create a default option
 			const defaultOption = document.createElement('option');
 			defaultOption.value = '';
@@ -20,9 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
 				option.textContent = topic;
 				filterSelect.appendChild(option);
 			});
-		})
-		.catch(error => console.error('Error fetching topic list', error));
-
+		});
+		
 		filterSelect.addEventListener('change', function () {
 			this.form.submit();
 		});
