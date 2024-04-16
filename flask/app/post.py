@@ -20,7 +20,7 @@ class QuestForm(Form):
 # Get topic list
 @bp.route('/topics', methods=['GET'])
 def topics():
-    return jsonify([topic.value for topic in Topic])
+    return jsonify({'topics': [topic.value for topic in Topic]})
 
 # Create post
 @bp.route('/create', methods=['POST'])

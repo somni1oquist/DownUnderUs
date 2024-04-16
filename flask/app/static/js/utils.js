@@ -51,4 +51,35 @@ const makeToast = (message, type, freeze, duration) => {
   });
 };
 
-export { makeToast }
+/**
+ * Get topics from the server
+ * @param {boolean} refresh whether to refresh the topics, by default false
+ */
+const getTopics = (refresh = false) => {
+  return new Promise((resolve, reject) => {
+    const topics = sessionStorage.getItem('topics');
+    
+    if (topics && !refresh) {
+      // If topics are available in sessionStorage, resolve the Promise with them
+      resolve(JSON.parse(topics));
+    } else {
+      const url = '/post/topics';
+      $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(response) {
+          const topics = response.topics;
+          sessionStorage.setItem('topics', JSON.stringify(topics));
+          // Resolve the Promise with the fetched topics
+          resolve(topics);
+        },
+        error: function(err) {
+          // If there's an error, reject the Promise with the error message
+          reject(err.responseJSON.message);
+        }
+      });
+    }
+  });
+};
+
+export { makeToast, getTopics }

@@ -1,15 +1,11 @@
 import { BsType } from "../enums.js";
-import { makeToast } from "../utils.js";
+import { getTopics, makeToast } from "../utils.js";
 // for create post feature
 // This script is used to generate the drawdown list of topic
 $(document).ready(function () {
   //get topic list
-  $.ajax({
-    type: 'GET',
-    url: '/post/topics',
-    success: (res) => {
-      const menu = document.getElementById('topic-list');
-      const topics = res;
+  getTopics().then(topics => {
+    const menu = document.getElementById('topic-list');
       topics.forEach(topic => {
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -24,10 +20,9 @@ $(document).ready(function () {
         li.appendChild(a);
         menu.appendChild(li);
       });
-    },
-    error: (err) => {
-      makeToast(`Failed to get topics: ${err.responseJSON.message}`, BsType.DANGER, false);
-    }
+  })
+  .catch(error => {
+    makeToast(`Failed to get topics: ${error.message}`, BsType.DANGER, false);
   });
 
   // Handle the form submission for creating a new post
