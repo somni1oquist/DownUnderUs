@@ -1,10 +1,12 @@
 import { getTopics } from "../utils.js";
 
+let changed = false; // Flag to check if input is changed
 $(() => {
-	const params = new URLSearchParams(window.location.search);
 	let timer;
+	const $filterMenu = $('ul#filter-menu');
+	// Get topics
 	getTopics().then((topics) => {
-		const $filterMenu = $('ul#filter-menu');
+		// Add topics to filter menu
 		topics.forEach((topic) => {
 			const input = $('<input>').addClass('form-check-input')
 				.attr('type', 'checkbox')
@@ -21,28 +23,61 @@ $(() => {
 			$filterMenu.append(listItem);
 		});
 
-		// Get search parameters
-		getParams();
+		// Reset input by params
+		resetInputByParams();
 
-		// Set event listeners after topics are loaded
-		$('input[name=topics], input[name=sort-by]').on('change', function (e) {
-			search(params);
+		// Event listener for topics
+		$('input[name=topics]').on('change', function (e) {
+			changed = true;
+		});
+		// Event listener for sort by
+		$('input[name=sort-by]').on('change', function (e) {
+			search(); // Search when sort by is changed
 		});
 	});
+
+	// Observe dropdowns for changes
+	observe($('#search-filter')[0]);
+	observe($('#search-sort')[0]);
+
 	// Search input
 	$('#search-body').on('keyup', function (e) {
 		clearTimeout(timer);
+		// Set timeout to prevent multiple requests
 		timer = setTimeout(() => {
-			search(params);
+			search();
 		}, 1000);
 	});
+
 	// Search button
 	$('#search-button').on('click', function (e) {
-		search(params);
+		search();
 	});
+
 });
 
-const setParams = (params) => {
+const observe = (target) => {
+	const observer = new MutationObserver((mutationList, observer) => {
+		for (let mutation of mutationList) {
+			// Check if the dropdown is changed
+			if (mutation.type === 'attributes' && mutation.attributeName === 'aria-expanded') {
+				// Check if the dropdown is closed and selection changed
+				if (mutation.target.getAttribute('aria-expanded') === 'false' && changed) {
+					search();
+					changed = false; // Reset status
+				}
+			}
+		}
+	})
+	const opts = {
+		attributes: true, // Listen for attribute changes
+		attributeFilter: ['aria-expanded'] // Specify the attribute to observe
+	};
+	observer.observe(target, opts);
+};
+
+const setParams = () => {
+	const params = new URLSearchParams(window.location.search);
 	const query = $('#search-body').val();
 	const topics = $('input[name=topics]:checked').map(function () {
 		return $(this).val();
@@ -52,14 +87,17 @@ const setParams = (params) => {
 	params.set('query', query);
 	params.set('topics', topics);
 	params.set('sortBy', sortBy);
+
+	return params;
 };
 
-const getParams = () => {
+const resetInputByParams = () => {
 	const params = new URLSearchParams(window.location.search);
 	const query = params.get('query');
 	const topics = params.get('topics') ? params.get('topics').split(',') : [];
 	const sortBy = params.get('sortBy');
 
+	// Set input by params
 	$('#search-body').val(query);
 
 	if (topics.length) {
@@ -79,7 +117,7 @@ const getParams = () => {
 	}
 };
 
-const search = (params) => {
-	setParams(params);
+const search = () => {
+	const params = setParams();
 	window.location.href = '/search?' + params.toString()
 };
