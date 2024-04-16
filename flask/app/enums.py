@@ -18,9 +18,15 @@ class Topic(Enum):
     UTILITIES = 'Utilities'
     RECYCLING = 'Recycling'
 
+# Response status
+class ResponseStatus(str, Enum):
+    SUCCESS = 'success'
+    ERROR = 'error'
+
 
 # Reponse messages
 class ResponseMessage(str, Enum):
+    # Post
     NOT_FOUND = 'Resource not found'
     UNAUTHORISED = 'Unauthorised'
     CREATED = 'Created successfully'
@@ -33,3 +39,6 @@ class ResponseMessage(str, Enum):
     VOTED = 'Vote cast successfully'
     VOTE_UPDATED = 'Vote updated successfully'
     VOTE_REVOKED = 'Vote revoked successfully'
+    # Topic select
+    TOPIC_SELECTED = 'Topic selected successfully'
+    TOPIC_RANGE = 'Please select at least 2 topics, but no more than 6.'

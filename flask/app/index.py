@@ -82,34 +82,35 @@ def sort_search_result():
 
 
 
-@bp.route("/", methods=['GET', 'POST'])
+@bp.route("/")
 def index():
     if current_user.is_authenticated:
     
-        data =User.query.filter(User.username == current_user.username).first()
-        if data:
-            default_topics = data.interested_topics.split(',')
+        data = User.query.filter(User.username == current_user.username).first()
+        # Force user to select interested topics if None
+        if (data.interested_topics is None):
+            return redirect(url_for('auth.topic_select'))
+        
+        default_topics = data.interested_topics.split(',')
 
-            # dynamic construction features
-            default_results = Post.query.filter(
-                Post.topic.in_(default_topics)
-            ).order_by(Post.timestamp.desc()).all()
-            posts = []
-            for post in default_results:
-                post_dict ={
-                    "id": post.id,
-                    "title": post.title,
-                    "body": post.body,
-                    "topic": post.topic,
-                    "user_id": post.user_id,
-                    "views": post.views,
-                    "timestamp": post.real_timestamp,
-                    "username": post.user.username
-                }
-                posts.append(post_dict)
-            return render_template('index.html', posts=posts)
-        else:
-            return jsonify({"status": "error", "message": "No topics selected"}), 400
+        # dynamic construction features
+        default_results = Post.query.filter(
+            Post.topic.in_(default_topics)
+        ).order_by(Post.timestamp.desc()).all()
+        posts = []
+        for post in default_results:
+            post_dict = {
+                "id": post.id,
+                "title": post.title,
+                "body": post.body,
+                "topic": post.topic,
+                "user_id": post.user_id,
+                "views": post.views,
+                "timestamp": post.real_timestamp,
+                "username": post.user.username
+            }
+            posts.append(post_dict)
+        return render_template('index.html', posts=posts)
     
     else:
         return render_template('index.html')
