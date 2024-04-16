@@ -56,7 +56,7 @@ def signin():
             return jsonify({'success': False, 'message': 'Incorrect username or password.'}), 401
 
         login_user(user)
-        return jsonify({'success': True, 'redirect': url_for('index')})
+        return jsonify({'success': True, 'redirect': url_for('index.index')})
 
     return render_template('auth/signin.html')
 
