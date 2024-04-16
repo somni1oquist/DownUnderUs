@@ -175,7 +175,7 @@ const del = (url) => {
     success: (res) => {
       const message = res.message;
       makeToast(message, BsType.SUCCESS)
-        .then(() => window.location.reload());
+        .then(() => window.location.href = res.redirect);
     },
     error: (err) => {
       const message = err.responseJSON.message;

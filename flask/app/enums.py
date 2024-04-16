@@ -26,6 +26,8 @@ class ResponseStatus(str, Enum):
 
 # Reponse messages
 class ResponseMessage(str, Enum):
+    # Validation
+    FORM_ERROR = 'Validation failed'
     # Post
     NOT_FOUND = 'Resource not found'
     UNAUTHORISED = 'Unauthorised'

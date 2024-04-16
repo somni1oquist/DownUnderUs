@@ -14,9 +14,8 @@ def json_response(status:str, message:str, opts:dict=None):
     response = {"status": status, "message": message}
 
     if opts is None:
-        return jsonify({"status": status, "message": message})
+        return jsonify(response)
     
-    for key, value in opts.items():
-        response[key] = value
+    response.update(opts)
 
     return jsonify(response)
