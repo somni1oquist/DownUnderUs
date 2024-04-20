@@ -16,6 +16,7 @@
 
 .post-container .card {
   min-height: 170px;
+  position: static;
 }
 
 .action-panel {
