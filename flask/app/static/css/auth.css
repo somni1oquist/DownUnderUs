@@ -1,12 +1,13 @@
 /* Full Page Background Setup */
 .auth-background {
   height: 100vh;
-  background-image: url('../images/background.jpg');
+  background-image: url("../images/background.jpg");
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 40px;
 }
 
 /* Adjustments for better visual integration */
@@ -22,7 +23,7 @@
   border: 1px solid #ffffff;
   padding: 20px;
   border-radius: 5px;
-  background-color: #e3f1f3;
+  background-color: #e0f4eb;
 }
 
 /* Style for the sign in button */
@@ -67,7 +68,7 @@
   text-align: left;
   color: #333333;
   display: block;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Styling for error flash messages */

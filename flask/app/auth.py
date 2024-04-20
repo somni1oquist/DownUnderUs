@@ -11,39 +11,30 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/signup', methods=['GET', 'POST'])
 def signup():
+    suburbs = get_perth_suburbs()
     if request.method == 'POST':
-        # TODO: Refactor using JSON data
-        form = request.form
-        username = form.get('username')
-        password = form.get('password')
-        email = form.get('email')
-        error = None
-
-        # TODO: Validate input
+        data = request.json if request.is_json else request.form
+        username = data.get('username')
+        password = data.get('password')
+        email = data.get('email')
+        suburb = data.get('suburb')
         
-        if not username:
-            error = 'Username is required.'
-        elif not password:
-            error = 'Password is required.'
-        elif User.query.filter_by(username=username).first() is not None:
-            error = f"User {username} is already registered."
+        if User.query.filter_by(email=email).first() is not None:
+            return jsonify({'success': False, 'message': f"An account with email {email} already exists."}), 409
 
-        if error is None:
-            try: 
-                # TODO: Insert complete user data
-                new_user = User(username=username, email=email, password_hash=generate_password_hash(password))
-                db.session.add(new_user)
-                db.session.commit()
-            except IntegrityError:
-                error = f"User {username} already exists."
-            else:
-                # Login user after successful registration
-                login_user(new_user)
-                return redirect(url_for("auth.topic_select"))
-        # TODO: Rewrite this to use JSON response
-        flash(error)
+        try:
+            new_user = User(email=email, username=username,
+                            password_hash=generate_password_hash(password),
+                            suburb=suburb)
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user)
+            return jsonify({'success': True, 'message': 'Registration successful.', 'redirect': url_for("index.index")})
+        except IntegrityError:
+            db.session.rollback()
+            return jsonify({'success': False, 'message': f"Account with email {email} cannot be created."}), 500
 
-    return render_template('auth/signup.html')
+    return render_template('auth/signup.html', suburbs=suburbs)
 
 @bp.route('/signin', methods=['GET', 'POST'])
 def signin():
@@ -83,5 +74,23 @@ def topic_select():
 
     topics = [topic.value for topic in Topic]
     return render_template('auth/topic-select.html', topics=topics)
+
+def get_perth_suburbs():
+    # List of suburbs in Perth, WA
+    suburbs = [
+        "Perth", "Armadale", "Bayswater", "Canning", "Cockburn", "Fremantle",
+        "Gosnells", "Joondalup", "Kalamunda", "Kwinana", "Melville"
+    ]
+    return suburbs
+
+
+def get_perth_suburbs():
+    # List of suburbs in Perth, WA
+    suburbs = [
+        "Perth", "Armadale", "Bayswater", "Canning", "Cockburn", "Fremantle",
+        "Gosnells", "Joondalup", "Kalamunda", "Kwinana", "Melville"
+    ]
+    return suburbs
+
 
 # TODO: Implement view and edit user profile, DO USE decorator @login_required
