@@ -63,7 +63,7 @@ def signin():
 @bp.route('/signout', methods=['GET'])
 def signout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('index.index'))
 
 @bp.route('/topic-select', methods=['GET', 'POST'])
 @login_required

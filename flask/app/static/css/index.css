@@ -1,0 +1,92 @@
+#container_2 {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #F9FBE7;
+    height: auto;
+    min-height: 1200px;
+}
+
+#hot_topics {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    text-align: center;
+    border-right: 1px solid rgba(12, 12, 12, 10%);
+}
+
+.top_box {
+    position: absolute;
+    top:80px;
+    margin: 10px auto;
+    background-color: rgba(210, 227, 200, 40%);
+    width: auto;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#hot_tags {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    text-align: center;
+    border-left: 1px solid rgba(12, 12, 12, 20%);
+}
+
+.box_head {
+    border-bottom: 1px solid rgba(12, 12, 12, 30%);
+    padding: 10px 0;
+    font-weight: bold;
+}
+
+.topic_item {
+    padding: 5px;
+    margin: 2px 0;
+}
+.topic_item a{
+  color: black;
+}
+/* search part */
+#search-result-container {
+    width: 60%;
+}
+
+#search-form{
+  margin-top: 20px;
+}
+/* search result */
+
+.search-result-box {
+  margin: 40px;
+  padding: 20px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 12px 0px #89adf99c;
+}
+
+
+.search-author-info {
+  margin: 5px;
+}
+
+.search-author-info img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+.search-author-info span {
+  font-weight: bold;
+}
+
+.search-footer span {
+  margin-right: 20px;
+}
+#search-item-container {
+  display: flex;
+  justify-content: center;
+}
+
+#search-item-container label{
+  margin: 20px;
+}
