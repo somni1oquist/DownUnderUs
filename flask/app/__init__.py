@@ -1,12 +1,9 @@
-from datetime import datetime
 import os
 from flask import Flask, jsonify, redirect, render_template, url_for
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user, login_required
 from werkzeug.exceptions import Unauthorized
-from .enums import Topic
-import pytz
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -51,8 +48,5 @@ def create_app(test_config=None):
     @app.errorhandler(Unauthorized)
     def unauthorized(error):
         return redirect(url_for('auth.signin'))
-
-
-
 
     return app
