@@ -80,9 +80,6 @@
       </div>
     </div>
   </div>
-  
-  {% set current_user = current_user %}
-  {% set post = post %}
   {% include 'post/replies.html' %}
 
   {% if current_user.is_authenticated %}

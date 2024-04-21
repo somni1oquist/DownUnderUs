@@ -1,5 +1,12 @@
 <!-- Define recursion template -->
 {% macro render_reply(reply) %}
+<!-- Check if the current_user has voted on the reply -->
+{% set ns = namespace(has_voted=false) %}
+{% for vote in reply.vote_records %}
+  {% if vote.user_id == current_user.id %}
+    {% set ns.has_voted = True %}
+  {% endif %}
+{% endfor %}
 <li>
   <div id="reply{{ reply.id }}" class="row reply">
     <div class="col-sm-2">
@@ -36,19 +43,21 @@
         </h2>
         {% endif %}
         <h5>{{ reply.votes }}</h5>
-        {% if current_user.id == post.user_id %}
+        <!-- Post author can accept reply if there is no answer yet -->
+        {% if current_user.id == post.user_id and not has_answer %}
         <a href="{{ url_for('post.accept_reply', post_id=post.id, reply_id=reply.id )}}" data-action="accept"
-          class="btn btn-success {% if reply.accepted %}disabled{% endif %}" {% if reply.accepted %}aria-disabled="true"
-          {% endif %} data-bs-toggle="tooltip" data-bs-title="Accept this reply">
+          class="btn btn-success" data-bs-toggle="tooltip" data-bs-title="Accept this reply">
           <i class="fa-solid fa-check-double"></i>
         </a>
         {% endif %}
+        <!-- Users can reply to the reply -->
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('post.reply_to_reply', post_id=post.id, reply_id=reply.id) }}" data-action="modal" class="btn btn-primary"
           data-bs-toggle="tooltip" data-bs-title="Reply to this" data-reply-username="{{ reply.user.username }}">
           <i class="fa-solid fa-reply"></i>
         </a>
         {% endif %}
+        <!-- Reply author can edit or delete reply -->
         {% if current_user.id == reply.user_id %}
         <a href="" data-action="edit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Edit the reply">
           <i class="fa-solid fa-pen-to-square"></i>
@@ -65,11 +74,21 @@
           class="btn btn-danger" data-bs-toggle="tooltip" data-bs-title="Delete the reply">
           <i class="fa-solid fa-trash-can"></i>
         </a>
+        <!-- Other users can vote on the reply -->
         {% elif current_user.is_authenticated %}
+        <!-- If voted, allow revoking -->
+        {% if ns.has_voted %}
         <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" data-action="upvote"
-          class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-title="Upvote the reply">
+          class="btn btn-light active" data-bs-toggle="tooltip" data-bs-title="Revoke the vote"
+          aria-pressed="true">
           <i class="fa-solid fa-thumbs-up"></i>
         </a>
+        {% else %}
+        <a href="{{ url_for('post.vote', post_id=post.id, reply_id=reply.id) }}" data-action="upvote"
+          class="btn btn-light" data-bs-toggle="tooltip" data-bs-title="Upvote the reply">
+          <i class="fa-solid fa-thumbs-up"></i>
+        </a>
+        {% endif %}
         {% endif %}
       </div>
     </div>
