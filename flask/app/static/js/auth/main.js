@@ -24,7 +24,7 @@ function setupSignIn() {
 
       // Check if either field is empty
       if (!username || !password) {
-        errorMessageDiv.innerText = "Please enter username and password.";
+        errorMessageDiv.innerText = "Please enter username and password";
         errorMessageDiv.style.display = "block";
       } else {
         // AJAX request for sign-in
@@ -73,17 +73,17 @@ function setupSignUp() {
 
       // Validate inputs
       if (!username) {
-        errorMessage = "Username is required.";
+        errorMessage = "Username is required";
       } else if (!email) {
-        errorMessage = "Email is required.";
+        errorMessage = "Email is required";
       } else if (!password) {
-        errorMessage = "Password is required.";
+        errorMessage = "Password is required";
       } else if (!confirmPassword) {
-        errorMessage = "Confirm password is required.";
+        errorMessage = "Confirm password is required";
       } else if (password !== confirmPassword) {
-        errorMessage = "Passwords do not match.";
+        errorMessage = "Passwords do not match";
       } else if (!suburb) {
-        errorMessage = "Suburb is required.";
+        errorMessage = "Suburb is required";
       }
 
       if (errorMessage) {
