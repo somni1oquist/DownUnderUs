@@ -115,7 +115,42 @@ const initEditor = (target) => {
             alert('Emoji');
           },
           'img': () => {
-            alert('Image');
+            // Create a hidden file input element
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*'; // Restrict to images only
+            
+            // When a file is selected, handle the file
+            fileInput.onchange = async function(e) {
+              const file = e.target.files[0];
+              if (file) {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                try {
+                  const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData,
+                  });
+
+                  if (response.ok) {
+                    const data = await response.json();
+                    const imageUrl = data.url;
+
+                    const range = editor.getSelection();
+                    editor.insertEmbed(range.index, 'image', imageUrl);
+                    editor.setSelection(range.index + 1);
+                  } else {
+                    makeToast('Upload failed', BsType.DANGER, false);
+                  }
+                } catch (error) {
+                  makeToast('Error uploading image', BsType.DANGER, false);
+                }
+              }
+            };
+            
+            // Trigger the file input click to open the file selection dialog
+            fileInput.click();
           }
         }
       }
