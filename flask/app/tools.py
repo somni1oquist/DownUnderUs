@@ -10,12 +10,15 @@ def convert_timezone(timestamp, zone):
     format = '%a %d %B %Y %H:%M:%S'
     return utc.astimezone(timezone).strftime(format)
 
-def json_response(status:str, message:str, opts:dict=None):
+def json_response(status:str, message:str, opts:dict=None, success: bool = None):
     '''Return a JSON response with `status` and `message`, and optional `data`.'''
     response = {"status": status, "message": message}
 
     if opts is None:
         return jsonify(response)
+    
+    if success is not None:
+        response['success'] = success 
     
     response.update(opts)
 

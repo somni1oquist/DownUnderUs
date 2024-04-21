@@ -11,16 +11,23 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    suburbs = get_perth_suburbs()
     if request.method == 'POST':
         data = request.json if request.is_json else request.form
         username = data.get('username')
         password = data.get('password')
         email = data.get('email')
         suburb = data.get('suburb')
-        
+
+        if not username:
+            return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, success=False), 400
+        if not email:
+            return json_response(ResponseStatus.ERROR, ResponseMessage.EMAIL_REQUIRED, success=False), 400
+        if not password:
+            return json_response(ResponseStatus.ERROR, ResponseMessage.PASSWORD_REQUIRED, success=False), 400
+        if not suburb:
+            return json_response(ResponseStatus.ERROR, ResponseMessage.SUBURB_REQUIRED, success=False), 400
         if User.query.filter_by(email=email).first() is not None:
-            return jsonify({'success': False, 'message': f"An account with email {email} already exists."}), 409
+            return json_response(ResponseStatus.ERROR, ResponseMessage.EMAIL_EXISTS, success=False), 409
 
         try:
             new_user = User(email=email, username=username,
@@ -29,11 +36,11 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
-            return jsonify({'success': True, 'message': 'Registration successful.', 'redirect': url_for("index.index")})
+            return json_response(ResponseStatus.SUCCESS, ResponseMessage.REGISTRATION_SUCCESSFUL, {'redirect': url_for("index.index")}, success=True), 201
         except IntegrityError:
             db.session.rollback()
-            return jsonify({'success': False, 'message': f"Account with email {email} cannot be created."}), 500
-
+            return json_response(ResponseStatus.ERROR, ResponseMessage.ACCOUNT_CREATION_FAILED, success=False), 500
+    suburbs = get_perth_suburbs()
     return render_template('auth/signup.html', suburbs=suburbs)
 
 @bp.route('/signin', methods=['GET', 'POST'])
@@ -42,14 +49,18 @@ def signin():
         data = request.get_json()
         username = data.get('username') 
         password = data.get('password')
-        user = User.query.filter_by(username=username).first() 
+
+        if not username:
+            return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, success=False), 400
+        if not password:
+            return json_response(ResponseStatus.ERROR, ResponseMessage.PASSWORD_REQUIRED, success=False), 400
         
+        user = User.query.filter_by(username=username).first() 
         if user is None or not check_password_hash(user.password_hash, password):
-            return jsonify({'success': False, 'message': 'Incorrect username or password.'}), 401
+            return json_response(ResponseStatus.ERROR, ResponseMessage.INCORRECT_CREDENTIALS, success=False), 401
 
         login_user(user)
-        # TODO: Rewrite this to use JSON response
-        return jsonify({'success': True, 'redirect': url_for('index.index')})
+        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'redirect': url_for('index.index')}, success=True), 200
 
     return render_template('auth/signin.html')
 
