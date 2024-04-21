@@ -18,16 +18,4 @@ $(() => {
         .then(() => window.location.href = '/auth/signin');
     }
   });
-
-  // When the hashtag button is clicked
-  $('.hashtag').on('click', (e) => {
-    let tag = prompt('Enter the content of the hashtag:');
-    const $editor = $(e.target).closest('.toolbar').siblings('.ql-container');
-    const editor = $editor.data('quill');
-    if (tag) {
-      tag = "#" + tag.replace(/ /g, "_");
-      const index = editor?.getSelection()?.index;
-      editor?.insertText(index, " " + tag, 'bold');
-    }
-  });
 });
