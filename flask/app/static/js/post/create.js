@@ -25,7 +25,7 @@ $(document).ready(function () {
     makeToast(`Failed to get topics: ${error.message}`, BsType.DANGER, false);
   });
 
-  const editor = initEditor($('#body')[0])
+  initEditor($('#body')[0])
   
   // Handle the form submission for creating a new post
   const form = document.getElementById('createModal').querySelector('form');
@@ -35,7 +35,7 @@ $(document).ready(function () {
 
     // ajax post request
     const formData = new FormData(form);
-    formData.append('body', getEditorContent(editor));
+    formData.append('body', getEditorContent($('#body')[0]));
     
     $.ajax({
       type: 'POST',

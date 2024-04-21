@@ -1,5 +1,5 @@
 import { BsType } from '../enums.js';
-import { makeToast } from '../utils.js';
+import { makeToast, getEditorContent, initEditor } from '../utils.js';
 /**
  * Edit post
  * @param {*} $target container
@@ -10,7 +10,7 @@ const editPost = ($target) => {
 
   const $original = $target.find('div[class="card-text"]');
   const $titleEditor = $('<h5 contenteditable="true" id="title-box"></h5>').text(title);
-  const $contentEditor = $('<div contenteditable="true" class="card-text"></div>').html(body);
+  const $contentEditor = $('<div id="editor" class="card-text"></div>').html(body);
 
   // Hide original text and edit button
   $original.addClass('d-none');
@@ -21,6 +21,7 @@ const editPost = ($target) => {
   $target.find('div[class="card-body"]').append($titleEditor);
   $target.find('div[class="card-body"]').append($contentEditor);
 
+  initEditor($contentEditor[0]);
   $contentEditor.focus();
 };
 
@@ -30,7 +31,8 @@ const editPost = ($target) => {
  * @param {*} url reply endpoint
  */
 const reply = ($target, url) => {
-  const body = $target.find('textarea').val();
+  const $container = $target.find('#reply-editor').length ? $target.find('#reply-editor') : $target.find('#modal-editor');
+  const body = getEditorContent($container[0]);
   const data = {
     body: body
   };
@@ -65,8 +67,7 @@ const editReply = ($target) => {
   const body = $target.find('div[class="card-text"]')[0].innerHTML.trim();
 
   const $original = $target.find('div[class="card-text"]');
-  // TODO: Integrate WYSIWYG editor instead of pure text
-  const $editor = $('<div contenteditable="true" class="card-text"></div>').text(body);
+  const $editor = $('<div id="editor" class="card-text"></div>').html(body);
 
   // Hide original text and edit button
   $original.addClass('d-none');
@@ -75,6 +76,7 @@ const editReply = ($target) => {
   // Reveal save and cancel buttons and append editor
   $target.find('.btn[data-action="save"], .btn[data-action="abort"]').removeClass('d-none');
   $target.find('div[class="card-body"]').append($editor);
+  initEditor($editor[0]);
   $editor.focus();
 }
 
@@ -84,11 +86,13 @@ const editReply = ($target) => {
  */
 const abortEdit = ($target) => {
   const $original = $target.find('div[class*="card-text"]:not([contenteditable="true"])');
-  const $editor = $target.find('[contenteditable="true"]');
+  const $editor = $target.find('div#editor');
   // Show original text and edit button
   $original.removeClass('d-none');
   $target.find('.btn[data-action="edit"]').removeClass('d-none');
   // Hide save and cancel buttons and remove editor
+  $editor.siblings('.toolbar').remove();
+  $editor.siblings('#title-box').remove();
   $editor.remove();
   $target.find('.btn[data-action="save"], .btn[data-action="abort"]').addClass('d-none');
   makeToast('Edit aborted', BsType.WARNING, false);
@@ -174,8 +178,16 @@ const del = (url) => {
     url: url,
     success: (res) => {
       const message = res.message;
+      const redirect = res.redirect;
       makeToast(message, BsType.SUCCESS)
-        .then(() => window.location.href = res.redirect);
+        .then(() => {
+          // Delete post
+          if (redirect)
+            window.location.href = redirect;
+          // Delete reply
+          else
+            window.location.reload();
+        });
     },
     error: (err) => {
       const message = err.responseJSON.message;

@@ -91,18 +91,38 @@ const initEditor = (target) => {
   const $toolbar = $('<div class="toolbar">');
   const $container = $('<span class="ql-formats">');
   const $button = $('<button type="button">')
-  $container.append($button.clone().addClass("hashtag").append('<i class="fa-solid fa-hashtag">'))
-  $container.append($button.clone().addClass("emoji").append('<i class="fa-solid fa-face-smile">'))
-  $container.append($button.clone().addClass("image").append('<i class="fa-solid fa-image">'))
+  $container.append($button.clone().addClass("ql-hashtag").append('<i class="fa-solid fa-hashtag">'))
+  $container.append($button.clone().addClass("ql-emoji").append('<i class="fa-solid fa-face-smile">'))
+  $container.append($button.clone().addClass("ql-img").append('<i class="fa-solid fa-image">'))
   $toolbar.append($container)
   $(target).before($toolbar)
 
   const editor = new Quill(target, {
     theme: 'snow',
     modules: {
-      toolbar: $toolbar[0]
+      toolbar: {
+        container: $toolbar[0],
+        handlers: {
+          'hashtag': () => {
+            let tag = prompt('Enter the content of the hashtag:');
+            if (tag) {
+              tag = "#" + tag.replace(/ /g, "_");
+              const index = editor.getSelection()?.index;
+              editor.insertText(index, " " + tag, 'bold');
+            }
+          },
+          'emoji': () => {
+            alert('Emoji');
+          },
+          'img': () => {
+            alert('Image');
+          }
+        }
+      }
     }
   });
+
+  
   // Save the editor instance in the target element's data
   $(target).data('quill', editor);
   
@@ -111,10 +131,11 @@ const initEditor = (target) => {
 
 /**
  * Get the content of the Quill editor
- * @param {Quill} quill Quill editor instance
+ * @param {string} container container element
  * @returns {string} content of the editor
  */
-const getEditorContent = (quill) => {
+const getEditorContent = (container) => {
+  const quill = $(container).data('quill');
   const content = quill.getSemanticHTML(0, quill.getLength());
   return content;
 };
