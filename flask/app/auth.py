@@ -19,15 +19,15 @@ def signup():
         suburb = data.get('suburb')
 
         if not username:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, success=False), 400
+            return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, {'success': False}), 400
         if not email:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.EMAIL_REQUIRED, success=False), 400
+            return json_response(ResponseStatus.ERROR, ResponseMessage.EMAIL_REQUIRED, {'success': False}), 400
         if not password:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.PASSWORD_REQUIRED, success=False), 400
+            return json_response(ResponseStatus.ERROR, ResponseMessage.PASSWORD_REQUIRED, {'success': False}), 400
         if not suburb:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.SUBURB_REQUIRED, success=False), 400
+            return json_response(ResponseStatus.ERROR, ResponseMessage.SUBURB_REQUIRED, {'success': False}), 400
         if User.query.filter_by(email=email).first() is not None:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.EMAIL_EXISTS, success=False), 409
+            return json_response(ResponseStatus.ERROR, ResponseMessage.EMAIL_EXISTS, {'success': False}), 409
 
         try:
             new_user = User(email=email, username=username,
@@ -36,10 +36,10 @@ def signup():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user)
-            return json_response(ResponseStatus.SUCCESS, ResponseMessage.REGISTRATION_SUCCESSFUL, {'redirect': url_for("index.index")}, success=True), 201
+            return json_response(ResponseStatus.SUCCESS, ResponseMessage.REGISTRATION_SUCCESSFUL, {'success': True, 'redirect': url_for("index.index")}), 201
         except IntegrityError:
             db.session.rollback()
-            return json_response(ResponseStatus.ERROR, ResponseMessage.ACCOUNT_CREATION_FAILED, success=False), 500
+            return json_response(ResponseStatus.ERROR, ResponseMessage.ACCOUNT_CREATION_FAILED, {'success': False}), 500
     suburbs = get_perth_suburbs()
     return render_template('auth/signup.html', suburbs=suburbs)
 
@@ -51,16 +51,16 @@ def signin():
         password = data.get('password')
 
         if not username:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, success=False), 400
+            return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, {'success': False}), 400
         if not password:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.PASSWORD_REQUIRED, success=False), 400
+            return json_response(ResponseStatus.ERROR, ResponseMessage.PASSWORD_REQUIRED, {'success': False}), 400
         
         user = User.query.filter_by(username=username).first() 
         if user is None or not check_password_hash(user.password_hash, password):
-            return json_response(ResponseStatus.ERROR, ResponseMessage.INCORRECT_CREDENTIALS, success=False), 401
+            return json_response(ResponseStatus.ERROR, ResponseMessage.INCORRECT_CREDENTIALS, {'success': False}), 401
 
         login_user(user)
-        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'redirect': url_for('index.index')}, success=True), 200
+        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'success': True, 'redirect': url_for('index.index')}), 200
 
     return render_template('auth/signin.html')
 
@@ -93,15 +93,5 @@ def get_perth_suburbs():
         "Gosnells", "Joondalup", "Kalamunda", "Kwinana", "Melville"
     ]
     return suburbs
-
-
-def get_perth_suburbs():
-    # List of suburbs in Perth, WA
-    suburbs = [
-        "Perth", "Armadale", "Bayswater", "Canning", "Cockburn", "Fremantle",
-        "Gosnells", "Joondalup", "Kalamunda", "Kwinana", "Melville"
-    ]
-    return suburbs
-
 
 # TODO: Implement view and edit user profile, DO USE decorator @login_required
