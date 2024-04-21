@@ -1,5 +1,5 @@
 import { BsType } from "../enums.js";
-import { getTopics, makeToast } from "../utils.js";
+import { getTopics, makeToast, initEditor, getEditorContent } from "../utils.js";
 // for create post feature
 // This script is used to generate the drawdown list of topic
 $(document).ready(function () {
@@ -25,6 +25,8 @@ $(document).ready(function () {
     makeToast(`Failed to get topics: ${error.message}`, BsType.DANGER, false);
   });
 
+  const editor = initEditor($('#body')[0])
+  
   // Handle the form submission for creating a new post
   const form = document.getElementById('createModal').querySelector('form');
   form.onsubmit = function (event) {
@@ -33,6 +35,8 @@ $(document).ready(function () {
 
     // ajax post request
     const formData = new FormData(form);
+    formData.append('body', getEditorContent(editor));
+    
     $.ajax({
       type: 'POST',
       url: '/post/create',
@@ -70,7 +74,7 @@ function displayFormErrors(form, errors) {
 
   for (var key in errors) {
     if (errors.hasOwnProperty(key)) {
-      var input = form.querySelector('input[name="' + key + '"], textarea[name="' + key + '"]');
+      var input = form.querySelector('input[name="' + key + '"], div[id="' + key + '"]');
       if (input) {
         var errorDiv = input.nextElementSibling;
         if (errorDiv && errorDiv.classList.contains('invalid-feedback')) {

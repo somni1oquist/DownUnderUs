@@ -82,4 +82,41 @@ const getTopics = (refresh = false) => {
   });
 };
 
-export { makeToast, getTopics }
+/**
+ * Initialize the Quill editor
+ * @param {string} target target element to initialize the editor
+ * @returns {Quill} Quill editor instance
+ */
+const initEditor = (target) => {
+  const $toolbar = $('<div class="toolbar">');
+  const $container = $('<span class="ql-formats">');
+  const $button = $('<button type="button">')
+  $container.append($button.clone().addClass("hashtag").append('<i class="fa-solid fa-hashtag">'))
+  $container.append($button.clone().addClass("emoji").append('<i class="fa-solid fa-face-smile">'))
+  $container.append($button.clone().addClass("image").append('<i class="fa-solid fa-image">'))
+  $toolbar.append($container)
+  $(target).before($toolbar)
+
+  const editor = new Quill(target, {
+    theme: 'snow',
+    modules: {
+      toolbar: $toolbar[0]
+    }
+  });
+  // Save the editor instance in the target element's data
+  $(target).data('quill', editor);
+  
+  return editor;
+};
+
+/**
+ * Get the content of the Quill editor
+ * @param {Quill} quill Quill editor instance
+ * @returns {string} content of the editor
+ */
+const getEditorContent = (quill) => {
+  const content = quill.getSemanticHTML(0, quill.getLength());
+  return content;
+};
+
+export { makeToast, getTopics, initEditor, getEditorContent }
