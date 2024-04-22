@@ -91,12 +91,20 @@ const initEditor = (target) => {
   const $toolbar = $('<div class="toolbar">');
   const $container = $('<span class="ql-formats">');
   const $button = $('<button type="button">')
+  const emojiList = ['😀', '😁', '😂', '😍'];
+  const $dropdown = $('<div class="emoji-dropdown d-none">');
+  // Create toolbar template
+  emojiList.forEach(emoji => {
+    $dropdown.append(`<span class="emoji">${emoji}</span>`);
+  });
   $container.append($button.clone().addClass("ql-hashtag").append('<i class="fa-solid fa-hashtag">'))
   $container.append($button.clone().addClass("ql-emoji").append('<i class="fa-solid fa-face-smile">'))
+  $container.append($dropdown)
   $container.append($button.clone().addClass("ql-img").append('<i class="fa-solid fa-image">'))
   $toolbar.append($container)
   $(target).before($toolbar)
 
+  let selection = null; // Store the current selection for emoji insertion
   const editor = new Quill(target, {
     theme: 'snow',
     modules: {
@@ -107,12 +115,28 @@ const initEditor = (target) => {
             let tag = prompt('Enter the content of the hashtag:');
             if (tag) {
               tag = "#" + tag.replace(/ /g, "_");
-              const index = editor.getSelection()?.index;
-              editor.insertText(index, " " + tag, 'bold');
+              const range = editor.getSelection();
+              if (range) {
+                editor.insertText(range.index, " " + tag);
+                editor.setSelection(range.index + tag.length + 1);
+              }
             }
           },
           'emoji': () => {
-            alert('Emoji');
+            selection = editor.getSelection();
+            $(editor.root).parent().siblings('.toolbar').find('.emoji-dropdown').toggleClass('d-none');
+            $('.emoji').unbind('click'); // Remove any existing click event listeners
+            $('.emoji').bind('click', (e) => {
+              const emoji = $(e.target).text();
+              const editor = $(e.target).closest('.toolbar').siblings('.ql-container').data('quill');
+              if (selection) {
+                // Insert the emoji at the current cursor position
+                editor.insertText(selection.index, emoji);
+                editor.setSelection(selection.index + emoji.length);
+              }
+              // Hide the dropdown after selecting an emoji
+              $('.emoji-dropdown').addClass('d-none');
+            });
           },
           'img': () => {
             // Create a hidden file input element

@@ -1,3 +1,25 @@
+.emoji-dropdown {
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 200px;
+  margin-top: 2rem;
+  z-index: 99;
+}
+
+.emoji {
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px;
+}
+
+.emoji:hover {
+  background-color: #f0f0f0;
+}
+
 /* Create post Modal */
 .post-body {
   margin-top: 20px;
