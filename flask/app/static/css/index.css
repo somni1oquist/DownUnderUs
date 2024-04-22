@@ -90,3 +90,40 @@
 #search-item-container label{
   margin: 20px;
 }
+
+.select-container {
+  position: relative;
+  width: 150px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 10px;
+  background:transparent;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+.select-container select {
+  background: transparent;
+  width: 220px;
+  height: 40px;
+  padding: 5px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  color: #666;
+}
+
+.select-container::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  font-size: 20px;
+  color: #999;
+  pointer-events: none;
+  line-height: 40px;
+}
