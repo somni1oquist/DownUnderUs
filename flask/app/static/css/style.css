@@ -11,10 +11,9 @@
 
 /* search result */
 #search-result-container {
-  margin: 40px;
-  border: 2px solid #d3f0e3;
   border-radius: 10px;
   font-size: 15px;
+  width: 55%;
 }
 
 
@@ -24,6 +23,7 @@
   border: 1px solid #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 12px 0px #89adf99c;
+  width: 60%;
 }
 
 
@@ -113,7 +113,6 @@ ul.topnav li.right {
 }
 
 ul.topnav li.center {
-<<<<<<< HEAD
   padding: 10px;
   position: absolute;
   left: 50%;
@@ -128,11 +127,9 @@ ul.topnav li.center {
 }
 #search-input{
   border: none;
-  border-radius: 5px;
-=======
+  border-radius: 10px;
   padding: 5px;
   position: absolute;   
   left: 50%;           
-  transform: translateX(-50%); 
->>>>>>> aab99a984e88c89cbd42a415aae0e7b161ec9eee
+  transform: translateX(-50%);
 }

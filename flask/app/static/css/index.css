@@ -1,7 +1,7 @@
 #container_2 {
     display: flex;
     flex-wrap: wrap;
-    background-color: #F9FBE7;
+    background-color: #F8F8F5;
     height: auto;
     min-height: 1200px;
 }
@@ -15,7 +15,7 @@
 }
 
 .top_box {
-    position: absolute;
+    position: fixed;
     top:80px;
     margin: 10px auto;
     background-color: rgba(210, 227, 200, 40%);
@@ -47,9 +47,6 @@
   color: black;
 }
 /* search part */
-#search-result-container {
-    width: 60%;
-}
 
 #search-form{
   margin-top: 20px;
@@ -61,7 +58,7 @@
   padding: 20px;
   border: 1px solid #fff;
   border-radius: 10px;
-  box-shadow: 0px 0px 12px 0px #89adf99c;
+  box-shadow: 0px 0px 5px 0px #89adf99c;
 }
 
 
