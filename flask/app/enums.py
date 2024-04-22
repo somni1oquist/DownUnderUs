@@ -18,9 +18,17 @@ class Topic(Enum):
     UTILITIES = 'Utilities'
     RECYCLING = 'Recycling'
 
+# Response status
+class ResponseStatus(str, Enum):
+    SUCCESS = 'success'
+    ERROR = 'error'
+
 
 # Reponse messages
 class ResponseMessage(str, Enum):
+    # Validation
+    FORM_ERROR = 'Validation failed'
+    # Post
     NOT_FOUND = 'Resource not found'
     UNAUTHORISED = 'Unauthorised'
     CREATED = 'Created successfully'
@@ -33,3 +41,17 @@ class ResponseMessage(str, Enum):
     VOTED = 'Vote cast successfully'
     VOTE_UPDATED = 'Vote updated successfully'
     VOTE_REVOKED = 'Vote revoked successfully'
+    # Topic select
+    TOPIC_SELECTED = 'Topic selected successfully'
+    TOPIC_RANGE = 'Please select at least 2 topics, but no more than 6.'
+    # Sign-in and Sign-up
+    INCORRECT_CREDENTIALS = 'Incorrect username or password'
+    LOGIN_SUCCESS = 'Login successful'
+    USERNAME_REQUIRED = 'Username is required'
+    PASSWORD_REQUIRED = 'Password is required'
+    EMAIL_REQUIRED = 'Email is required'
+    SUBURB_REQUIRED = 'Suburb is required'
+    EMAIL_EXISTS = 'An account with this email already exists'
+    PASSWORD_MISMATCH = 'Passwords do not match'
+    REGISTRATION_SUCCESSFUL = 'Registration successful'
+    ACCOUNT_CREATION_FAILED = 'Account could not be created'
