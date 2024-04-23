@@ -1,7 +1,7 @@
 #container_2 {
     display: flex;
     flex-wrap: wrap;
-    background-color: #F9FBE7;
+    background-color: #F8F8F5;
     height: auto;
     min-height: 1200px;
 }
@@ -15,7 +15,7 @@
 }
 
 .top_box {
-    position: absolute;
+    position: fixed;
     top:80px;
     margin: 10px auto;
     background-color: rgba(210, 227, 200, 40%);
@@ -47,50 +47,7 @@
   color: black;
 }
 /* search part */
-#search-result-container {
-  margin: 40px;
-  border: 2px solid #d3f0e3;
-  border-radius: 10px;
-  font-size: 15px;
-  width: 60%;
-}
 
 #search-form{
   margin-top: 20px;
-}
-/* search result */
-
-.search-result-box {
-  margin: 40px;
-  padding: 20px;
-  border: 1px solid #fff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 12px 0px #89adf99c;
-}
-
-
-.search-author-info {
-  margin: 5px;
-}
-
-.search-author-info img {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-}
-
-.search-author-info span {
-  font-weight: bold;
-}
-
-.search-footer span {
-  margin-right: 20px;
-}
-#search-item-container {
-  display: flex;
-  justify-content: center;
-}
-
-#search-item-container label{
-  margin: 20px;
 }
