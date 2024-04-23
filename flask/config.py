@@ -15,3 +15,5 @@ class Config:
     REMEMBER_COOKIE_HTTPONLY = True
 
     SESSION_COOKIE_SAMESITE = "Lax"
+
+    UPLOAD_FOLDER = os.path.join(basedir, 'uploads')

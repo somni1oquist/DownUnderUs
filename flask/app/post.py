@@ -81,8 +81,8 @@ def edit(post_id):
     elif not check_author(post, current_user):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
     
-    post.title = escape(data.get('title'))
-    post.body = escape(data.get('body'))
+    post.title = data.get('title')
+    post.body = data.get('body')
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.EDITED), 200
@@ -114,7 +114,7 @@ def reply(post_id):
         return json_response(ResponseStatus.ERROR, ResponseMessage.NOT_FOUND), 404
 
     body = data.get('body')
-    reply = Reply(body=escape(body), post_id=post_id, user_id=current_user.id)
+    reply = Reply(body=body, post_id=post_id, user_id=current_user.id)
     db.session.add(reply)
     db.session.commit()
 
@@ -132,7 +132,7 @@ def reply_to_reply(post_id, reply_id):
         return json_response(ResponseStatus.ERROR, ResponseMessage.NOT_FOUND), 404
 
     body = data.get('body')
-    reply = Reply(body=escape(body), user_id=current_user.id, parent_id=reply_id)
+    reply = Reply(body=body, user_id=current_user.id, parent_id=reply_id)
     db.session.add(reply)
     db.session.commit()
 
@@ -168,7 +168,7 @@ def edit_reply(post_id, reply_id):
     elif not check_author(reply, current_user):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
 
-    reply.body = escape(data.get('body'))
+    reply.body = data.get('body')
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_EDITED), 200
