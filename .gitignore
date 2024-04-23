@@ -8,6 +8,9 @@ __pycache__/
 # Ignore database
 instance/
 
+# Ignore upload folder
+uploads/
+
 # Ignore README in migrations
 !flask/migrations/
 flask/migrations/README
@@ -15,5 +18,6 @@ flask/migrations/README
 # Ignore .DS_Store files
 .DS_Store
 **/.DS_Store
+
 #Ignore IDE configuration directory
 .idea/

@@ -1,6 +1,13 @@
 import { Action } from '../enums.js';
+import { initEditor, getEditorContent } from '../utils.js';
 import { editPost, abortEdit, del, reply, acceptReply, editReply, save, vote } from './functions.js';
 $(() => {
+  // Initialise editor
+  const $editor = $('#reply-editor');
+  const $modalEditor = $('#replyModal #modal-editor');
+  initEditor($editor[0]);
+  initEditor($modalEditor[0]);
+
   // Event listener for post actions
   $('div[id="post"] a[class*="btn"]').click(function (e) {
     e.preventDefault(); // Prevent default action
@@ -46,6 +53,7 @@ $(() => {
         $modal.find('button:not([data-bs-dismiss])').data('url', url);
         $modal.modal('show');
         break;
+        
       case Action.REPLY: // Reply to post 
         confirm('Are you sure to reply?') && reply($target, url);
         break;
@@ -59,7 +67,8 @@ $(() => {
         break;
 
       case Action.SAVE:
-        const body = $target.find('div[contenteditable="true"]').text();
+        const $editor = $target.find('div#editor');
+        const body = getEditorContent($editor[0]);
         save(url, { body: body });
         break;
 
@@ -78,7 +87,7 @@ $(() => {
   });
 
   // Event listener for reply modal
-  $('#replyModal button:not([data-bs-dismiss])').on('click', function (e) {
+  $('#replyModal #send-reply').on('click', function (e) {
     e.preventDefault(); // Prevent default action
     const url = $(this).data('url');
     const $target = $('#replyModal')
