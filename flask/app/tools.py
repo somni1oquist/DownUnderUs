@@ -21,8 +21,8 @@ def json_response(status:str, message:str, opts:dict=None):
 
     return jsonify(response)
 
-def search_posts(content:str=None, topics:list=None, sort_by:str='timestamp_desc', limit:int=None, offset:int=None):
-    '''Search posts based on content, topics, and sort_by. Return a list of posts.'''
+def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str='timestamp_desc', limit:int=None, offset:int=None):
+    '''Search posts based on content, topics, tags, and sort_by. Return a list of posts.'''
     from .models import Post
     query_filter = Post.query
     results = query_filter
@@ -41,6 +41,11 @@ def search_posts(content:str=None, topics:list=None, sort_by:str='timestamp_desc
         if type(topics) is not list:
             topics = topics.split(',')
         query_filter = query_filter.filter(Post.topic.in_(topics))
+
+    # filter by tags
+    if tags:
+        query_filter = query_filter.filter(Post.tags.ilike(f"%{tags}%"))
+
 
     # sort the results by views / timestamp and descending / ascending
     
@@ -68,7 +73,8 @@ def search_posts(content:str=None, topics:list=None, sort_by:str='timestamp_desc
             "user_id": post.user_id,
             "views": post.views,
             "timestamp": post.real_timestamp,
-            "username": post.user.username
+            "username": post.user.username,
+            "tags": post.tags,
         }
         posts.append(post_dict)
 

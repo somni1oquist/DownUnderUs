@@ -52,13 +52,35 @@ def search():
     query = request.args.get('query')
     sort_by = request.args.get('sortBy')
     filter_by = request.args.get('topics')
+    tags = request.args.get('tags') 
     # Search for posts title and body
-    posts = search_posts(content=query, topics=filter_by, sort_by=sort_by)
+    posts = search_posts(content=query, topics=filter_by, sort_by=sort_by, tags=tags)
     
     return render_template('./index/search.html', posts=posts)
 
 @bp.route("/")
 def index():
+    # top 10 topics
+    top_topics_data= db.session.query(
+        Post.topic,
+        # lable equals sql "as"
+        db.func.sum(Post.views).label('total_views')
+        ).group_by(Post.topic).order_by(db.desc('total_views')).limit(10).all()
+    top_topics = [topic[0] for topic in top_topics_data]
+
+    # top 10 tags
+    # key is tag, value is total_views
+    tag_views ={}
+    posts = Post.query.with_entities(Post.tags, Post.views).all()
+    for tags, views in posts:
+        for tag in tags.split(','):
+            tag = tag.strip()
+            if tag not in tag_views:
+                tag_views[tag] = 0
+            tag_views[tag] += views
+    top_tags_data = sorted(tag_views.items(), key=lambda x: x[1], reverse=True)[:10]
+    top_tags = [tag for tag, views in top_tags_data]
+
     if current_user.is_authenticated:
     
         data = User.query.filter(User.username == current_user.username).first()
@@ -69,10 +91,10 @@ def index():
         default_topics = data.interested_topics.split(',')
         # Get the latest 10 interested posts
         posts = search_posts(topics=default_topics, sort_by='timestamp_desc', limit=10)
-        return render_template('index.html', posts=posts)
+        return render_template('index.html', posts=posts,top_tags=top_tags, top_topics=top_topics)
     
     else:
-        return render_template('index.html')
+        return render_template('index.html',top_topics=top_topics, top_tags=top_tags)
 
 
 

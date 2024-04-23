@@ -1,24 +1,18 @@
 {% extends 'base.html' %}
 {% block container %}
-{% if current_user.is_authenticated %}
+
 <div id="container_2">
   <div id="hot_topics">
     <div id="topic_box" class="top_box">
       <div class="box_head">TOP 10 Topics</div>
       <ul id="topic_list">
-        <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
+        {% for topic in top_topics %}
+        <li><a href="{{ url_for('index.search',topics=topic)}}">{{topic}}</a></li>
+        {% endfor %}
       </ul>
     </div>
   </div>
+  {% if current_user.is_authenticated %}
   <div id="search-result-container">
     {% if posts %}
     {% for post in posts %}
@@ -47,16 +41,9 @@
       <div id="tag_box" class="top_box">
         <div class="box_head">TOP 10 Tags</div>
         <ul id="tag_list">
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
-          <li class="topic_item"><a href="#">xxxx</a></li>
+          {% for tag in top_tags %}
+          <li><a href="{{ url_for('index.search',tags=tag)}}">{{tag}}</a></li>
+          {% endfor %}
         </ul>
       </div>
     </div>
