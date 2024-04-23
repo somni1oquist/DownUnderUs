@@ -1,44 +1,76 @@
 {% extends 'base.html' %}
 {% block container %}
 {% if current_user.is_authenticated %}
-<div id="search-result-container">
-  {% if posts %}
-  {% for post in posts %}
-  <div class="search-result-box">
-    <h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
-    <div class="search-author-info">
-      <img src="../../static/images/icons8-bmo-48.png" alt="author photo">
-      <span>{{ post.username }}</span>
-    </div>
-    <div class="search-post-body">
-      <p>{{ post.body | safe }}</p>
-    </div>
-    <div class="search-footer">
-      <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
-      <span>
-        <i class="fa-solid fa-eye"></i> {{ post.views }}
-      </span>
+<div id="container_2">
+  <div id="hot_topics">
+    <div id="topic_box" class="top_box">
+      <div class="box_head">TOP 10 Topics</div>
+      <ul id="topic_list">
+        <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+      </ul>
     </div>
   </div>
-  {% endfor %}
-  {% else %}
-  <p> No results found </p>
-  {% endif %}
+  <div id="search-result-container">
+    {% if posts %}
+    {% for post in posts %}
+    <div class="search-result-box">
+      <h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
+      <div class="search-author-info">
+        <img src="../../static/images/icons8-bmo-48.png" alt="author photo">
+        <span>{{ post.username }}</span>
+      </div>
+      <div class="search-post-body">
+        <p>{{ post.body }}</p>
+      </div>
+      <div class="search-footer">
+        <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
+        <span>
+          <i class="fa-solid fa-eye"></i> {{ post.views }}
+        </span>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p> No results found </p>
+    {% endif %}
+  </div>
+  <div id="hot_tags">
+      <div id="tag_box" class="top_box">
+        <div class="box_head">TOP 10 Tags</div>
+        <ul id="tag_list">
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
+        </ul>
+      </div>
+    </div>
 </div>
 {% else %}
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <h1 class="text-center">Welcome to Down Under Us</h1>
+<div class="container_1">
+  <div class="container_1_1">
+    <div class="row" id="t_1">
+      <img src=".././static/images/logo_1.png" alt="">
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <p class="text-center">Please <a href="{{ url_for('auth.signin') }}">sign in</a> or <a
-          href="{{ url_for('auth.signup') }}">sign up</a> to continue.</p>
+    <div class="row">
+        <p class="text-center">Please <a href="{{ url_for('auth.signin') }}">sign in</a> or <a href="{{ url_for('auth.signup') }}">sign up</a> to continue.</p>
     </div>
   </div>
 </div>
 {% endif %}
-
 {% endblock %}
