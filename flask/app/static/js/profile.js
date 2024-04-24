@@ -76,7 +76,6 @@ function updateProfile() {
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
       displayMessage("Failed to update profile. Please try again.", "danger");
     });
 }
@@ -155,7 +154,6 @@ function changePassword() {
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
       messageDiv.style.display = "block";
       messageDiv.className = "alert alert-danger";
       messageDiv.textContent = "Failed to update profile. Please try again.";
