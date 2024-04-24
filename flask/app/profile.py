@@ -4,6 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from app.models import User
 from .auth import get_perth_suburbs
+from .enums import ResponseMessage, ResponseStatus
+from .tools import json_response
 
 bp = Blueprint('profile', __name__, url_prefix='/profile')
 
@@ -15,8 +17,6 @@ def profile_view():
 @login_required
 @bp.route('/edit', methods=['GET', 'POST'])
 def edit_profile():
-    suburbs = get_perth_suburbs()
-
     if request.method == 'POST':
         data = request.get_json()
         user = User.query.get(current_user.id)
@@ -29,9 +29,10 @@ def edit_profile():
             user.suburb = data['suburb']
 
         db.session.commit()
-        return jsonify({'success': True, 'message': 'Profile updated successfully!'}), 200
+        return json_response(ResponseStatus.SUCCESS, ResponseMessage.PROFILE_UPDATED_SUCCESS, {'success': True}), 200
 
     elif request.method == 'GET':
+        suburbs = get_perth_suburbs()
         return render_template('profile/edit_profile.html', user=current_user, suburbs=suburbs)
 
 @login_required
@@ -44,9 +45,9 @@ def change_password():
     user = User.query.get(current_user.id)
 
     if not check_password_hash(user.password_hash, current_password):
-        return jsonify({'success': False, 'message': 'Incorrect current password.'}), 401
+        return json_response(ResponseStatus.ERROR, ResponseMessage.INCORRECT_CURRENT_PASSWORD, {'success': False}), 401
 
     user.password_hash = generate_password_hash(new_password)
     db.session.commit()
 
-    return jsonify({'success': True, 'message': 'Password changed successfully!'}), 200
+    return json_response(ResponseStatus.SUCCESS, ResponseMessage.PASSWORD_CHANGED_SUCCESS, {'success': True}), 200
