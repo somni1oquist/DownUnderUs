@@ -8,6 +8,18 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#changePasswordModal").on("hidden.bs.modal", function () {
     document.getElementById("password-messages").style.display = "none";
   });
+
+  document
+    .getElementById("saveProfileButton")
+    .addEventListener("click", function () {
+      updateProfile();
+    });
+
+  document
+    .getElementById("closeProfileButton")
+    .addEventListener("click", function () {
+      window.location.href = "/profile/";
+    });
 });
 
 let initialUserData = {
