@@ -92,7 +92,7 @@ function changePassword() {
 
   messageDiv.style.display = "none";
 
-  // Check if current password is entered
+  // Check if the password fields are filled
   if (!currentPassword) {
     messageDiv.style.display = "block";
     messageDiv.className = "alert alert-danger";
@@ -100,97 +100,52 @@ function changePassword() {
     return;
   }
 
-  // Proceed to verify current password
-  verifyCurrentPassword(currentPassword)
-    .then((isCorrect) => {
-      if (!isCorrect) {
-        messageDiv.style.display = "block";
-        messageDiv.className = "alert alert-danger";
-        messageDiv.textContent = "Incorrect current password.";
-        return;
-      }
+  if (!newPassword || !confirmPassword) {
+    messageDiv.style.display = "block";
+    messageDiv.className = "alert alert-danger";
+    messageDiv.textContent = "Please enter both new password fields.";
+    return;
+  }
 
-      messageDiv.style.display = "none";
+  if (newPassword !== confirmPassword) {
+    messageDiv.style.display = "block";
+    messageDiv.className = "alert alert-danger";
+    messageDiv.textContent = "New passwords do not match.";
+    return;
+  }
 
-      // Check if new password fields are blank
-      if (!newPassword || !confirmPassword) {
-        messageDiv.style.display = "block";
-        messageDiv.className = "alert alert-danger";
-        messageDiv.textContent = "Please enter both new password fields.";
-        return;
-      }
+  const data = JSON.stringify({
+    currentPassword: currentPassword,
+    newPassword: newPassword,
+  });
 
-      // If the new password fields are not blank, proceed with validation of new password
-      if (newPassword !== confirmPassword) {
-        messageDiv.style.display = "block";
-        messageDiv.className = "alert alert-danger";
-        messageDiv.textContent = "New passwords do not match.";
-        return;
-      }
-
-      const data = JSON.stringify({
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-      });
-
-      fetch("/profile/password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: data,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          messageDiv.style.display = "block";
-          messageDiv.className = data.success
-            ? "alert alert-success"
-            : "alert alert-danger";
-          messageDiv.textContent = data.message;
-
-          // If password change was successful, reset the form fields
-          if (data.success) {
-            document.getElementById("current-password").value = "";
-            document.getElementById("new-password").value = "";
-            document.getElementById("confirm-new-password").value = "";
-            currentPasswordCorrect = false;
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    })
-    .catch((error) => {
-      console.error("Error verifying current password:", error);
-    });
-}
-
-/**
- * Sends a request to verify the correctness of the current password.
- * @param {string} currentPassword - The current password input by the user.
- * @returns {Promise} - A promise that resolves to whether the password is correct.
- */
-function verifyCurrentPassword(currentPassword) {
-  return fetch("/profile/verify-password", {
+  fetch("/profile/password", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({ password: currentPassword }),
+    body: data,
   })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
+    .then((response) => response.json())
     .then((data) => {
-      return data.isCorrect;
+      messageDiv.style.display = "block";
+      messageDiv.className = data.success
+        ? "alert alert-success"
+        : "alert alert-danger";
+      messageDiv.textContent = data.message;
+
+      // If password change was successful, reset the form fields
+      if (data.success) {
+        document.getElementById("current-password").value = "";
+        document.getElementById("new-password").value = "";
+        document.getElementById("confirm-new-password").value = "";
+      }
     })
     .catch((error) => {
-      console.error("Error verifying current password:", error);
-      throw error;
+      console.error("Error:", error);
+      messageDiv.style.display = "block";
+      messageDiv.className = "alert alert-danger";
+      messageDiv.textContent = "Failed to update profile. Please try again.";
     });
 }
