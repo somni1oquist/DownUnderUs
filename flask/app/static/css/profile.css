@@ -16,11 +16,9 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.profile-img {
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  object-fit: cover;
+.custom-icon {
+  font-size: 200px;
+  color: #555;
 }
 
 .profile-info {
