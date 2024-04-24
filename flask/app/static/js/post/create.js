@@ -35,7 +35,14 @@ $(document).ready(function () {
 
     // ajax post request
     const formData = new FormData(form);
-    formData.append('body', getEditorContent($('#body')[0]));
+    const body = getEditorContent($('#body')[0]);
+    const tags = $(body)
+      .find('a[rel*=noopener]')
+      .filter((_, el) => el.innerText.trim().startsWith('#'))
+      .map((_, el) => el.innerText.trim())
+      .get();
+    formData.append('body', body);
+    formData.append('tags', tags);
     
     $.ajax({
       type: 'POST',

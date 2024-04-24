@@ -33,8 +33,14 @@ const editPost = ($target) => {
 const reply = ($target, url) => {
   const $container = $target.find('#reply-editor').length ? $target.find('#reply-editor') : $target.find('#modal-editor');
   const body = getEditorContent($container[0]);
+  const tags = $(body)
+    .find('a[rel*=noopener]')
+    .filter((_, el) => el.innerText.trim().startsWith('#'))
+    .map((_, el) => el.innerText.trim())
+    .get();
   const data = {
-    body: body
+    body: body,
+    tags: tags
   };
   create(url, data);
 }
@@ -104,6 +110,14 @@ const abortEdit = ($target) => {
  * @param {*} data edited data
  */
 const save = (url, data) => {
+  // Extract tags from the body
+  const tags = $(data.body)
+    .find('a[rel*=noopener]')
+    .filter((_, el) => el.innerText.trim().startsWith('#'))
+    .map((_, el) => el.innerText.trim())
+    .get();
+    data.tags = tags;
+
   $.ajax({
     type: 'PUT',
     url: url,
