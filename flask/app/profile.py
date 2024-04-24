@@ -50,11 +50,3 @@ def change_password():
     db.session.commit()
 
     return jsonify({'success': True, 'message': 'Password changed successfully!'}), 200
-
-@login_required
-@bp.route('/verify-password', methods=['POST'])
-def verify_password():
-    data = request.get_json()
-    current_password = data['password']
-    is_correct = check_password_hash(current_user.password_hash, current_password)
-    return jsonify(isCorrect=is_correct)
