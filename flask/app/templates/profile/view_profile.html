@@ -17,8 +17,12 @@
             <div class="row align-items-center">
                 <!-- Profile Image Section -->
                 <div class="col-lg-4 text-center">
-                    <img src="{{ url_for('static', filename='images/' + (user.profile_image if user.profile_image else 'default-profile.png')) }}"
-                        alt="Profile Image" class="profile-img mb-3">
+                    {% if user.profile_image %}
+                    <img src="{{ url_for('static', filename='images/' + user.profile_image) }}" alt="Profile Image"
+                        class="profile-img mb-3">
+                    {% else %}
+                    <i class="fas fa-user-circle profile-img mb-3 custom-icon"></i>
+                    {% endif %}
                 </div>
                 <!-- Profile Info Section -->
                 <div class="col-lg-8">
