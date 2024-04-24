@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block container %}
+<div class="profile-background">
+    <div class="container profile-container my-5 py-5">
+        <div class="profile-card shadow-sm position-relative">
+            <!-- Edit Profile Button -->
+            <div class="position-absolute end-0 me-3 mt-3">
+                <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-outline-secondary btn-sm">Edit
+                    Profile</a>
+            </div>
+            <div class="row align-items-center">
+                <!-- Profile Image Section -->
+                <div class="col-lg-4 text-center">
+                    <img src="{{ url_for('static', filename='images/' + (user.profile_image if user.profile_image else 'default-profile.png')) }}"
+                        alt="Profile Image" class="profile-img mb-3">
+                </div>
+                <!-- Profile Info Section -->
+                <div class="col-lg-8">
+                    <div class="profile-info">
+                        <span class="profile-greeting">G'day mate! I'm your friendly neighbour,</span>
+                        <h1 class="profile-name">{{ user.username }}</h1>
+                        <div class="profile-topics">
+                            <span class="profile-topics-label">Find me around these interest areas:</span>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-heart profile-topics-icon"></i>
+                                <div class="profile-topics-tags ms-2">
+                                    {% if user.interested_topics %}
+                                    {% for topic in user.interested_topics.split(',') %}
+                                    <span class="badge rounded-pill bg-custom">{{ topic }}</span>
+                                    {% endfor %}
+                                    {% else %}
+                                    <span>No topics selected.</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <p class="profile-detail"><i class="fas fa-envelope profile-icon"></i>{{ user.email }}</p>
+                        <p class="profile-detail"><i class="fas fa-map-marker-alt profile-icon"></i>{{ user.suburb }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

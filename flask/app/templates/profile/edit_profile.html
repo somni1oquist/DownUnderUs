@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+
+{% block container %}
+<div class="container mt-5">
+    <div class="profile-container">
+        <div class="profile-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0">Edit Profile</h2>
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                    data-bs-target="#changePasswordModal">
+                    Change Password
+                </button>
+            </div>
+            <div id="form-messages" class="alert" style="display:none;"></div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" value="{{ user.username }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" value="{{ user.email }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="suburb" class="form-label">Suburb</label>
+                <select class="form-select" id="suburb" required>
+                    {% for suburb in suburbs %}
+                    <option value="{{ suburb }}" {% if suburb==user.suburb %} selected {% endif %}>{{ suburb }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="updateProfile()">Save</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='/profile/'">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="password-messages" class="alert" style="display:none;"></div>
+                <div class="mb-3">
+                    <label for="current-password" class="form-label">Current Password</label>
+                    <input type="password" class="form-control" id="current-password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="new-password" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="new-password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm-new-password" class="form-label">Confirm New Password</label>
+                    <input type="password" class="form-control" id="confirm-new-password" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" id="submitChangePassword">Change Password</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}
