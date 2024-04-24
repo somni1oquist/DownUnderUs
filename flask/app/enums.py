@@ -55,3 +55,7 @@ class ResponseMessage(str, Enum):
     PASSWORD_MISMATCH = 'Passwords do not match'
     REGISTRATION_SUCCESSFUL = 'Registration successful'
     ACCOUNT_CREATION_FAILED = 'Account could not be created'
+    # Profile
+    PROFILE_UPDATED_SUCCESS = 'Profile updated successfully'
+    PASSWORD_CHANGED_SUCCESS = 'Password changed successfully'
+    INCORRECT_CURRENT_PASSWORD = 'Incorrect current password'
