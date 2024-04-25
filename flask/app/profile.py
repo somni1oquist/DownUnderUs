@@ -51,3 +51,15 @@ def change_password():
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.PASSWORD_CHANGED_SUCCESS, {'success': True}), 200
+
+@login_required
+@bp.route('/update_image', methods=['POST'])
+def update_image():
+    data = request.get_json()
+    imageUrl = data.get('imageUrl')
+    print("Received imageUrl:", imageUrl)
+    if imageUrl:
+        current_user.profile_image = imageUrl.split('/')[-1]
+        db.session.commit()
+        return json_response(ResponseStatus.SUCCESS, "Profile image updated successfully.")
+    return json_response(ResponseStatus.ERROR, "Failed to update image.")
