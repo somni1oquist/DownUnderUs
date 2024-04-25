@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     profile_image = db.Column(db.String(255))
     posts = db.relationship('Post', backref='author', lazy='dynamic', cascade='all, delete-orphan')
     interested_topics = db.Column(db.String(200))
+    points = db.Column(db.Integer, default=0)
 
 
     def set_password(self, password):
