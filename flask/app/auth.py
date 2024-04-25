@@ -59,8 +59,13 @@ def signin():
         if user is None or not check_password_hash(user.password_hash, password):
             return json_response(ResponseStatus.ERROR, ResponseMessage.INCORRECT_CREDENTIALS, {'success': False}), 401
 
+        if user.points is None:
+            user.points=0
+
         login_user(user)
-        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'success': True, 'redirect': url_for('index.index')}), 200
+        user.points += 5
+        db.session.commit()
+        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'success': True, 'redirect': url_for('index.index'), 'points_earned':5, 'total_points': user.points}), 200
 
     return render_template('auth/signin.html')
 

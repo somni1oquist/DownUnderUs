@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     suburb = db.Column(db.String(50))
     posts = db.relationship('Post', backref='author', lazy='dynamic', cascade='all, delete-orphan')
     interested_topics = db.Column(db.String(200))
+    points = db.Column(db.Integer, default=0)
 
 
     def set_password(self, password):

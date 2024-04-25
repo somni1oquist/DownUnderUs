@@ -33,6 +33,7 @@ def create():
         topic = form.topic.data
         quest = Post(title=title, body=body, user_id=current_user.id, topic=topic)
         db.session.add(quest)
+        current_user.points += 15
         db.session.commit()
         # return message
         return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id}), 201
@@ -116,6 +117,7 @@ def reply(post_id):
     body = data.get('body')
     reply = Reply(body=body, post_id=post_id, user_id=current_user.id)
     db.session.add(reply)
+    current_user.points += 10
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ADDED), 201
@@ -151,6 +153,7 @@ def accept_reply(post_id, reply_id):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
 
     reply.accepted = True
+    reply.user.points += 30
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ACCEPTED), 200
