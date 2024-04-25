@@ -134,3 +134,7 @@
   border: 1px solid #000000;
   font-size: 1rem;
 }
+
+.my-large-icon {
+  font-size: 13rem;
+}

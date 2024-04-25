@@ -63,3 +63,10 @@ def update_image():
         db.session.commit()
         return json_response(ResponseStatus.SUCCESS, "Profile image updated successfully.")
     return json_response(ResponseStatus.ERROR, "Failed to update image.")
+
+@login_required
+@bp.route('/delete_image', methods=['DELETE'])
+def delete_image():
+    current_user.profile_image = None
+    db.session.commit()
+    return json_response(ResponseStatus.SUCCESS, "Profile image deleted successfully.")
