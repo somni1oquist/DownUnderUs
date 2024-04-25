@@ -36,7 +36,7 @@ const reply = ($target, url) => {
   const tags = $(body)
     .find('a[rel*=noopener]')
     .filter((_, el) => el.innerText.trim().startsWith('#'))
-    .map((_, el) => el.innerText.trim())
+    .map((_, el) => el.innerText.trim().substring(1))
     .get();
   const data = {
     body: body,
@@ -114,7 +114,7 @@ const save = (url, data) => {
   const tags = $(data.body)
     .find('a[rel*=noopener]')
     .filter((_, el) => el.innerText.trim().startsWith('#'))
-    .map((_, el) => el.innerText.trim())
+    .map((_, el) => el.innerText.trim().substring(1))
     .get();
     data.tags = tags;
 

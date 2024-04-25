@@ -39,7 +39,7 @@ $(document).ready(function () {
     const tags = $(body)
       .find('a[rel*=noopener]')
       .filter((_, el) => el.innerText.trim().startsWith('#'))
-      .map((_, el) => el.innerText.trim())
+      .map((_, el) => el.innerText.trim().substring(1))
       .get();
     formData.append('body', body);
     formData.append('tags', tags);
