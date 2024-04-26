@@ -1,7 +1,7 @@
 from faker import Faker
 import random
 from app import db
-from app.models import Post
+from app.models import Post, User
 from app.enums import Topic
 
 fake = Faker()
@@ -32,4 +32,31 @@ def create_fake_posts(num_posts=50):
         db.session.add(post)
     
     db.session.commit()
+
+suburbs = [
+    "Perth", "Armadale", "Bayswater", "Canning", "Cockburn", "Fremantle",
+    "Gosnells", "Joondalup", "Kalamunda", "Kwinana", "Melville"
+]
+topic_values = [topic.value for topic in Topic]
+def create_fake_users(num_users=10):
+    for _ in range(num_users):
+        username = fake.user_name()
+        email = fake.email()
+        password_hash = fake.password()
+        suburb =random.choice(suburbs)
+        interested_topics = ', '.join(random.sample(topic_values, random.randint(2, 6)))
+        points = random.randint(0, 1000)
+        registered_date = fake.date_time_this_year()
+        user = User(
+            username=username,
+            email=email,
+            password_hash=password_hash,
+            suburb=suburb,
+            interested_topics=interested_topics,
+            points=points,
+            registered_date=registered_date
+        )
+        db.session.add(user)
+    db.session.commit()
+
 

@@ -157,14 +157,4 @@ ul.topnav li.center {
   transform: translateX(-50%);
 }
 
-/* Top topics & Top tags  */
-.top-topics,.top-tags {
-
-  margin-top: 20px; 
-  padding: 20px;
-  border: 1px solid #e6e6e6;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-
-}
 

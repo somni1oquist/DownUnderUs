@@ -18,6 +18,34 @@ class Topic(Enum):
     UTILITIES = 'Utilities'
     RECYCLING = 'Recycling'
 
+# not using now
+class Title(Enum):
+    #  Register
+    NEWCOMER = 'Newcomer'
+
+    #  Answer over 100 questions or posts
+    COMMUNITY_PILLAR = 'Community Pillar'
+
+    # Post more than 50 times under a specific topic
+    TOPIC_EXPERT = 'Topic Expert'
+
+    # Accumulate over 500 likes on your posts
+    INFLUENCER = 'Influencer'
+
+
+    #  Make over 20 posts during midnight hours
+    NIGHT_OWL = 'Night Owl'
+
+    # Help other users solve problems and get marked as the “Best Answer” more than 50 times
+    HELPING_HAND = 'Helping Hand'
+
+    # Post every topic at least once in each
+    EXPLORER = 'Explorer'
+
+    # Post lenth more than 1000 characters
+    CHATTERBOX_KING = 'Chatterbox King'
+
+
 # Response status
 class ResponseStatus(str, Enum):
     SUCCESS = 'success'

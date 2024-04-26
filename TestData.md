@@ -11,5 +11,7 @@ Step3: import create_fake_posts function
 Command:
 from app.test_fake_data import create_fake_posts
 create_fake_posts(50)
+create_fake_users(20)
 
-50 means generate 50 posts
+create_fake_posts(50) will generate 50 posts
+create_fake_users(20) will generate 20 users
