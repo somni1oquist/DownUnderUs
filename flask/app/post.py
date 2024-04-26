@@ -41,7 +41,6 @@ def create():
         return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id}), 201
     else:
         errors = form.errors
-        print(errors)
         return json_response(ResponseStatus.ERROR, ResponseMessage.FORM_ERROR, {"errors": errors}), 400
 
 
