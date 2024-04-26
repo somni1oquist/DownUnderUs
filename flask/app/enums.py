@@ -50,6 +50,7 @@ class Title(Enum):
 class ResponseStatus(str, Enum):
     SUCCESS = 'success'
     ERROR = 'error'
+    WARN = 'warn'
 
 
 # Reponse messages

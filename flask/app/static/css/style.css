@@ -157,4 +157,9 @@ ul.topnav li.center {
   transform: translateX(-50%);
 }
 
+.search-result-author-level {
+  background-color: black;
+  color: white;
+}
+
 

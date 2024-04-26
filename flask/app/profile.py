@@ -4,9 +4,9 @@ from flask import Blueprint, current_app, jsonify, render_template, request
 from flask_login import current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
-from app.models import User,Title
+from app.models import User,Title 
 from .auth import get_perth_suburbs
-from .enums import ResponseMessage, ResponseStatus
+from .enums import ResponseMessage, ResponseStatus,Title as TitleEnum
 from .tools import json_response
 from werkzeug.exceptions import NotFound
 from datetime import datetime, timedelta
@@ -17,16 +17,18 @@ bp = Blueprint('profile', __name__, url_prefix='/profile')
 
 # User title part
 @bp.route('/check-and-award-title')
+@login_required
 def check_title():
     user_id = current_user.id
     result,status= check_and_award_title(user_id)
     return result,status
 
-
+# check if user already had a title
 def has_title(user_id, title_name):
     if Title.query.filter_by(user_id=user_id, title=title_name).first():
         return True
 
+# award title to user
 def award_title(user_id:int, title:str):
     from app.models import Title
     if not has_title(user_id, title):
@@ -41,64 +43,64 @@ def check_and_award_title(user_id:int, content=None):
     titles_awarded =[]
     user = User.query.filter_by(id=user_id).first()
     #  Newcomer--Register
-    if user and not has_title(user_id, 'Newcomer'):
+    if user and not has_title(user_id, TitleEnum.NEWCOMER):
         if user.registered_date  >= datetime.now() - timedelta(days=1):
-            award_title(user_id, 'Newcomer')
-            titles_awarded.append('Newcomer')
+            award_title(user_id, TitleEnum.NEWCOMER)
+            titles_awarded.append(TitleEnum.NEWCOMER)
 
 
     #  Community Pillar--Answer over 100 questions or posts
     replies = Reply.query.filter_by(user_id=user_id).count()
-    if replies is not None and replies >= 100 and not has_title(user_id, 'Community Pillar'):
-        award_title (user_id, 'Community Pillar')
-        titles_awarded.append('Community Pillar')
+    if replies is not None and replies >= 100 and not has_title(user_id, TitleEnum.COMMUNITY_PILLAR):
+        award_title (user_id, TitleEnum.COMMUNITY_PILLAR)
+        titles_awarded.append(TitleEnum.COMMUNITY_PILLAR)
 
     # Topic Expert--Post more than 50 times under a specific topic
     post_count_by_topic = Post.query.filter_by(user_id=user_id).group_by(Post.topic).count()
-    if post_count_by_topic is not None  and post_count_by_topic >= 50 and not has_title(user_id, 'Topic Expert'):
-        award_title(user_id, 'Topic Expert')
-        titles_awarded.append('Topic Expert')
+    if post_count_by_topic is not None and post_count_by_topic >= 50 and not has_title(user_id, TitleEnum.TOPIC_EXPERT):
+        award_title(user_id, TitleEnum.TOPIC_EXPERT)
+        titles_awarded.append(TitleEnum.TOPIC_EXPERT)
 
-    # Influencer -- Accumulate over 500 votes on posts or replies
+    # Influencer -- Accumulate over 500 votes on posts
     total_votes = db.session.query(func.sum(Reply.votes)).filter_by(user_id=user_id).scalar()
     # total_votes = Reply.query.filter_by(user_id=user_id).sum(Reply.votes)
-    if total_votes is not None and total_votes >= 500 and not has_title(user_id, 'Influencer'):
-        award_title(user_id, 'Influencer')
-        titles_awarded.append('Influencer')
+    if total_votes is not None and total_votes >= 500 and not has_title(user_id, TitleEnum.INFLUENCER):
+        award_title(user_id, TitleEnum.INFLUENCER)
+        titles_awarded.append(TitleEnum.INFLUENCER)
 
     #  Night Owl -- Make over 20 posts during midnight hours
-    night_posts = Post.query.filter_by(user_id=user_id).filter(Post.timestamp.between('00:00:00', '06:00:00')).count()
-    if night_posts is not None and night_posts >= 20 and not has_title(user_id, 'Night Owl'):
-        award_title (user_id, 'Night Owl')
-        titles_awarded.append('Night Owl')
+    night_posts = Post.query.filter_by(user_id=user_id).filter(Post.real_timestamp.between('00:00:00', '06:00:00')).count()
+    if night_posts is not None and night_posts >= 20 and not has_title(user_id, TitleEnum.NIGHT_OWL):
+        award_title (user_id, TitleEnum.NIGHT_OWL)
+        titles_awarded.append(TitleEnum.NIGHT_OWL)
 
     #  Helping Hand -- Help other users solve problems and get marked as the “Accepted” more than 50 times
     accepted_replies = Reply.query.filter_by(user_id=user_id, accepted=True).count()
-    if accepted_replies is not None and accepted_replies >= 50 and not has_title(user_id, 'Helping Hand'):
-        award_title(user_id, 'Helping Hand')
-        titles_awarded.append('Helping Hand')
-    
+    if accepted_replies is not None and accepted_replies >= 50 and not has_title(user_id, TitleEnum.HELPING_HAND):
+        award_title(user_id, TitleEnum.HELPING_HAND)
+        titles_awarded.append(TitleEnum.HELPING_HAND)
+   
     #  Explorer -- Post 5 topics at least once in each
     topic_count = Post.query \
     .filter_by(user_id=user_id) \
     .group_by(Post.topic) \
     .having(func.count(Post.id) >= 1) \
     .count()
-    if topic_count is not None and topic_count>= 5 and not has_title(user_id, 'Explorer'):
-        award_title(user_id, 'Explorer')
-        titles_awarded.append('Explorer')
+    if topic_count is not None and topic_count>= 5 and not has_title(user_id, TitleEnum.EXPLORER ):
+        award_title(user_id, TitleEnum.EXPLORER )
+        titles_awarded.append(TitleEnum.EXPLORER )
 
 
     #  Chatterbox King -- Post lenth more than 1000 characters
-    if content is not None and  len(content) >= 1000 and not has_title(user_id, 'Chatterbox King'):
-        award_title(user_id, 'Chatterbox King')
-        titles_awarded.append('Chatterbox King')
+    if content is not None and len(content) >= 1000 and not has_title(user_id, TitleEnum.CHATTERBOX_KING ):
+        award_title(user_id, TitleEnum.CHATTERBOX_KING )
+        titles_awarded.append(TitleEnum.CHATTERBOX_KING )
 
     if titles_awarded:
         db.session.commit()
         return jsonify({'success': True, 'titles_awarded': titles_awarded}), 200
     else:
-        return jsonify({'success': False, 'message': 'No titles awarded'}), 204  
+        return jsonify(ResponseStatus.WARN, 'No titles awarded'), 204  
 
 
 # TODO: Page rendering and Api endpoints
