@@ -1,4 +1,6 @@
-from flask import Blueprint, jsonify, render_template, request
+import errno
+import os
+from flask import Blueprint, current_app, jsonify, render_template, request
 from flask_login import current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
@@ -6,6 +8,7 @@ from app.models import User
 from .auth import get_perth_suburbs
 from .enums import ResponseMessage, ResponseStatus
 from .tools import json_response
+from werkzeug.exceptions import NotFound
 
 bp = Blueprint('profile', __name__, url_prefix='/profile')
 
@@ -51,3 +54,31 @@ def change_password():
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.PASSWORD_CHANGED_SUCCESS, {'success': True}), 200
+
+@login_required
+@bp.route('/update_image', methods=['POST'])
+def update_image():
+    data = request.get_json()
+    imageUrl = data.get('imageUrl')
+    if imageUrl:
+        current_user.profile_image = imageUrl.split('/')[-1]
+        db.session.commit()
+        return json_response(ResponseStatus.SUCCESS, "Profile image updated successfully.")
+    return json_response(ResponseStatus.ERROR, "Failed to update image.")
+
+@login_required
+@bp.route('/delete_image', methods=['DELETE'])
+def delete_image():
+    if current_user.profile_image:
+        file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], current_user.profile_image)
+        try:
+            if os.path.exists(file_path):  
+                os.remove(file_path)
+        except OSError as e:
+            if e.errno != errno.ENOENT: 
+                raise NotFound("The file could not be found.")
+        current_user.profile_image = None
+        db.session.commit()
+        return json_response(ResponseStatus.SUCCESS, "Profile image deleted successfully.")
+    
+    return json_response(ResponseStatus.ERROR, "No profile image to delete.")
