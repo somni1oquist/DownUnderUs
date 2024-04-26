@@ -58,4 +58,4 @@ class ResponseMessage(str, Enum):
     # Profile
     PROFILE_UPDATED_SUCCESS = 'Profile updated successfully'
     PASSWORD_CHANGED_SUCCESS = 'Password changed successfully'
-    INCORRECT_CURRENT_PASSWORD = 'Incorrect current password'
+    INCORRECT_CURRENT_PASSWORD = 'Iincorrect current password'

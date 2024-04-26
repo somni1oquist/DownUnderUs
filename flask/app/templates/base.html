@@ -12,12 +12,27 @@
   <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/loading-page.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/flash.css') }}" rel="stylesheet">
   <title>Down Under Us</title>
   {% endblock %}
 </head>
 <body>
   <div class="lmask" style="display: none;"></div>
   {% include 'nav.html' %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {% if category == 'info' %}
+          <div class="alert alert-success alert-dismissible" id="points_flash">
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              <strong>Success!</strong>{{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+
 
   {% block container %}{% endblock %}
 

@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request, jsonify, url_for
+from flask import Blueprint, jsonify, render_template, request, jsonify, url_for, flash
 from flask_login import current_user, login_required
 from markupsafe import escape
 from wtforms import Form, StringField
@@ -35,6 +35,7 @@ def create():
         db.session.add(quest)
         current_user.points += 15
         db.session.commit()
+        flash('You earned 15 points for creating a post!', 'info')
         # return message
         return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id}), 201
     else:
@@ -119,6 +120,7 @@ def reply(post_id):
     db.session.add(reply)
     current_user.points += 10
     db.session.commit()
+    flash('You earned 10 points for replying!', 'info')
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ADDED), 201
 

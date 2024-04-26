@@ -15,7 +15,7 @@
 }
 
 .top_box {
-    position: fixed;
+    position: absolute;
     top:80px;
     margin: 10px auto;
     background-color: rgba(210, 227, 200, 40%);
@@ -50,4 +50,16 @@
 
 #search-form{
   margin-top: 20px;
+}
+
+/* top_point_board */
+#top_points_box {
+    position: absolute;
+    top:550px;
+    margin: 10px auto;
+    background-color: rgba(210, 227, 200, 40%);
+    width: auto;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 5px;
 }
