@@ -65,6 +65,7 @@ def signin():
         login_user(user)
         user.points += 5
         db.session.commit()
+        flash('You earned 5 points for logging in!', 'info')
         return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'success': True, 'redirect': url_for('index.index'), 'points_earned':5, 'total_points': user.points}), 200
 
     return render_template('auth/signin.html')

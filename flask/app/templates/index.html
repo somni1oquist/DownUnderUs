@@ -6,7 +6,7 @@
     <div id="topic_box" class="top_box">
       <div class="box_head">TOP 10 Topics</div>
       <ul id="topic_list">
-        <li class="topic_item"><a href="#">xxxx</a></li>
+          <li class="topic_item"><a href="#">xxxx</a></li>
           <li class="topic_item"><a href="#">xxxx</a></li>
           <li class="topic_item"><a href="#">xxxx</a></li>
           <li class="topic_item"><a href="#">xxxx</a></li>
@@ -17,6 +17,33 @@
           <li class="topic_item"><a href="#">xxxx</a></li>
           <li class="topic_item"><a href="#">xxxx</a></li>
       </ul>
+    </div>
+    <div id="top_points_box">
+      <div class="box_head">Rank Board</div>
+        <ul>
+          {% for user in top_users %}
+            <li class="topic_item">
+              <a href="{{ url_for('profile.profile_view', user_id=user.id) }}">
+                  {{ user.username }}
+              </a>
+              - {{user.points}}
+            -
+            {% if user.points > 1000 %}
+                Legend
+                {% elif user.points > 300 %}
+                Enthusiast
+                {% elif user.points > 100 %}
+                Contributor
+                {% elif user.points > 50 %}
+                Explorer
+                {% elif user.points > 20 %}
+                Rookie
+                {% else %}
+                Newbie
+            {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
     </div>
   </div>
   <div id="search-result-container">

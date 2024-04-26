@@ -69,14 +69,9 @@ def index():
         default_topics = data.interested_topics.split(',')
         # Get the latest 10 interested posts
         posts = search_posts(topics=default_topics, sort_by='timestamp_desc', limit=10)
-        return render_template('index.html', posts=posts)
+        top_users = User.query.order_by(User.points.desc()).limit(10).all()
+        return render_template('index.html', posts=posts, top_users=top_users)
     
     else:
-        return render_template('index.html')
-
-
-
-
-        
-
-
+        top_users = User.query.order_by(User.points.desc()).limit(10).all()
+        return render_template('index.html', top_users=top_users)

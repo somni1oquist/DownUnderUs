@@ -1,0 +1,13 @@
+<div id="top_points_box">
+  <div class="box_head">Rank Board</div>
+    <ul>
+      {% for user in top_users %}
+        <li class="topic_item">
+          <a href="{{ url_for('profile.profile_view', username=user.username) }}">
+              {{ user.username }}
+          </a>
+          - {{get_title(user.points) }}
+        </li>
+      {% endfor %}
+    </ul>
+</div>
