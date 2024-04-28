@@ -81,9 +81,9 @@ function displayFormErrors(form, errors) {
 
   for (var key in errors) {
     if (errors.hasOwnProperty(key)) {
-      var input = form.querySelector('input[name="' + key + '"], div[id="' + key + '"]');
+      var input = form.querySelector('input[name="' + key + '"]') || $(form).find(`div#body`)[0];
       if (input) {
-        var errorDiv = input.nextElementSibling;
+        var errorDiv = $(input).siblings('.invalid-feedback')[0];
         if (errorDiv && errorDiv.classList.contains('invalid-feedback')) {
           errorDiv.style.display = 'block';
           errorDiv.innerHTML = errors[key].join(', ');

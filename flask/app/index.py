@@ -1,9 +1,9 @@
 import os
 from flask import Blueprint, render_template, request, redirect, send_from_directory, url_for
 from flask_login import current_user, login_required
-from app.models import User, Post
-from app.tools import search_posts, json_response
-from app.enums import ResponseStatus
+from .models import User
+from .tools import search_posts, json_response
+from .enums import ResponseStatus
 from werkzeug.utils import secure_filename
 from app import db
 

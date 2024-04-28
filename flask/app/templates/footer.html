@@ -13,24 +13,28 @@
       </div>
       <!-- Modal body -->
       <form method="post">
+        {{ create_post_form.hidden_tag() }}
         <div class="modal-body">
           <!-- post title -->
           <div class="mb-3">
             <label for="title" class="col-form-label">Give it a title:</label>
-            <input type="text" class="form-control" id="title" name="title">
+            {{ create_post_form.title(class="form-control") }}
             <!-- div for title errors -->
             <div class="invalid-feedback" style="display: none;"></div>
           </div>
 
-          <!-- post topic -->
+          <!-- post topic and location -->
           <div class="input-group mb-3">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
               aria-expanded="false">Please select a topic</button>
             <ul class="dropdown-menu" id="topic-list">
               <!-- dropdwn items will be added here -->
             </ul>
-            <input id="topic" name="topic" type="text" class="form-control"
-              aria-label="Text input with dropdown button">
+            {{ create_post_form.topic(class="form-control", id="topic", readonly="true") }}
+            <span class="input-group-text">
+              <i class="fas fa-location-dot"></i>
+            </span>
+            {{ create_post_form.location(class="form-control", id="location", placeholder="(Optional) Enter youro location") }}
             <!-- div for topic errors -->
             <div class="invalid-feedback" style="display: none;"></div>
           </div>

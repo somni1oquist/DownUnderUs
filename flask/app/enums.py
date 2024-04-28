@@ -2,21 +2,16 @@ from enum import Enum
 
 
 class Topic(Enum):
-    HOUSING = 'Housing'
-    NEIGHBOURHOOD = 'Neighbourhood'
-    FAMILY = 'Family'
-    EVENTS = 'Events'
-    SCHOOLS = 'Schools'
-    PARKS = 'Parks'
-    SAFETY = 'Safety'
-    TRANSPORTATION = 'Transportation'
-    LOCAL_BUSINESS = 'Local Business'
-    ENVIRONMENT = 'Environment'
-    HEALTH = 'Health'
+    RENTALS = 'Rentals'
     PETS = 'Pets'
     GARDENING = 'Gardening'
-    UTILITIES = 'Utilities'
-    RECYCLING = 'Recycling'
+    GIVE_AND_TAKE = 'Give and Take'
+    JOB = 'Job'
+    FOOD_AND_COOKING = 'Food and Cooking'
+    SPROTS_AND_GAMES = 'Sports and Games'
+    RIDE_SHARE = 'Ride Share'
+    PICK_UP_AND_DELIVERY = 'Pick Up and Delivery'
+    SOCIAL = 'Social'
 
 # not using now
 class Title(Enum):

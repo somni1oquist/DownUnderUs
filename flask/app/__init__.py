@@ -48,5 +48,12 @@ def create_app(test_config=None):
     @app.errorhandler(Unauthorized)
     def unauthorized(error):
         return redirect(url_for('auth.signin'))
+    
+    # Inject form to all templates
+    @app.context_processor
+    def inject_form():
+        from .forms import CreatePostForm
+        create_post_form = CreatePostForm()
+        return {'create_post_form': create_post_form}
 
     return app

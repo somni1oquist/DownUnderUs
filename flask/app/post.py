@@ -1,21 +1,13 @@
 from flask import Blueprint, jsonify, render_template, request, jsonify, url_for
 from flask_login import current_user, login_required
-from markupsafe import escape
-from wtforms import Form, StringField
-from wtforms.validators import Length, InputRequired
-from app.models import Post, Reply, Vote
-from app.enums import Topic, ResponseStatus, ResponseMessage
-from app.tools import json_response
+from .forms import CreatePostForm
+from .models import Post, Reply, Vote
+from .enums import Topic, ResponseStatus, ResponseMessage
+from .tools import json_response
 from app import db
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
-
-# Validate the form
-class QuestForm(Form):
-    title = StringField(validators=[Length(min=3,max=100, message="Title fromatting error!!")])
-    body = StringField(validators=[Length(min=3,message="Content fromatting error!!")])
-    topic = StringField(validators=[InputRequired(message="Please select a topic!!")])
 
 # Get topic list
 @bp.route('/topics', methods=['GET'])
@@ -26,14 +18,14 @@ def topics():
 @bp.route('/create', methods=['POST'])
 @login_required
 def create():
-    form = QuestForm(request.form)
+    form = CreatePostForm(request.form)
     if form.validate():
         title = form.title.data
         body = form.body.data
         topic = form.topic.data
         tags = request.form.get('tags', None)
-
-        quest = Post(title=title, body=body, user_id=current_user.id, topic=topic, tags=tags)
+        location = form.location.data
+        quest = Post(title=title, body=body, user_id=current_user.id, topic=topic, tags=tags, location=location)
         db.session.add(quest)
         db.session.commit()
 
