@@ -19,3 +19,30 @@ $(() => {
     }
   });
 });
+
+$(document).ready(function() {
+  function checkAndShowTitle() {
+      $.ajax({
+          url: 'http://127.0.0.1:5000/profile/check-and-award-title', 
+          type: 'GET', 
+          success: function(response) {
+            if (response.titles_awarded && response.titles_awarded.length > 0) {
+                var titles = response.titles_awarded.join(", ");
+                $('#titleAwardModal .modal-body').text('Congratulations! You have been awarded with: ' + titles);
+            } else {
+                $('#titleAwardModal .modal-body').text(response.message || 'No new titles were awarded.');
+            }
+            // Show the modal
+            $('#titleAwardModal').modal('show'); 
+        },
+        
+          error: function() {
+              $('#titleAwardModal .modal-body').text('Failed to check titles.');
+              $('#titleAwardModal').modal('show');
+          }
+      });
+  }
+
+  // Trigger this function when needed:
+  checkAndShowTitle(); 
+});

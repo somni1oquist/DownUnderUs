@@ -21,3 +21,6 @@ flask/migrations/README
 
 #Ignore IDE configuration directory
 .idea/
+
+#Ignore python debug configuration directory
+.vscode/

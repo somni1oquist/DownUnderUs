@@ -156,3 +156,10 @@ ul.topnav li.center {
   left: 50%;           
   transform: translateX(-50%);
 }
+
+.search-result-author-level {
+  background-color: black;
+  color: white;
+}
+
+

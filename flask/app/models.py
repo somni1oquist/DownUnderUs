@@ -14,6 +14,8 @@ class User(UserMixin, db.Model):
     profile_image = db.Column(db.String(255))
     posts = db.relationship('Post', backref='author', lazy='dynamic', cascade='all, delete-orphan')
     interested_topics = db.Column(db.String(200))
+    points = db.Column(db.Integer, default=0)
+    registered_date = db.Column(db.DateTime, index=True, default=func.now())
 
 
     def set_password(self, password):
@@ -40,6 +42,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     replies = db.relationship('Reply', backref='post', lazy='dynamic', cascade='all, delete-orphan')
     topic = db.Column(db.String(100), nullable=False)
+    tags = db.Column(db.String(200))
 
     @property
     def user(self):
@@ -132,3 +135,11 @@ class Vote(db.Model):
 
     def __repr__(self):
         return f'<Vote {self.vote_type} by User {self.user_id} on Reply {self.reply_id}>'
+
+class Title(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    title = db.Column(db.String(50), nullable=False)
+    awarded_date = db.Column(db.DateTime, index=True, default=func.now())
+
+

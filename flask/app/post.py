@@ -34,6 +34,9 @@ def create():
         quest = Post(title=title, body=body, user_id=current_user.id, topic=topic)
         db.session.add(quest)
         db.session.commit()
+
+
+
         # return message
         return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id}), 201
     else:
@@ -118,6 +121,8 @@ def reply(post_id):
     db.session.add(reply)
     db.session.commit()
 
+
+
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ADDED), 201
 
 # Reply to a reply
@@ -136,6 +141,8 @@ def reply_to_reply(post_id, reply_id):
     db.session.add(reply)
     db.session.commit()
 
+
+
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ADDED), 201
 
 # Accept a reply
@@ -152,6 +159,7 @@ def accept_reply(post_id, reply_id):
 
     reply.accepted = True
     db.session.commit()
+
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ACCEPTED), 200
 
@@ -214,6 +222,8 @@ def vote(post_id, reply_id):
         reply.votes += 1
         db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
         db.session.commit()
+
+
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.VOTED), 200
 

@@ -1,6 +1,8 @@
 from flask import jsonify
-from sqlalchemy import or_
+from sqlalchemy import or_,func
 import pytz
+
+
 
 
 def convert_timezone(timestamp, zone):
@@ -21,9 +23,9 @@ def json_response(status:str, message:str, opts:dict=None):
 
     return jsonify(response)
 
-def search_posts(content:str=None, topics:list=None, sort_by:str='timestamp_desc', limit:int=None, offset:int=None):
-    '''Search posts based on content, topics, and sort_by. Return a list of posts.'''
-    from .models import Post
+def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str='timestamp_desc', limit:int=None, offset:int=None):
+    '''Search posts based on content, topics, tags, and sort_by. Return a list of posts.'''
+    from .models import Post,User
     query_filter = Post.query
     results = query_filter
 
@@ -41,6 +43,11 @@ def search_posts(content:str=None, topics:list=None, sort_by:str='timestamp_desc
         if type(topics) is not list:
             topics = topics.split(',')
         query_filter = query_filter.filter(Post.topic.in_(topics))
+
+    # filter by tags
+    if tags:
+        query_filter = query_filter.filter(Post.tags.ilike(f"%{tags}%"))
+
 
     # sort the results by views / timestamp and descending / ascending
     
@@ -60,6 +67,7 @@ def search_posts(content:str=None, topics:list=None, sort_by:str='timestamp_desc
     # return the results
     posts = []
     for post in results.all():
+        
         post_dict ={
             "id": post.id,
             "title": post.title,
@@ -68,8 +76,31 @@ def search_posts(content:str=None, topics:list=None, sort_by:str='timestamp_desc
             "user_id": post.user_id,
             "views": post.views,
             "timestamp": post.real_timestamp,
-            "username": post.user.username
+            "username": post.user.username,
+            "tags": post.tags,
+            "level": user_level(post.user_id)
         }
+       
         posts.append(post_dict)
-
+    
     return posts
+
+def user_level(user_id:int):
+    from app.models import User
+    #Return the user level based on the number of points.
+    user = User.query.get(user_id)
+    if user:
+        if user.points < 201:
+            return 'Level 1'
+        elif user.points < 401:
+            return 'Level 2'
+        elif user.points < 601:
+            return 'Level 3'
+        elif user.points < 801:
+            return 'Level 4'
+        elif user.points < 1001:
+            return 'Level 5'
+        else:
+            return 'Level 6'
+    return 'Unknown Level'
+
