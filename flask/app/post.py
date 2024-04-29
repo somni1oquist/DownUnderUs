@@ -70,7 +70,8 @@ def post(post_id):
     has_answer = check_answer(post.replies)
 
     # Increment view count
-    post.views += 1
+    if request.referrer != request.url:
+        post.views += 1
     db.session.commit()
 
     return render_template("post/index.html", post=post, has_answer=has_answer)

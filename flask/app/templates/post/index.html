@@ -11,7 +11,8 @@
     <h1 id="title">{{ post.title }}</h1>
     {% if current_user.is_authenticated and current_user.id == post.user_id %}
     <!-- Edit title button -->
-    <button id="title-btn" type="button" class="btn">
+    <button id="title-btn" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
+    data-bs-toggle="tooltip" data-bs-title="Edit title" data-bs-placement="right">
       <i class="fa-solid fa-pen"></i>
     </button>
     {% endif %}

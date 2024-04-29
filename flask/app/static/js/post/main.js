@@ -8,6 +8,14 @@ $(() => {
   initEditor($editor[0], false);
   initEditor($modalEditor[0], false);
 
+  $('#title-btn').on('click', () => {
+    const $title = $('#title');
+    const title = prompt('Enter title', $title.text());
+    const url = $('#title-btn').data('url');
+    if (title.trim())
+      save(url, { title: title });
+  });
+
   // Event listener for location button
   $('#location').on('click', () => {
     const location = prompt('Enter location (leave empty to remove location)');
@@ -34,7 +42,6 @@ $(() => {
         break;
 
       case Action.SAVE:
-        const title = $('#title-box').text();
         const $editor = $target.find('div#editor');
         const body = getEditorContent($editor[0]);
         // Extract tags from the body
@@ -44,7 +51,7 @@ $(() => {
           .map((_, el) => el.innerText.trim().substring(1))
           .get();
 
-        save(url, { title: title, body: body, tags: tags});
+        save(url, { body: body, tags: tags});
         break;
 
       case Action.ABORT:
