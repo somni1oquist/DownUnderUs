@@ -1,12 +1,14 @@
 .profile-background {
   background-color: #cdeadd;
-  padding-bottom: 50px;
   height: 200px;
+  margin-top: -50px;
 }
 
 .profile-container {
   max-width: 900px;
   margin: auto;
+  margin-top: -30px;
+  padding-top: 30px;
 }
 
 .profile-card {
@@ -43,6 +45,7 @@
 .profile-topics-icon {
   color: #6c757d;
   margin-right: 10px;
+  margin-right: 10px;
 }
 
 .profile-topics-label {
@@ -50,7 +53,6 @@
   display: block;
   margin-top: 20px;
 }
-
 .list-inline {
   padding-left: 0;
 }
@@ -64,6 +66,88 @@
   color: #000;
   margin-right: 5px;
   margin-bottom: 5px;
+}
+
+.post-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.post-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.post-title {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.post-meta {
+  color: #010202;
+  font-size: 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-body {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  .profile-container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .profile-info,
+  .profile-detail {
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .profile-detail {
+    justify-content: center;
+  }
+
+  .profile-card {
+    margin-top: -25px;
+  }
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.alert-info {
+  background-color: #f1ddd1;
+  color: #a67c52;
+  border-color: #e0c0a0;
+}
+
+.post-column {
+  margin-top: 70px;
 }
 
 .profile-greeting {
@@ -92,7 +176,6 @@
   border-color: #cdeadd;
   color: #000000;
 }
-
 .alert-info {
   background-color: #f1ddd1;
   color: #a67c52;

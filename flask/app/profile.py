@@ -2,12 +2,13 @@ import errno
 import os
 from flask import Blueprint, current_app, jsonify, render_template, request
 from flask_login import current_user, login_required
+from sqlalchemy import func
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
-from app.models import User,Title 
+from app.models import Post, Reply, User,Title 
 from .auth import get_perth_suburbs
 from .enums import ResponseMessage, ResponseStatus,Title as TitleEnum
-from .tools import json_response, convert_timezone
+from .tools import convert_timezone, json_response
 from werkzeug.exceptions import NotFound
 from datetime import datetime, timedelta,time
 from sqlalchemy import or_,func
@@ -115,7 +116,25 @@ def check_and_award_title(user_id:int, content=None):
 @login_required
 @bp.route('/', methods=['GET'])
 def profile_view():
-    return render_template('profile/view_profile.html', user=current_user)
+    # Fetch the top 10 posts created by the current user
+    user_posts = current_user.posts.order_by(Post.timestamp.desc()).limit(10).all()
+
+    # Fetch the top 10 unique posts where the current user has responded
+    user_responses = Post.query.join(Reply, Post.id == Reply.post_id)\
+                               .filter(Reply.user_id == current_user.id)\
+                               .order_by(func.max(Reply.timestamp).desc())\
+                               .group_by(Post.id)\
+                               .limit(10)\
+                               .all()
+
+    # Convert timestamps to the local timezone 
+    for post in user_posts:
+        post.timestamp = convert_timezone(post.timestamp,'Australia/Perth')
+    for post in user_responses:
+        post.timestamp = convert_timezone(post.timestamp,'Australia/Perth')
+
+    return render_template('profile/view_profile.html', user=current_user, user_posts=user_posts, 
+                           user_responses=user_responses)
 
 @login_required
 @bp.route('/edit', methods=['GET', 'POST'])
