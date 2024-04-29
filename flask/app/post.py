@@ -41,7 +41,6 @@ def create():
         return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id}), 201
     else:
         errors = form.errors
-        print(errors)
         return json_response(ResponseStatus.ERROR, ResponseMessage.FORM_ERROR, {"errors": errors}), 400
 
 
@@ -55,6 +54,14 @@ def load_post(id):
         return None
     return post
 
+def check_answer(replies):
+    '''Check if any reply is accepted or has accepted replies'''
+    if any(reply.accepted for reply in replies):
+        return True
+    elif any(reply.replies for reply in replies):
+        return any(check_answer(reply.replies) for reply in replies)
+    return False
+
 def check_author(subject, user):
     '''Check if user is the author of a post or reply'''
     return subject.user_id == user.id
@@ -66,11 +73,13 @@ def post(post_id):
     if not post:
         return json_response(ResponseStatus.ERROR, ResponseMessage.NOT_FOUND), 404
     
+    has_answer = check_answer(post.replies)
+
     # Increment view count
     post.views += 1
     db.session.commit()
 
-    return render_template("post/index.html", post=post)
+    return render_template("post/index.html", post=post, has_answer=has_answer)
 
 # Edit post
 @login_required
