@@ -7,7 +7,39 @@
 
 {% block container %}
 <div class="container-fluid post-container">
-  <h1 id="title">{{ post.title }}</h1>
+  <div class="header-container">
+    <h1 id="title">{{ post.title }}</h1>
+    {% if current_user.is_authenticated and current_user.id == post.user_id %}
+    <!-- Edit title button -->
+    <button id="title-btn" type="button" class="btn">
+      <i class="fa-solid fa-pen"></i>
+    </button>
+    {% endif %}
+  </div>
+  <div class="header-container">
+    {% if post.location %}
+    {% if current_user.is_authenticated and current_user.id == post.user_id %}
+    <!-- Edit location button -->
+    <button id="location" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
+      data-bs-toggle="tooltip" data-bs-title="Edit location" data-bs-placement="bottom">
+      <i class="fa-solid fa-location-dot"></i>
+      {{ post.location }}
+    </button>
+    {% else %}
+    <h5>
+      <i class="fa-solid fa-location-dot"></i>
+      {{ post.location }}
+    </h5>
+    {% endif %}
+    {% elif current_user.is_authenticated and current_user.id == post.user_id %}
+    <!-- Add location button -->
+    <button id="location" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
+      data-bs-toggle="tooltip" data-bs-title="Add location" data-bs-placement="bottom">
+      <i class="fa-solid fa-circle-plus"></i>
+      Add location
+    </button>
+    {% endif %}
+  </div>
   <div id="post" class="row">
     <div class="col-sm-2">
       <!-- Author Info -->

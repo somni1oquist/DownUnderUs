@@ -87,9 +87,27 @@ def edit(post_id):
     elif not check_author(post, current_user):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
     
-    post.title = data.get('title')
-    post.body = data.get('body')
-    post.tags = ','.join(data.get('tags')) if data.get('tags') else None
+    # If location is not empty, update location only
+    update_location = False
+    location = data.get('location')
+    if (location and location != 'null'):
+        post.location = location
+        update_location = True
+    elif (location == 'null'):
+        post.location = None
+        update_location = True
+    
+    # If title is not None, update title only
+    update_title = False
+    title = data.get('title')
+    if (title):
+        post.title = title
+        update_title = True
+    
+    if not update_location and not update_title:
+        post.body = data.get('body') if data.get('body') else post.body
+        post.tags = ','.join(data.get('tags')) if data.get('tags') else None
+
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.EDITED), 200

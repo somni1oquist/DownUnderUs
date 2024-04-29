@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, render_template, request, redirect, send_from_directory, url_for
 from flask_login import current_user, login_required
-from .models import User
+from .models import User, Post
 from .tools import search_posts, json_response
 from .enums import ResponseStatus
 from werkzeug.utils import secure_filename
