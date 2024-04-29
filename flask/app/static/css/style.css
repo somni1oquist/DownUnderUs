@@ -72,6 +72,17 @@
   font-weight: bold;
 }
 
+.search-post-body {
+  max-height: 30vh;
+  overflow-y: hidden;
+}
+
+.search-post-body img {
+  width: 100%;
+  max-width: 300px;
+  object-fit: contain;
+}
+
 .search-footer span {
   margin-right: 20px;
 }
