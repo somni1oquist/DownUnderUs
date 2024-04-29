@@ -87,7 +87,7 @@ const getTopics = (refresh = false) => {
  * @param {string} target target element to initialize the editor
  * @returns {Quill} Quill editor instance
  */
-const initEditor = (target) => {
+const initEditor = (target, hashtag = true) => {
   const $toolbar = $('<div class="toolbar">');
   const $container = $('<span class="ql-formats">');
   const $button = $('<button type="button">')
@@ -97,7 +97,8 @@ const initEditor = (target) => {
   emojiList.forEach(emoji => {
     $dropdown.append(`<span class="emoji">${emoji}</span>`);
   });
-  $container.append($button.clone().addClass("ql-hashtag").append('<i class="fa-solid fa-hashtag">'))
+  if (hashtag)
+    $container.append($button.clone().addClass("ql-hashtag").append('<i class="fa-solid fa-hashtag">'))
   $container.append($button.clone().addClass("ql-emoji").append('<i class="fa-solid fa-face-smile">'))
   $container.append($dropdown)
   $container.append($button.clone().addClass("ql-img").append('<i class="fa-solid fa-image">'))
@@ -112,13 +113,30 @@ const initEditor = (target) => {
         container: $toolbar[0],
         handlers: {
           'hashtag': () => {
-            let tag = prompt('Enter the content of the hashtag:');
-            if (tag) {
-              tag = "#" + tag.replace(/ /g, "_");
-              const range = editor.getSelection();
-              if (range) {
-                editor.insertText(range.index, " " + tag);
-                editor.setSelection(range.index + tag.length + 1);
+            let range = editor.getSelection(true); // Get current selection
+            if (range && range.length > 0
+              && editor.getText(range.index, range.length).indexOf('#') >= 0) {
+              // If there's a selection and it contains a hashtag
+              editor.deleteText(range.index, range.length);
+            } else if (range && range.length > 0) {
+              // If there's a selection but no hashtag
+              const tag = editor.getText(range.index, range.length).trim(); // Get selected text
+              const hashtag = `#${tag.replace(/ /g, "_")}`; // Get selected text
+              editor.deleteText(range.index, range.length);
+              editor.insertText(range.index, hashtag);
+              editor.setSelection(range.index, hashtag.length);
+              range = editor.getSelection(true); // Update the range
+              editor.formatText(range.index, range.length, 'link', '#'); // Format the text as a link
+              editor.setSelection(range.index + range.length);
+            } else {
+              let tag = prompt('Enter a tag: ');
+              if (tag && tag.indexOf('#') < 0) {
+                tag = tag.replace(/ /g, "_"); // Replace spaces with underscores
+                editor.insertText(range.index, `#${tag}`); // Insert the tag with a hashtag
+                editor.setSelection(range.index, range.index + tag.length + 1);
+                range = editor.getSelection(true);
+                editor.formatText(range.index, range.length, 'link', '#'); // Format the text as a link
+                editor.setSelection(range.index + range.length);
               }
             }
           },
@@ -181,6 +199,26 @@ const initEditor = (target) => {
     }
   });
 
+  // Listen for changes in the Quill editor
+  editor.on('text-change', (delta, oldDelta, source) => {
+    // Get all the links in the editor content
+    const contents = editor.root.innerHTML;
+    const $doc = $(contents);
+    const $links = $doc.find('a');
+    let removed = false;
+    if ($links.length) {
+      $links.each((_, link) => {
+        const tag = link.innerText;
+        if (tag && (!tag.startsWith('#') || tag === '#')) {
+          $(link).remove();
+          removed = true;
+        }
+      });
+      // Update the editor content if any links were removed
+      if (removed)
+        editor.root.innerHTML = $doc.html();
+    }
+  });
   
   // Save the editor instance in the target element's data
   $(target).data('quill', editor);

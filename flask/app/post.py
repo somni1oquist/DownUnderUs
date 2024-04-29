@@ -31,7 +31,9 @@ def create():
         title = form.title.data
         body = form.body.data
         topic = form.topic.data
-        quest = Post(title=title, body=body, user_id=current_user.id, topic=topic)
+        tags = request.form.get('tags', None)
+
+        quest = Post(title=title, body=body, user_id=current_user.id, topic=topic, tags=tags)
         db.session.add(quest)
         db.session.commit()
 
@@ -95,6 +97,7 @@ def edit(post_id):
     
     post.title = data.get('title')
     post.body = data.get('body')
+    post.tags = ','.join(data.get('tags')) if data.get('tags') else None
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.EDITED), 200

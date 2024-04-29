@@ -5,8 +5,8 @@ $(() => {
   // Initialise editor
   const $editor = $('#reply-editor');
   const $modalEditor = $('#replyModal #modal-editor');
-  initEditor($editor[0]);
-  initEditor($modalEditor[0]);
+  initEditor($editor[0], false);
+  initEditor($modalEditor[0], false);
 
   // Event listener for post actions
   $('div[id="post"] a[class*="btn"]').click(function (e) {
@@ -22,7 +22,8 @@ $(() => {
 
       case Action.SAVE:
         const title = $('#title-box').text();
-        const body = $target.find('div[contenteditable="true"]').text();
+        const $editor = $target.find('div#editor');
+        const body = getEditorContent($editor[0]);
         save(url, { title: title, body: body });
         break;
 
