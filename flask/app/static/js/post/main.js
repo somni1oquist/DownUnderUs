@@ -114,6 +114,18 @@ $(() => {
     }
   });
 
+  // Event listener for image
+  $('.post-container .card-text img').on('click', function (e) {
+    const src = $(this).attr('src');
+    const $modal = $('#imageModal');
+    $modal.find('img').attr('src', src);
+    $modal.show();
+  });
+  // Event listener for image modal
+  $('#imageModal').on('click', function (e) {
+    $(this).hide().find('img').attr('src', '');
+  });
+
   // Event listener for reply modal
   $('#replyModal #send-reply').on('click', function (e) {
     e.preventDefault(); // Prevent default action
