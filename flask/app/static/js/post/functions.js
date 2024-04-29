@@ -129,7 +129,7 @@ const save = (url, data) => {
         .then(() => window.location.reload());
     },
     error: (err) => {
-      const message = err.responseJSON.message;
+      const message = err.responseJSON?.message;
       makeToast(`Edit failed: ${message}`, BsType.DANGER, false);
     }
   });

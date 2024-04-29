@@ -65,8 +65,8 @@ $(document).ready(function () {
           });
       },
       error: (err) => {
-        displayFormErrors(form, err.responseJSON.errors);
-        makeToast(`Create post failed: ${err.responseJSON.message}`, BsType.DANGER, false);
+        displayFormErrors(form, err.responseJSON?.errors);
+        makeToast(`Create post failed: ${err.responseJSON?.message}`, BsType.DANGER, false);
       }
     });
   };
