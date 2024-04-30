@@ -5,12 +5,21 @@ import pytz
 
 
 
-def convert_timezone(timestamp, zone):
-    '''Convert timestamp to local timezone. Default timezone is `Australia/Perth`'''
-    utc = timestamp.replace(tzinfo=pytz.utc)
-    timezone = pytz.timezone(zone if zone else 'Australia/Perth')
-    format = '%a %d %B %Y %H:%M:%S'
-    return utc.astimezone(timezone).strftime(format)
+def convert_timezone(timestamp, from_zone=None, to_zone='Australia/Perth', as_string=True):
+    '''Convert timestamp between specified time zones.'''
+    if from_zone is None:
+        from_zone = 'UTC' 
+    from_timezone = pytz.timezone(from_zone)
+    to_timezone = pytz.timezone(to_zone)
+
+    localized_timestamp = from_timezone.localize(timestamp)
+    
+    target_time = localized_timestamp.astimezone(to_timezone)
+    
+    if as_string:
+        format = '%a %d %B %Y %H:%M:%S'
+        return target_time.strftime(format)
+    return target_time
 
 def json_response(status:str, message:str, opts:dict=None):
     '''Return a JSON response with `status` and `message`, and optional `data`.'''

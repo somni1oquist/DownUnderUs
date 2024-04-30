@@ -7,9 +7,9 @@ from app import db
 from app.models import User,Title 
 from .auth import get_perth_suburbs
 from .enums import ResponseMessage, ResponseStatus,Title as TitleEnum
-from .tools import json_response
+from .tools import json_response, convert_timezone
 from werkzeug.exceptions import NotFound
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,time
 from sqlalchemy import or_,func
 
 bp = Blueprint('profile', __name__, url_prefix='/profile')
@@ -17,11 +17,13 @@ bp = Blueprint('profile', __name__, url_prefix='/profile')
 
 # User title part
 @bp.route('/check-and-award-title')
-@login_required
+
 def check_title():
-    user_id = current_user.id
-    result,status= check_and_award_title(user_id)
-    return result,status
+    if current_user.is_authenticated:
+        user_id = current_user.id
+        result,status= check_and_award_title(user_id)
+        return result,status
+    
 
 # check if user already had a title
 def has_title(user_id, title_name):
@@ -69,7 +71,11 @@ def check_and_award_title(user_id:int, content=None):
         titles_awarded.append(TitleEnum.INFLUENCER)
 
     #  Night Owl -- Make over 20 posts during midnight hours
-    night_posts = Post.query.filter_by(user_id=user_id).filter(Post.real_timestamp.between('00:00:00', '06:00:00')).count()
+    def is_perth_midnight(utc_time):
+        perth_time = convert_timezone(utc_time, from_zone='UTC',to_zone='Australia/Perth', as_string=False)
+        return time(0, 0, 0) <= perth_time.time() <= time(6, 0, 0)
+    user_posts = Post.query.filter_by(user_id=user_id)
+    night_posts = sum([1 for post in user_posts if is_perth_midnight(post.timestamp)])
     if night_posts is not None and night_posts >= 20 and not has_title(user_id, TitleEnum.NIGHT_OWL):
         award_title (user_id, TitleEnum.NIGHT_OWL)
         titles_awarded.append(TitleEnum.NIGHT_OWL)

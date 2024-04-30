@@ -14,7 +14,7 @@ class Topic(Enum):
     SOCIAL = 'Social'
 
 # not using now
-class Title(Enum):
+class Title(str,Enum):
     #  Register
     NEWCOMER = 'Newcomer'
 
