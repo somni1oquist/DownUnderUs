@@ -143,10 +143,22 @@ function removeProfileImage() {
  */
 function displayMessage(message, type) {
   const messageDiv = document.getElementById("form-messages");
+  const postColumns = document.querySelectorAll(".post-column");
+
   messageDiv.textContent = message;
   messageDiv.className = `alert alert-${type}`;
   messageDiv.style.display = "block";
+
+  // Increase the top margin of post columns to make space for the message
+  postColumns.forEach((column) => {
+    column.style.marginTop = "195px";
+  });
+
   setTimeout(() => {
     messageDiv.style.display = "none";
+    // Reset the margin after the message is hidden
+    postColumns.forEach((column) => {
+      column.style.marginTop = "125px";
+    });
   }, 5000);
 }

@@ -7,12 +7,11 @@
 
 {% block container %}
 <div class="profile-background">
-  <div class="container profile-container my-5 py-5">
+  <div class="container profile-container my-5">
     <div id="form-messages"></div>
     <div class="profile-card shadow-sm">
       <div class="position-absolute end-0 me-3 mt-3">
-        <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-outline-secondary btn-sm edit-profile-btn">Edit
-          Profile</a>
+        <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-outline-secondary btn-sm">Edit Profile</a>
       </div>
       <div class="row align-items-center">
         <div class="col-md-4 text-center">
@@ -33,7 +32,7 @@
             <h1 class="profile-name">{{ user.username }}</h1>
             <div class="profile-topics">
               <span class="profile-topics-label">Find me around these interest areas:</span>
-              <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center flex-wrap">
                 <i class="fas fa-heart profile-topics-icon"></i>
                 <div class="profile-topics-tags ms-2">
                   {% if user.interested_topics %}
@@ -59,4 +58,51 @@
 {% block script %}
 {{ super() }}
 <script src="{{ url_for('static', filename='js/profile/edit-image.js') }}"></script>
+
+<!-- Posts Section -->
+<div class="container mt-5">
+  <div class="row">
+    <!-- User's Recent Posts -->
+    <div class="col-lg-6 post-column">
+      <h3 class="section-title">Recent 10 Posts</h3>
+      <div id="user-posts-container">
+        {% if user_posts %}
+        {% for post in user_posts %}
+        <div class="post-card">
+          <h4><a href="/post/{{ post.id }}" class="post-title">{{ post.title }}</a></h4>
+          <div class="post-body">{{ post.body | safe}}</div>
+          <div class="post-meta">
+            <span><i class="fa-solid fa-feather"></i> {{ post.real_timestamp }}</span>
+            <span><i class="fa-solid fa-eye"></i> {{ post.views }} views</span>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No posts found.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- User's Recent Interaction Posts -->
+    <div class="col-lg-6 post-column">
+      <h3 class="section-title">Recent 10 Posts You Interacted With</h3>
+      <div id="user-responses-container">
+        {% if user_responses %}
+        {% for post in user_responses %}
+        <div class="post-card">
+          <h4><a href="/post/{{ post.id }}" class="post-title">{{ post.title }}</a></h4>
+          <div class="post-body">{{ post.body | safe}}</div>
+          <div class="post-meta">
+            <span><i class="fa-solid fa-feather"></i> {{ post.real_timestamp }}</span>
+            <span><i class="fa-solid fa-eye"></i> {{ post.views }} views</span>
+          </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No interactions found.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

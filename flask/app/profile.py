@@ -2,12 +2,13 @@ import errno
 import os
 from flask import Blueprint, current_app, jsonify, render_template, request
 from flask_login import current_user, login_required
+from sqlalchemy import func
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
-from app.models import User,Title 
+from app.models import Post, Reply, User,Title 
 from .auth import get_perth_suburbs
 from .enums import ResponseMessage, ResponseStatus,Title as TitleEnum
-from .tools import json_response, convert_timezone
+from .tools import convert_timezone, json_response
 from werkzeug.exceptions import NotFound
 from datetime import datetime, timedelta,time
 from sqlalchemy import or_,func
@@ -110,12 +111,47 @@ def check_and_award_title(user_id:int, content=None):
     else:
         return jsonify(ResponseStatus.WARN, 'No titles awarded'), 204  
 
-
-# TODO: Page rendering and Api endpoints
 @login_required
 @bp.route('/', methods=['GET'])
 def profile_view():
-    return render_template('profile/view_profile.html', user=current_user)
+    # Fetch the top 10 posts created by the current user
+    user_posts = current_user.posts.order_by(Post.timestamp.desc()).limit(10).all()
+
+    # Initialize a set to keep track of unique post IDs and a list for the posts
+    unique_post_ids = set()
+    posts_in_order = []
+
+    # Number of replies to fetch in each batch
+    batch_size = 10
+    offset = 0
+
+    # Continue fetching replies in batches until we have 10 unique posts or no more replies
+    while len(posts_in_order) < 10:
+        replies = Reply.query.filter_by(user_id=current_user.id)\
+                             .order_by(Reply.timestamp.desc())\
+                             .offset(offset)\
+                             .limit(batch_size)\
+                             .all()
+
+        if not replies:
+            break  
+
+        # Process each reply to find its root post
+        for reply in replies:
+            current_reply = reply
+            while current_reply.post_id is None and current_reply.parent_id is not None:
+                current_reply = Reply.query.get(current_reply.parent_id)
+            if current_reply.post_id and current_reply.post_id not in unique_post_ids:
+                unique_post_ids.add(current_reply.post_id)
+                post = Post.query.get(current_reply.post_id)
+                if post:
+                    posts_in_order.append(post)
+                    if len(posts_in_order) >= 10:
+                        break
+
+        offset += batch_size 
+
+    return render_template('profile/view_profile.html', user=current_user, user_posts=user_posts, user_responses=posts_in_order)
 
 @login_required
 @bp.route('/edit', methods=['GET', 'POST'])
