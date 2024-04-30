@@ -3,8 +3,10 @@
   padding: 2rem;
 }
 
-.post-container h1 {
-  text-align: center;
+.post-container .header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .post-container .row {
@@ -38,13 +40,17 @@
 ul.reply-thread {
   padding: 0
 }
-ul, li {
+
+ul,
+li {
   list-style: none;
 }
+
 ul.reply-thread li ul {
   margin-left: 2rem;
   position: relative;
 }
+
 ul.reply-thread li ul::before {
   content: "";
   height: 100%;

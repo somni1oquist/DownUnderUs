@@ -1,21 +1,13 @@
 from flask import Blueprint, jsonify, render_template, request, jsonify, url_for
 from flask_login import current_user, login_required
-from markupsafe import escape
-from wtforms import Form, StringField
-from wtforms.validators import Length, InputRequired
-from app.models import Post, Reply, Vote
-from app.enums import Topic, ResponseStatus, ResponseMessage
-from app.tools import json_response
+from .forms import CreatePostForm
+from .models import Post, Reply, Vote
+from .enums import Topic, ResponseStatus, ResponseMessage
+from .tools import json_response
 from app import db
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
-
-# Validate the form
-class QuestForm(Form):
-    title = StringField(validators=[Length(min=3,max=100, message="Title fromatting error!!")])
-    body = StringField(validators=[Length(min=3,message="Content fromatting error!!")])
-    topic = StringField(validators=[InputRequired(message="Please select a topic!!")])
 
 # Get topic list
 @bp.route('/topics', methods=['GET'])
@@ -26,14 +18,14 @@ def topics():
 @bp.route('/create', methods=['POST'])
 @login_required
 def create():
-    form = QuestForm(request.form)
+    form = CreatePostForm(request.form)
     if form.validate():
         title = form.title.data
         body = form.body.data
         topic = form.topic.data
         tags = request.form.get('tags', None)
-
-        quest = Post(title=title, body=body, user_id=current_user.id, topic=topic, tags=tags)
+        location = form.location.data
+        quest = Post(title=title, body=body, user_id=current_user.id, topic=topic, tags=tags, location=location)
         db.session.add(quest)
         db.session.commit()
 
@@ -78,7 +70,8 @@ def post(post_id):
     has_answer = check_answer(post.replies)
 
     # Increment view count
-    post.views += 1
+    if request.referrer != request.url:
+        post.views += 1
     db.session.commit()
 
     return render_template("post/index.html", post=post, has_answer=has_answer)
@@ -95,9 +88,27 @@ def edit(post_id):
     elif not check_author(post, current_user):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
     
-    post.title = data.get('title')
-    post.body = data.get('body')
-    post.tags = ','.join(data.get('tags')) if data.get('tags') else None
+    # If location is not empty, update location only
+    update_location = False
+    location = data.get('location')
+    if (location and location != 'null'):
+        post.location = location
+        update_location = True
+    elif (location == 'null'):
+        post.location = None
+        update_location = True
+    
+    # If title is not None, update title only
+    update_title = False
+    title = data.get('title')
+    if (title):
+        post.title = title
+        update_title = True
+    
+    if not update_location and not update_title:
+        post.body = data.get('body') if data.get('body') else post.body
+        post.tags = ','.join(data.get('tags')) if data.get('tags') else None
+
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.EDITED), 200

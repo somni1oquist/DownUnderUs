@@ -43,6 +43,7 @@ class Post(db.Model):
     replies = db.relationship('Reply', backref='post', lazy='dynamic', cascade='all, delete-orphan')
     topic = db.Column(db.String(100), nullable=False)
     tags = db.Column(db.String(200))
+    location = db.Column(db.String(100))
 
     @property
     def user(self):

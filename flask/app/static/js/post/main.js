@@ -8,6 +8,27 @@ $(() => {
   initEditor($editor[0], false);
   initEditor($modalEditor[0], false);
 
+  $('#title-btn').on('click', () => {
+    const $title = $('#title');
+    const title = prompt('Enter title', $title.text());
+    const url = $('#title-btn').data('url');
+    if (title.trim())
+      save(url, { title: title });
+  });
+
+  // Event listener for location button
+  $('#location').on('click', () => {
+    const location = prompt('Enter location (leave empty to remove location)');
+    const url = $('#location').data('url');
+    if (location.trim()) {
+      // Save location
+      save(url, { location: location});
+    } else if (location !== null || location.trim() === '') {
+      // Remove location
+      save(url, { location: "null" });
+    }
+  })
+
   // Event listener for post actions
   $('div[id="post"] a[class*="btn"]').click(function (e) {
     e.preventDefault(); // Prevent default action
@@ -21,10 +42,16 @@ $(() => {
         break;
 
       case Action.SAVE:
-        const title = $('#title-box').text();
         const $editor = $target.find('div#editor');
         const body = getEditorContent($editor[0]);
-        save(url, { title: title, body: body });
+        // Extract tags from the body
+        const tags = $(body)
+          .find('a[rel*=noopener]')
+          .filter((_, el) => el.innerText.trim().startsWith('#'))
+          .map((_, el) => el.innerText.trim().substring(1))
+          .get();
+
+        save(url, { body: body, tags: tags});
         break;
 
       case Action.ABORT:

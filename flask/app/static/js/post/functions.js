@@ -5,12 +5,10 @@ import { makeToast, getEditorContent, initEditor } from '../utils.js';
  * @param {*} $target container
  */
 const editPost = ($target) => {
-  const title = $('#title')[0].innerHTML.trim();
   const body = $target.find('div[class="card-text"]')[0].innerHTML.trim();
 
   const $original = $target.find('div[class="card-text"]');
-  const $titleEditor = $('<h5 contenteditable="true" id="title-box"></h5>').text(title);
-  const $contentEditor = $('<div id="editor" class="card-text"></div>').html(body);
+  const $editor = $('<div id="editor" class="card-text"></div>').html(body);
 
   // Hide original text and edit button
   $original.addClass('d-none');
@@ -18,11 +16,10 @@ const editPost = ($target) => {
 
   // Reveal save and cancel buttons and append editor
   $target.find('.btn[data-action="save"], .btn[data-action="abort"]').removeClass('d-none');
-  $target.find('div[class="card-body"]').append($titleEditor);
-  $target.find('div[class="card-body"]').append($contentEditor);
+  $target.find('div[class="card-body"]').append($editor);
 
-  initEditor($contentEditor[0]);
-  $contentEditor.focus();
+  initEditor($editor[0]);
+  $editor.focus();
 };
 
 /**
@@ -33,14 +30,9 @@ const editPost = ($target) => {
 const reply = ($target, url) => {
   const $container = $target.find('#reply-editor').length ? $target.find('#reply-editor') : $target.find('#modal-editor');
   const body = getEditorContent($container[0]);
-  const tags = $(body)
-    .find('a[rel*=noopener]')
-    .filter((_, el) => el.innerText.trim().startsWith('#'))
-    .map((_, el) => el.innerText.trim().substring(1))
-    .get();
+
   const data = {
-    body: body,
-    tags: tags
+    body: body
   };
   create(url, data);
 }
@@ -110,13 +102,6 @@ const abortEdit = ($target) => {
  * @param {*} data edited data
  */
 const save = (url, data) => {
-  // Extract tags from the body
-  const tags = $(data.body)
-    .find('a[rel*=noopener]')
-    .filter((_, el) => el.innerText.trim().startsWith('#'))
-    .map((_, el) => el.innerText.trim().substring(1))
-    .get();
-    data.tags = tags;
 
   $.ajax({
     type: 'PUT',
