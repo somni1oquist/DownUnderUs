@@ -27,14 +27,14 @@ def check_title():
 
 # check if user already had a title
 def has_title(user_id, title_name):
-    if Title.query.filter_by(user_id=user_id, title=title_name.name).first():
+    if Title.query.filter_by(user_id=user_id, title=title_name).first():
         return True
 
 # award title to user
 def award_title(user_id:int, title:str):
     from app.models import Title
     if not has_title(user_id, title):
-        new_title = Title(user_id=user_id, title=title.name, awarded_date=datetime.now())
+        new_title = Title(user_id=user_id, title=title, awarded_date=datetime.now())
         db.session.add(new_title)
         
         return True

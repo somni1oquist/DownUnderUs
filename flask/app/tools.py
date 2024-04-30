@@ -5,8 +5,10 @@ import pytz
 
 
 
-def convert_timezone(timestamp, from_zone='UTC', to_zone='Australia/Perth', as_string=True):
+def convert_timezone(timestamp, from_zone=None, to_zone='Australia/Perth', as_string=True):
     '''Convert timestamp between specified time zones.'''
+    if from_zone is None:
+        from_zone = 'UTC' 
     from_timezone = pytz.timezone(from_zone)
     to_timezone = pytz.timezone(to_zone)
 
