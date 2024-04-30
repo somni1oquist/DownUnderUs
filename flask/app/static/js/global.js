@@ -14,7 +14,7 @@ $(() => {
     // If the modal does not exist, redirect to sign-in page
     if (!$createModal.length) {
       e.preventDefault();
-      makeToast(`Redirecting to sign-in page...`, BsType.PRIMARY)
+      makeToast(`Redirecting to sign-in page...`, BsType.PRIMARY, true, 2000, 'top-center', 'md')
         .then(() => window.location.href = '/auth/signin');
     }
   });

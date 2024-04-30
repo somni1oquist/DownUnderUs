@@ -5,13 +5,51 @@ import { BsType } from './enums.js';
  * @param {*} type type of toast e.g. success, danger, warning, info
  * @param {*} freeze freeze the page to prevent interaction from users, by default true
  * @param {*} duration milliseconds to show the toast by default 2000ms
+ * @param {*} placement placement of the toast e.g. top-left, top-right, bottom-left, bottom-right, top-center, bottom-center
+ * @param {*} fontsize size of the toast e.g. sm, md, lg, by default sm
  */
-const makeToast = (message, type, freeze, duration) => {
+const makeToast = (message, type, freeze, duration, placement = 'bottom-right', fontsize = 'sm') => {
   const typeClass = `text-bg-${type}`;
   // Disable user interaction with the page
   const $mask = $('div.lmask');
+  let placementClass = 'bottom-0 end-0';
+  let sizeClass = 'fs-4';
   const toFreeze = freeze === undefined ? true : freeze;
   toFreeze && $mask.show(); // Show the mask if freeze is true
+
+  switch (placement) {
+    case 'top-left':
+      placementClass = 'top-0 start-0';
+      break;
+    case 'top-right':
+      placementClass = 'top-0 end-0';
+      break;
+    case 'bottom-left':
+      placementClass = 'bottom-0 start-0';
+      break;
+    case 'top-center':
+      placementClass = 'top-0 start-50 translate-middle-x';
+      break;
+    case 'bottom-center':
+      placementClass = 'bottom-0 start-50 translate-middle-x';
+      break;
+    default:
+      placementClass = 'bottom-0 end-0';
+  }
+
+  switch (fontsize) {
+    case 'sm':
+      sizeClass = 'fs-6';
+      break;
+    case 'md':
+      sizeClass = 'fs-5';
+      break;
+    case 'lg':
+      sizeClass = 'fs-4';
+      break;
+    default:
+      sizeClass = 'fs-6';
+  }
 
   switch (type) {
     case BsType.SUCCESS:
@@ -29,16 +67,20 @@ const makeToast = (message, type, freeze, duration) => {
   }
 
   return new Promise((resolve, reject) => {
+    const $container = $('div.toast-container');
     const $actionToast = $('div#action-toast');
+    $container.addClass(placementClass);
+    // set the toast message
     $actionToast.find('div.toast-body').html(message);
-    $actionToast.addClass(typeClass);
+    $actionToast.addClass(typeClass).addClass(sizeClass);
     const toast = new bootstrap.Toast($actionToast[0], {
       autohide: true,
       delay: duration || 2000 // 2 seconds
     });
 
     const handleHidden = () => {
-      $actionToast.removeClass(typeClass);
+      $container.removeClass(placementClass);
+      $actionToast.removeClass(typeClass).removeClass(sizeClass);
       $actionToast.off('hidden.bs.toast', handleHidden); // Remove the event listener
       // Allow the user to interact with the page again
       toFreeze && $mask.hide();
