@@ -41,20 +41,24 @@
 }
 
 /* search result */
+#index-search-result-container {
+  border-radius: 10px;
+  font-size: 15px;
+  margin-left: 60px;
+}
+
 #search-result-container {
   border-radius: 10px;
   font-size: 15px;
-  width: 55%;
+  margin-top: 10px;
 }
 
-
 .search-result-box {
-  margin: 40px;
+  margin: 10px;
   padding: 20px;
   border: 1px solid #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 12px 0px #89adf99c;
-  width: 60%;
 }
 
 
