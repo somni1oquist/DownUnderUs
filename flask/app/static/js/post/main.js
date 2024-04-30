@@ -5,8 +5,10 @@ $(() => {
   // Initialise editor
   const $editor = $('#reply-editor');
   const $modalEditor = $('#replyModal #modal-editor');
-  initEditor($editor[0], false);
-  initEditor($modalEditor[0], false);
+  if ($editor.length)
+    initEditor($editor[0], false);
+  if ($modalEditor.length)
+    initEditor($modalEditor[0], false);
 
   $('#title-btn').on('click', () => {
     const $title = $('#title');
@@ -112,6 +114,18 @@ $(() => {
         vote(url);
         break;
     }
+  });
+
+  // Event listener for image
+  $('.post-container .card-text img').on('click', function (e) {
+    const src = $(this).attr('src');
+    const $modal = $('#imageModal');
+    $modal.find('img').attr('src', src);
+    $modal.show();
+  });
+  // Event listener for image modal
+  $('#imageModal').on('click', function (e) {
+    $(this).hide().find('img').attr('src', '');
   });
 
   // Event listener for reply modal
