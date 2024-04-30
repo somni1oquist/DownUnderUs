@@ -20,6 +20,7 @@ $(() => {
   });
 });
 
+// message notification for title award
 $(document).ready(function() {
   function checkAndShowTitle() {
       $.ajax({
@@ -28,18 +29,12 @@ $(document).ready(function() {
           success: function(response) {
             if (response.titles_awarded && response.titles_awarded.length > 0) {
                 var titles = response.titles_awarded.join(", ");
-                $('#titleAwardModal .modal-body').text('Congratulations! You have been awarded with: ' + titles);
-            } else {
-                $('#titleAwardModal .modal-body').text(response.message || 'No new titles were awarded.');
-            }
-            // Show the modal
-            $('#titleAwardModal').modal('show'); 
+                makeToast('Congratulations! You have been awarded with: ' + titles, BsType.SUCCESS, true, 5000, 'top-center', 'md')
+            } 
         },
-        
-          error: function() {
-              $('#titleAwardModal .modal-body').text('Failed to check titles.');
-              $('#titleAwardModal').modal('show');
-          }
+        error: function(error) {
+            console.log(error);
+        }
       });
   }
 

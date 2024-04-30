@@ -2,11 +2,11 @@
 {% block container %}
 <div class="container">
   <div class ="row">
-    <!-- top 10 topics -->
+    <!-- top 5 topics -->
     <div class="col-md-2">
       <div id="hot_topics">
         <div id="topic_box" class="top_box">
-          <div class="box_head">TOP 10 Topics</div>
+          <div class="box_head">TOP 5 Topics</div>
           <ul id="topic_list">
             {% for topic in top_topics %}
             <li><a href="{{ url_for('index.search',topics=topic)}}">{{topic}}</a></li>
@@ -15,10 +15,10 @@
         </div>
       </div>
 
-    <!-- top 10 tags -->
+    <!-- top 5 tags -->
       <div id="hot_tags">
         <div id="tag_box" class="top_box">
-          <div class="box_head">TOP 10 Tags</div>
+          <div class="box_head">TOP 5 Tags</div>
           <ul id="tag_list">
             {% for tag in top_tags %}
             <li><a href="{{ url_for('index.search',tags=tag)}}">{{tag}}</a></li>
