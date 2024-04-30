@@ -117,29 +117,41 @@ def profile_view():
     # Fetch the top 10 posts created by the current user
     user_posts = current_user.posts.order_by(Post.timestamp.desc()).limit(10).all()
 
-    post_latest_interaction = {}
+    # Initialize a set to keep track of unique post IDs and a list for the posts
+    unique_post_ids = set()
+    posts_in_order = []
 
-    # Get all replies by the current user
-    all_user_replies = Reply.query.filter_by(user_id=current_user.id).all()
+    # Number of replies to fetch in each batch
+    batch_size = 10
+    offset = 0
 
-    for reply in all_user_replies:
-        current_reply = reply
-        # Traverse to find the original post linked directly or through nested replies
-        while current_reply.post_id is None and current_reply.parent_id is not None:
-            current_reply = Reply.query.get(current_reply.parent_id)
-        if current_reply.post_id:
-            if current_reply.post_id in post_latest_interaction:
-                if post_latest_interaction[current_reply.post_id] < reply.timestamp:
-                    post_latest_interaction[current_reply.post_id] = reply.timestamp
-            else:
-                post_latest_interaction[current_reply.post_id] = reply.timestamp
+    # Continue fetching replies in batches until we have 10 unique posts or no more replies
+    while len(posts_in_order) < 10:
+        replies = Reply.query.filter_by(user_id=current_user.id)\
+                             .order_by(Reply.timestamp.desc())\
+                             .offset(offset)\
+                             .limit(batch_size)\
+                             .all()
 
-    sorted_post_ids = sorted(post_latest_interaction, key=post_latest_interaction.get, reverse=True)
+        if not replies:
+            break  
 
-    posts_in_order = [Post.query.get(post_id) for post_id in sorted_post_ids[:10]]
+        # Process each reply to find its root post
+        for reply in replies:
+            current_reply = reply
+            while current_reply.post_id is None and current_reply.parent_id is not None:
+                current_reply = Reply.query.get(current_reply.parent_id)
+            if current_reply.post_id and current_reply.post_id not in unique_post_ids:
+                unique_post_ids.add(current_reply.post_id)
+                post = Post.query.get(current_reply.post_id)
+                if post:
+                    posts_in_order.append(post)
+                    if len(posts_in_order) >= 10:
+                        break
+
+        offset += batch_size 
 
     return render_template('profile/view_profile.html', user=current_user, user_posts=user_posts, user_responses=posts_in_order)
-
 
 @login_required
 @bp.route('/edit', methods=['GET', 'POST'])
