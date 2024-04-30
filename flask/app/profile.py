@@ -111,30 +111,35 @@ def check_and_award_title(user_id:int, content=None):
     else:
         return jsonify(ResponseStatus.WARN, 'No titles awarded'), 204  
 
-
-# TODO: Page rendering and Api endpoints
 @login_required
 @bp.route('/', methods=['GET'])
 def profile_view():
     # Fetch the top 10 posts created by the current user
     user_posts = current_user.posts.order_by(Post.timestamp.desc()).limit(10).all()
 
-    # Fetch the top 10 unique posts where the current user has responded
-    user_responses = Post.query.join(Reply, Post.id == Reply.post_id)\
-                               .filter(Reply.user_id == current_user.id)\
-                               .order_by(func.max(Reply.timestamp).desc())\
-                               .group_by(Post.id)\
-                               .limit(10)\
-                               .all()
+    post_latest_interaction = {}
 
-    # Convert timestamps to the local timezone 
-    for post in user_posts:
-        post.timestamp = convert_timezone(post.timestamp,'Australia/Perth')
-    for post in user_responses:
-        post.timestamp = convert_timezone(post.timestamp,'Australia/Perth')
+    # Get all replies by the current user
+    all_user_replies = Reply.query.filter_by(user_id=current_user.id).all()
 
-    return render_template('profile/view_profile.html', user=current_user, user_posts=user_posts, 
-                           user_responses=user_responses)
+    for reply in all_user_replies:
+        current_reply = reply
+        # Traverse to find the original post linked directly or through nested replies
+        while current_reply.post_id is None and current_reply.parent_id is not None:
+            current_reply = Reply.query.get(current_reply.parent_id)
+        if current_reply.post_id:
+            if current_reply.post_id in post_latest_interaction:
+                if post_latest_interaction[current_reply.post_id] < reply.timestamp:
+                    post_latest_interaction[current_reply.post_id] = reply.timestamp
+            else:
+                post_latest_interaction[current_reply.post_id] = reply.timestamp
+
+    sorted_post_ids = sorted(post_latest_interaction, key=post_latest_interaction.get, reverse=True)
+
+    posts_in_order = [Post.query.get(post_id) for post_id in sorted_post_ids[:10]]
+
+    return render_template('profile/view_profile.html', user=current_user, user_posts=user_posts, user_responses=posts_in_order)
+
 
 @login_required
 @bp.route('/edit', methods=['GET', 'POST'])

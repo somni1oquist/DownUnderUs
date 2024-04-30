@@ -65,15 +65,15 @@
   <div class="row">
     <!-- User's Recent Posts -->
     <div class="col-lg-6 post-column">
-      <h3 class="section-title">Top 10 Recent Posts By You</h3>
+      <h3 class="section-title">Recent 10 Posts</h3>
       <div id="user-posts-container">
         {% if user_posts %}
         {% for post in user_posts %}
         <div class="post-card">
           <h4><a href="/post/{{ post.id }}" class="post-title">{{ post.title }}</a></h4>
-          <div class="post-body">{{ post.body }}</div>
+          <div class="post-body">{{ post.body | safe}}</div>
           <div class="post-meta">
-            <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
+            <span><i class="fa-solid fa-feather"></i> {{ post.real_timestamp }}</span>
             <span><i class="fa-solid fa-eye"></i> {{ post.views }} views</span>
           </div>
         </div>
@@ -86,15 +86,15 @@
 
     <!-- User's Recent Interaction Posts -->
     <div class="col-lg-6 post-column">
-      <h3 class="section-title">Top 10 Posts You Interacted With</h3>
+      <h3 class="section-title">Recent 10 Posts You Interacted With</h3>
       <div id="user-responses-container">
         {% if user_responses %}
         {% for post in user_responses %}
         <div class="post-card">
           <h4><a href="/post/{{ post.id }}" class="post-title">{{ post.title }}</a></h4>
-          <div class="post-body">{{ post.body }}</div>
+          <div class="post-body">{{ post.body | safe}}</div>
           <div class="post-meta">
-            <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
+            <span><i class="fa-solid fa-feather"></i> {{ post.real_timestamp }}</span>
             <span><i class="fa-solid fa-eye"></i> {{ post.views }} views</span>
           </div>
         </div>
