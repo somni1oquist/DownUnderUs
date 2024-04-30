@@ -5,8 +5,10 @@ $(() => {
   // Initialise editor
   const $editor = $('#reply-editor');
   const $modalEditor = $('#replyModal #modal-editor');
-  initEditor($editor[0], false);
-  initEditor($modalEditor[0], false);
+  if ($editor.length)
+    initEditor($editor[0], false);
+  if ($modalEditor.length)
+    initEditor($modalEditor[0], false);
 
   $('#title-btn').on('click', () => {
     const $title = $('#title');

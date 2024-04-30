@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request, jsonify, url_for
+from flask import Blueprint, jsonify, render_template, request, jsonify, session, url_for
 from flask_login import current_user, login_required
 from .forms import CreatePostForm
 from .models import Post, Reply, Vote
@@ -70,8 +70,11 @@ def post(post_id):
     has_answer = check_answer(post.replies)
 
     # Increment view count
-    if request.referrer != request.url:
+    if 'viewed_posts' not in session:
+        session['viewed_posts'] = []
+    if post_id not in session['viewed_posts']:
         post.views += 1
+        session['viewed_posts'].append(post_id)
     db.session.commit()
 
     return render_template("post/index.html", post=post, has_answer=has_answer)
