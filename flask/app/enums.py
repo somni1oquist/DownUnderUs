@@ -19,7 +19,7 @@ class Topic(Enum):
     RECYCLING = 'Recycling'
 
 # not using now
-class Title(Enum):
+class Title(str,Enum):
     #  Register
     NEWCOMER = 'Newcomer'
 
