@@ -124,6 +124,21 @@ const getTopics = (refresh = false) => {
   });
 };
 
+const checkForHashtag = () => {
+  // Check if the startContainer is a text node and contains a hashtag
+  const startContainer = window.getSelection().getRangeAt(0).startContainer;
+  if (startContainer.nodeType === 3 // Text node
+    && startContainer.parentElement.nodeName === 'A' // Anchor element
+    && startContainer.textContent.indexOf('#') >= 0) { // Contains a hashtag
+      startContainer.parentElement.insertAdjacentText('afterend', '\u00A0'); // Insert a non-breaking space
+      const range = new Range();
+      range.setStart(startContainer.parentElement.nextSibling, 1);
+      range.setEnd(startContainer.parentElement.nextSibling, 1);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);// Set the cursor after the space
+  }
+}
+
 /**
  * Initialize the Quill editor
  * @param {string} target target element to initialize the editor
@@ -155,12 +170,15 @@ const initEditor = (target, hashtag = true) => {
         container: $toolbar[0],
         handlers: {
           'hashtag': () => {
+            checkForHashtag();
             let range = editor.getSelection(true); // Get current selection
-            if (range && range.length > 0
+            if (range 
+              && range.length > 0
               && editor.getText(range.index, range.length).indexOf('#') >= 0) {
               // If there's a selection and it contains a hashtag
               editor.deleteText(range.index, range.length);
-            } else if (range && range.length > 0) {
+            } else if (range 
+              && range.length > 0) {
               // If there's a selection but no hashtag
               const tag = editor.getText(range.index, range.length).trim(); // Get selected text
               const hashtag = `#${tag.replace(/ /g, "_")}`; // Get selected text
@@ -168,8 +186,7 @@ const initEditor = (target, hashtag = true) => {
               editor.insertText(range.index, hashtag);
               editor.setSelection(range.index, hashtag.length);
               range = editor.getSelection(true); // Update the range
-              editor.formatText(range.index, range.length, 'link', '#'); // Format the text as a link
-              editor.setSelection(range.index + range.length);
+              editor.formatText(range.index, range.length, 'link', '#');
             } else {
               let tag = prompt('Enter a tag: ');
               if (tag && tag.indexOf('#') < 0) {
@@ -177,12 +194,13 @@ const initEditor = (target, hashtag = true) => {
                 editor.insertText(range.index, `#${tag}`); // Insert the tag with a hashtag
                 editor.setSelection(range.index, range.index + tag.length + 1);
                 range = editor.getSelection(true);
-                editor.formatText(range.index, range.length, 'link', '#'); // Format the text as a link
-                editor.setSelection(range.index + range.length);
+                editor.formatText(range.index, range.length, 'link', '#');
               }
             }
+            editor.setSelection(range.index + range.length);
           },
           'emoji': () => {
+            checkForHashtag()
             selection = editor.getSelection();
             $(editor.root).parent().siblings('.toolbar').find('.emoji-dropdown').toggleClass('d-none');
             $('.emoji').unbind('click'); // Remove any existing click event listeners
@@ -199,6 +217,7 @@ const initEditor = (target, hashtag = true) => {
             });
           },
           'img': () => {
+            checkForHashtag()
             // Create a hidden file input element
             const fileInput = document.createElement('input');
             fileInput.type = 'file';
