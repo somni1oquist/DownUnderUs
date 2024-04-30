@@ -4,7 +4,6 @@
   <div class ="row">
     <!-- top 10 topics -->
     <div class="col-md-2">
-<!-- <div class="container_2"> -->
       <div id="hot_topics">
         <div id="topic_box" class="top_box">
           <div class="box_head">TOP 10 Topics</div>
@@ -15,11 +14,26 @@
           </ul>
         </div>
       </div>
+
+    <!-- top 10 tags -->
+      <div id="hot_tags">
+        <div id="tag_box" class="top_box">
+          <div class="box_head">TOP 10 Tags</div>
+          <ul id="tag_list">
+            {% for tag in top_tags %}
+            <li><a href="{{ url_for('index.search',tags=tag)}}">{{tag}}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
     </div>
+
+
+    
     <!-- search result -->
-    <div class="col-md-8">
+    <div class="col-md-10">
       {% if current_user.is_authenticated %}
-      <div id="search-result-container">
+      <div id="index-search-result-container">
         {% if posts %}
         {% for post in posts %}
         <div class="search-result-box">
@@ -59,19 +73,7 @@
       {% endif %}
     </div>
 
-    <!-- top 10 tags -->
-    <div class="col-md-2">
-      <div id="hot_tags">
-          <div id="tag_box" class="top_box">
-            <div class="box_head">TOP 10 Tags</div>
-            <ul id="tag_list">
-              {% for tag in top_tags %}
-              <li><a href="{{ url_for('index.search',tags=tag)}}">{{tag}}</a></li>
-              {% endfor %}
-            </ul>
-          </div>
-      </div>
-    </div>
+
 
   </div>
 </div>
