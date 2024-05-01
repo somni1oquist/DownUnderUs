@@ -61,15 +61,15 @@ def search():
 
 @bp.route("/")
 def index():
-    # top 10 topics
+    # top 5 topics
     top_topics_data= db.session.query(
         Post.topic,
         # lable equals sql "as"
         db.func.sum(Post.views).label('total_views')
-        ).group_by(Post.topic).order_by(db.desc('total_views')).limit(10).all()
+        ).group_by(Post.topic).order_by(db.desc('total_views')).limit(5).all()
     top_topics = [topic[0] for topic in top_topics_data]
 
-    # top 10 tags
+    # top 5 tags
     # key is tag, value is total_views
     tag_views ={}
     posts = Post.query.with_entities(Post.tags, Post.views).all()
@@ -81,7 +81,7 @@ def index():
             if tag not in tag_views:
                 tag_views[tag] = 0
             tag_views[tag] += views
-    top_tags_data = sorted(tag_views.items(), key=lambda x: x[1], reverse=True)[:10]
+    top_tags_data = sorted(tag_views.items(), key=lambda x: x[1], reverse=True)[:5]
     top_tags = [tag for tag, views in top_tags_data]
 
     if current_user.is_authenticated:
