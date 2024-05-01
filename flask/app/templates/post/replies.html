@@ -12,13 +12,14 @@
     <div class="col-sm-2">
       <!-- Author Info -->
       <div class="author">
-        <!-- TODO: Add user profile link -->
-        {% if reply.user.profile_image %}
-        <img src="{{ url_for('index.serve_uploaded_file', filename=reply.user.profile_image) }}" alt="Profile Image"
-          class="rounded-circle">
-        {% else %}
-        <h1><i class="fa-solid fa-circle-user"></i></h1>
-        {% endif %}
+        <a href="{{ url_for('profile.profile_view', user_id=reply.user_id) }}">
+          {% if reply.user.profile_image %}
+          <img src="{{ url_for('index.serve_uploaded_file', filename=reply.user.profile_image) }}" alt="Profile Image"
+            class="rounded-circle">
+          {% else %}
+          <h1><i class="fa-solid fa-circle-user"></i></h1>
+          {% endif %}
+        </a>
       </div>
     </div>
     <div class="col-sm-8">

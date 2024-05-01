@@ -20,6 +20,10 @@
   text-align: center;
 }
 
+.author a {
+  color: #333;
+}
+
 .author i {
   font-size: 6rem;
 }

@@ -113,9 +113,18 @@ def check_and_award_title(user_id:int, content=None):
 
 @login_required
 @bp.route('/', methods=['GET'])
-def profile_view():
+@bp.route('/<int:user_id>', methods=['GET'])
+def profile_view(user_id=None):
+    # If a user ID is provided, fetch the user with that ID
+    if user_id:
+        user = User.query.get(user_id)
+        if not user:
+            return render_template('404.html'), 404
+    # Otherwise, fetch the current user
+    else:
+        user = current_user
     # Fetch the top 10 posts created by the current user
-    user_posts = current_user.posts.order_by(Post.timestamp.desc()).limit(10).all()
+    user_posts = user.posts.order_by(Post.timestamp.desc()).limit(10).all()
 
     # Initialize a set to keep track of unique post IDs and a list for the posts
     unique_post_ids = set()
@@ -127,7 +136,7 @@ def profile_view():
 
     # Continue fetching replies in batches until we have 10 unique posts or no more replies
     while len(posts_in_order) < 10:
-        replies = Reply.query.filter_by(user_id=current_user.id)\
+        replies = Reply.query.filter_by(user_id=user.id)\
                              .order_by(Reply.timestamp.desc())\
                              .offset(offset)\
                              .limit(batch_size)\
@@ -151,7 +160,7 @@ def profile_view():
 
         offset += batch_size 
 
-    return render_template('profile/view_profile.html', user=current_user, user_posts=user_posts, user_responses=posts_in_order)
+    return render_template('profile/view_profile.html', user=user, user_posts=user_posts, user_responses=posts_in_order)
 
 @login_required
 @bp.route('/edit', methods=['GET', 'POST'])
