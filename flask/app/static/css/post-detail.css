@@ -16,6 +16,20 @@
   margin-block: 1rem;
 }
 
+.author {
+  text-align: center;
+}
+
+.author i {
+  font-size: 6rem;
+}
+
+.author img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+}
+
 .post-container .card {
   min-height: 170px;
   position: static;

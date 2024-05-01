@@ -44,11 +44,16 @@
   <div id="post" class="row">
     <div class="col-sm-2">
       <!-- Author Info -->
-      <!-- TODO: Should replace icon with profile picture -->
       <div class="author">
+        <!-- TODO: Add user profile link -->
+        {% if post.user.profile_image %}
+        <img src="{{ url_for('index.serve_uploaded_file', filename=post.user.profile_image) }}"
+          alt="Profile Image" class="rounded-circle">
+        {% else %}
         <h1>
           <i class="fa-solid fa-circle-user"></i>
         </h1>
+        {% endif %}
       </div>
     </div>
     <div class="col-sm-8">
