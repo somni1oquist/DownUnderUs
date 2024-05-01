@@ -76,7 +76,7 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str=
     # return the results
     posts = []
     for post in results.all():
-        
+        user_info = search_user(post.user_id)
         post_dict ={
             "id": post.id,
             "title": post.title,
@@ -87,13 +87,15 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str=
             "timestamp": post.real_timestamp,
             "username": post.user.username,
             "tags": post.tags,
-            "level": user_level(post.user_id)
+            "level": user_level(post.user_id),
+            "user_info": user_info
         }
        
         posts.append(post_dict)
     
     return posts
 
+# set the user level based on the number of points
 def user_level(user_id:int):
     from app.models import User
     #Return the user level based on the number of points.
@@ -113,3 +115,20 @@ def user_level(user_id:int):
             return 'Level 6'
     return 'Unknown Level'
 
+# search for user info based on the user_id
+def search_user(user_id:int):
+    from app.models import User, Title
+    user = User.query.filter_by(id=user_id).first()
+    if user:
+        titles = Title.query.filter_by(user_id=user_id).all()
+        user_titles = [title.title for title in titles]
+        user_info = {
+            "id": user.id,
+            "username": user.username,
+            "points": user.points,
+            "profile_img": user.profile_image,
+            "titles": user_titles
+        }
+        return user_info
+    else:
+        return None

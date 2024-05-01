@@ -7,7 +7,11 @@
     <div class="search-result-box">
       <h4><a href="{{ url_for('post.post', post_id=post.id) }}">{{ post.title }}</a></h4>
       <div class="search-author-info">
-        <img src="../../static/images/icons8-bmo-48.png" alt="author photo">
+        {% if post.user_info.profile_img %}
+        <img src="{{ url_for('index.serve_uploaded_file', filename=post.user_info.profile_img) }}" alt="author photo">
+        {% else %}
+        <i class="fa-solid fa-circle-user"></i>
+        {%endif%}
         <span class="search-result-author-level">{{ post.level }}</span>
         <span>{{ post.username }}</span>
       </div>
