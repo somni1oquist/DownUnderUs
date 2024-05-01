@@ -39,8 +39,8 @@
         <div class="search-result-box">
           <h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
           <div class="search-author-info">
-            {% if post.user_info.profile_img %}
-            <img src="{{ url_for('index.serve_uploaded_file', filename=post.user_info.profile_img) }}" alt="author photo">            
+            {% if post.profile_img %}
+            <img src="{{ url_for('index.serve_uploaded_file', filename=post.profile_img) }}" alt="author photo">            
             {% else %}
             <i class="fa-solid fa-circle-user"></i>
             {%endif%}

@@ -34,7 +34,7 @@ def json_response(status:str, message:str, opts:dict=None):
 
 def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str='timestamp_desc', limit:int=None, offset:int=None):
     '''Search posts based on content, topics, tags, and sort_by. Return a list of posts.'''
-    from .models import Post,User
+    from .models import Post,Title
     query_filter = Post.query
     results = query_filter
 
@@ -76,7 +76,8 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str=
     # return the results
     posts = []
     for post in results.all():
-        user_info = search_user(post.user_id)
+        titles = Title.query.filter_by(user_id=post.user_id).all()
+        user_titles = [title.title for title in titles]
         post_dict ={
             "id": post.id,
             "title": post.title,
@@ -88,7 +89,8 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str=
             "username": post.user.username,
             "tags": post.tags,
             "level": user_level(post.user_id),
-            "user_info": user_info
+            "titles": user_titles,
+            "profile_img": post.user.profile_image
         }
        
         posts.append(post_dict)
@@ -116,10 +118,9 @@ def user_level(user_id:int):
     return 'Unknown Level'
 
 # search for user info based on the user_id
-def search_user(user_id:int):
+def user_tag(user_id:int):
     from app.models import User, Title
-    user = User.query.filter_by(id=user_id).first()
-    if user:
+    if user_id:
         titles = Title.query.filter_by(user_id=user_id).all()
         user_titles = [title.title for title in titles]
         user_info = {
