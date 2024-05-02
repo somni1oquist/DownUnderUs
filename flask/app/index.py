@@ -15,9 +15,9 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Endpoint to handle image uploads
-@bp.route('/upload', methods=['POST'])
+@bp.route('/upload/<int:profile_image>', methods=['POST'])
 @login_required
-def upload_image():
+def upload_image(profile_image):
     from flask import current_app as app
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     # Check if the request contains a file part
@@ -35,6 +35,16 @@ def upload_image():
         filename = os.urandom(16).hex() + secure_filename(file.filename)
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)  # Save the uploaded file
+
+        # Update the user's profile image
+        profile_image = bool(profile_image)
+        if profile_image:
+            # Remove the old profile image if it exists
+            if current_user.profile_image:
+                os.remove(os.path.join(app.config['UPLOAD_FOLDER'], current_user.profile_image))
+            current_user.profile_image = filename
+            db.session.commit()
+            return json_response(ResponseStatus.SUCCESS, "Profile image updated successfully", {"url": f"/uploads/{filename}"}), 200
 
         # Return the URL to access the uploaded file
         return json_response(ResponseStatus.SUCCESS, "Upload succeeded", {"url": f"/uploads/{filename}"}), 200
