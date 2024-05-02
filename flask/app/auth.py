@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app import db
 from app.models import User
 from .enums import ResponseMessage, ResponseStatus, Topic
-from .tools import json_response
+from .tools import json_response, update_user_points
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')

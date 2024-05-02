@@ -1,6 +1,7 @@
 from flask import jsonify
 from sqlalchemy import or_,func
 import pytz
+from app import db
 
 
 
@@ -111,3 +112,9 @@ def user_level(user_id:int):
             return 'LV6'
     return 'Unknown Level'
 
+def update_user_points(user_id, points):
+    from app.models import User
+    user = User.query.get(user_id)
+    if user:
+        user.points+= points
+        db.session.commit()
