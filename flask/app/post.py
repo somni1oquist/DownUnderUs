@@ -75,6 +75,7 @@ def post(post_id):
     if post_id not in session['viewed_posts']:
         post.views += 1
         session['viewed_posts'].append(post_id)
+        session.update()
     db.session.commit()
 
     return render_template("post/index.html", post=post, has_answer=has_answer)
