@@ -237,5 +237,21 @@ ul.topnav li.center {
 }
 
 
+/* footer part */
+.bottom-banner {
+  background-color: #76885B;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  bottom: 0;
+  width: 100%;
+}
 
+.bottom-banner button {
+  margin : 10px;
+}
 
+body {
+  /* this padding make sure no content is covered by banner */
+  padding-bottom: 60px;  
+}
