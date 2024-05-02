@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     posts = db.relationship('Post', back_populates='user', lazy='dynamic', cascade='all, delete-orphan')
     replies = db.relationship('Reply', back_populates='user', lazy='dynamic', cascade='all, delete-orphan')
     interested_topics = db.Column(db.String(200))
-    points = db.Column(db.Integer, default=0)
+    points = db.Column(db.Integer, default=0,nullable=False)
     registered_date = db.Column(db.DateTime, index=True, default=func.now())
     titles = db.relationship('Title', backref='user', lazy='dynamic')
 
