@@ -22,3 +22,7 @@ flask/migrations/README
 #Ignore IDE configuration directory
 .idea/
 .vscode/
+
+# Ignore test coverage report files
+.coverage
+htmlcov/
