@@ -13,10 +13,7 @@
             {% endfor %}
           </ul>
         </div>
-      </div>
-
-    <!-- top 5 tags -->
-      <div id="hot_tags">
+            <!-- top 5 tags -->
         <div id="tag_box" class="top_box">
           <div class="box_head">TOP 5 Tags</div>
           <ul id="tag_list">
@@ -26,6 +23,8 @@
           </ul>
         </div>
       </div>
+
+
     </div>
 
 
@@ -33,7 +32,7 @@
     <!-- search result -->
     <div class="col-md-10">
       {% if current_user.is_authenticated %}
-      <div id="index-search-result-container">
+      <!-- <div id="index-search-result-container">
         {% if posts %}
         {% for post in posts %}
         <div class="search-result-box">
@@ -44,8 +43,17 @@
             {% else %}
             <i class="fa-solid fa-circle-user"></i>
             {%endif%}
-            <span class="search-result-author-level">{{ post.level }}</span>
-            <span>{{ post.username }}</span>
+            <div class="search-author-detail">
+              <span class="search-author-name">{{ post.username }}</span>
+              <span class="search-author-level">{{ post.level }}</span>
+              {% if post.user_titles%}
+              {%for user_title in post.user_titles %}
+              {% if user_title != 'Newcomer' %}
+              <span class="badge rounded-pill bg-custom">{{ user_title}}</span>
+              {% endif %}
+              {% endfor %}
+              {% endif %}
+            </div>
           </div>
           <div class="search-post-body">
             <p>{{ post.body | safe }}</p>
@@ -61,7 +69,77 @@
         {% else %}
         <p> No results found </p>
         {% endif %}
+      </div> -->
+
+      <div id="search-result-container">
+        {% if posts %}
+        {% for post in posts %}
+        <div class="container mt-3 search-result-box">
+          <!-- Header with title and topic -->
+          <div class="row">
+              <div class="col">
+                  <h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
+              </div>
+              <div class="col-auto">
+                  <span class="badge bg-secondary">{{ post.topic }}</span>
+              </div>
+          </div>
+      
+          <!-- Author info -->
+          <div class="row align-items-center mt-2 search-author-info">
+              <!-- Profile image -->
+              <div class="col-auto">
+                  {% if post.profile_img %}
+                  <img src="{{ url_for('index.serve_uploaded_file', filename=post.profile_img) }}" >
+                  {% else %}
+                  <i class="fa-solid fa-circle-user" ></i>
+                  {% endif %}
+              </div>
+      
+              <!-- Author details: name and titles/level -->
+              <div class="col">
+                  <div class="row">
+                      <div class="col-12">
+                          <span class="search-author-name">{{ post.username }}</span>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-12">
+                          <span class="search-author-level">{{ post.level }}</span>
+                          {% if post.user_titles %}
+                          {% for user_title in post.user_titles %}
+                          {% if user_title != 'Newcomer' %}
+                          <span class="badge rounded-pill bg-custom">{{ user_title }}</span>
+                          {% endif %}
+                          {% endfor %}
+                          {% endif %}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      
+          <!-- Post body and footer -->
+          <div class="row mt-2">
+              <div class="col">
+                  <div class="search-post-body">
+                      <p>{{ post.body | safe }}</p>
+                  </div>
+                  <div class="search-footer">
+                      <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
+                      <span><i class="fa-solid fa-eye"></i> {{ post.views }}</span>
+                  </div>
+              </div>
+          </div>
+        </div>
+      
+      {% endfor %}
+      {% else %}
+      <p> No results found </p>
+      {% endif %}
       </div>
+
+
+
       {% else %}
       <div class="container_1">
         <div class="container_1_1">

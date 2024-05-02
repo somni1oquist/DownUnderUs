@@ -88,7 +88,7 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str=
             "username": post.user.username,
             "tags": post.tags,
             "level": user_level(post.user_id),
-            "titles": user_titles,
+            "user_titles": user_titles,
             "profile_img": post.user.profile_image
         }
        
@@ -103,16 +103,16 @@ def user_level(user_id:int):
     user = User.query.get(user_id)
     if user:
         if user.points < 201:
-            return 'Level 1'
+            return 'LV1'
         elif user.points < 401:
-            return 'Level 2'
+            return 'LV2'
         elif user.points < 601:
-            return 'Level 3'
+            return 'LV3'
         elif user.points < 801:
-            return 'Level 4'
+            return 'LV4'
         elif user.points < 1001:
-            return 'Level 5'
+            return 'LV5'
         else:
-            return 'Level 6'
+            return 'LV6'
     return 'Unknown Level'
 

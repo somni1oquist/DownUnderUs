@@ -4,32 +4,69 @@
   <div id="search-result-container">
     {% if posts %}
     {% for post in posts %}
-    <div class="search-result-box">
-      <h4><a href="{{ url_for('post.post', post_id=post.id) }}">{{ post.title }}</a></h4>
-      <div class="search-author-info">
-        {% if post.profile_img %}
-        <img src="{{ url_for('index.serve_uploaded_file', filename=post.profile_img) }}" alt="author photo">
-        {% else %}
-        <i class="fa-solid fa-circle-user"></i>
-        {%endif%}
-        <span class="search-result-author-level">{{ post.level }}</span>
-        <span>{{ post.username }}</span>
+    <div class="container mt-3 search-result-box">
+      <!-- Header with title and topic -->
+      <div class="row">
+          <div class="col">
+              <h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
+          </div>
+          <div class="col-auto">
+              <span class="badge bg-secondary">{{ post.topic }}</span>
+          </div>
       </div>
-      <div class="search-post-body">
-        <p>{{ post.body | safe }}</p>
-      <a href="{{ url_for('post.post', post_id=post.id) }}" role="button" class="read">...Read more</a>
+  
+      <!-- Author info -->
+      <div class="row align-items-center mt-2 search-author-info">
+          <!-- Profile image -->
+          <div class="col-auto">
+              {% if post.profile_img %}
+              <img src="{{ url_for('index.serve_uploaded_file', filename=post.profile_img) }}" >
+              {% else %}
+              <i class="fa-solid fa-circle-user" ></i>
+              {% endif %}
+          </div>
+  
+          <!-- Author details: name and titles/level -->
+          <div class="col">
+              <div class="row">
+                  <div class="col-12">
+                      <span class="search-author-name">{{ post.username }}</span>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12">
+                      <span class="search-author-level">{{ post.level }}</span>
+                      {% if post.user_titles %}
+                      {% for user_title in post.user_titles %}
+                      {% if user_title != 'Newcomer' %}
+                      <span class="badge rounded-pill bg-custom">{{ user_title }}</span>
+                      {% endif %}
+                      {% endfor %}
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
       </div>
-      <div class="search-footer">
-        <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
-        <span>
-          <i class="fa-solid fa-eye"></i> {{ post.views }}
-        </span>
+  
+      <!-- Post body and footer -->
+      <div class="row mt-2">
+          <div class="col">
+              <div class="search-post-body">
+                  <p>{{ post.body | safe }}</p>
+              </div>
+              <div class="search-footer">
+                  <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
+                  <span><i class="fa-solid fa-eye"></i> {{ post.views }}</span>
+              </div>
+          </div>
       </div>
     </div>
-    {% endfor %}
-    {% else %}
-    <p> No results found </p>
-    {% endif %}
+  
+  {% endfor %}
+  {% else %}
+  <p> No results found </p>
+  {% endif %}
   </div>
+  
 </div>
 {% endblock %}
