@@ -23,6 +23,12 @@
     border-radius: 5px;
 }
 
+.top_box a {
+    color: #000;
+    text-decoration: none;
+  }
+
+
 .box_head {
     border-bottom: 1px solid rgba(12, 12, 12, 30%);
     padding: 10px 0;

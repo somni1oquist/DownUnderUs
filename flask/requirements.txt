@@ -17,3 +17,4 @@ typing_extensions==4.10.0
 Werkzeug==3.0.1
 WTForms==2.2
 faker==24.11.0
+requests==2.31.0
