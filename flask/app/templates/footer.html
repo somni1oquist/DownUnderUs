@@ -65,8 +65,29 @@
     </div>
   </div>
 </div>
+{% else %}
+<!-- bottom banner -->
+<div class="fixed-bottom">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="bottom-banner">
+          <h4> More than 100,000 people already use our website! </h4>
+          <a href="{{ url_for('auth.signup') }}">
+          <button type="button" class="btn btn-light">Register Now</button>
+          </a>
+          <a href="{{ url_for('auth.signin') }}">
+          <button type="button" class="btn btn-light">Sign In</button>
+          </a>
+        </div>
 
+      </div>
 
+    </div>
+
+  </div>
+
+</div>
 
 {% endif %}
 <!-- Toast -->
