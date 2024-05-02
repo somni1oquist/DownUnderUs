@@ -19,18 +19,22 @@
       <div class="row align-items-center mt-2 search-author-info">
           <!-- Profile image -->
           <div class="col-auto">
+            <a href="{{ url_for('profile.profile_view', user_id=post.user_id) }}">
               {% if post.profile_img %}
               <img src="{{ url_for('index.serve_uploaded_file', filename=post.profile_img) }}" >
               {% else %}
               <i class="fa-solid fa-circle-user" ></i>
               {% endif %}
+            </a>
           </div>
   
           <!-- Author details: name and titles/level -->
           <div class="col">
               <div class="row">
                   <div class="col-12">
+                    <a href="{{ url_for('profile.profile_view', user_id=post.user_id) }}">
                       <span class="search-author-name">{{ post.username }}</span>
+                    </a>
                   </div>
               </div>
               <div class="row">
