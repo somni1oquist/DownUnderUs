@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
     interested_topics = db.Column(db.String(200))
     points = db.Column(db.Integer, default=0)
     registered_date = db.Column(db.DateTime, index=True, default=func.now())
+    title = db.relationship('Title', backref='user', lazy='dynamic')
 
 
     def set_password(self, password):
