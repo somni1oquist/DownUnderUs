@@ -26,7 +26,7 @@ $(document).ready(function () {
   });
 
   initEditor($('#body')[0])
-  
+
   // Handle the form submission for creating a new post
   const form = document.getElementById('createModal').querySelector('form');
   form.onsubmit = function (event) {
@@ -43,7 +43,11 @@ $(document).ready(function () {
       .get();
     formData.append('body', body);
     formData.append('tags', tags);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 64274e7 (solve conflicts)
     $.ajax({
       type: 'POST',
       url: '/post/create',
