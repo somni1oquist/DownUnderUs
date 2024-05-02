@@ -212,3 +212,11 @@ def delete_image():
         return json_response(ResponseStatus.SUCCESS, "Profile image deleted successfully.")
     
     return json_response(ResponseStatus.ERROR, "No profile image to delete.")
+
+@bp.route('/<int:user_id>', methods=['GET'])
+def view_user_profile(user_id):
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    return render_template('profile/view_other_profile.html', user=user)
