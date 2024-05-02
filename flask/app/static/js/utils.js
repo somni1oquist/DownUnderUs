@@ -231,7 +231,7 @@ const initEditor = (target, hashtag = true) => {
                 formData.append('image', file);
 
                 try {
-                  const response = await fetch('/upload', {
+                  const response = await fetch('/upload/0', {
                     method: 'POST',
                     body: formData,
                   });

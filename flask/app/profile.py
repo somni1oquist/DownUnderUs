@@ -160,28 +160,24 @@ def profile_view(user_id=None):
 
         offset += batch_size 
 
-    return render_template('profile/view_profile.html', user=user, user_posts=user_posts, user_responses=posts_in_order)
+    return render_template('profile/main.html', user=user, user_posts=user_posts, user_responses=posts_in_order, suburbs=get_perth_suburbs())
 
 @login_required
-@bp.route('/edit', methods=['GET', 'POST'])
+@bp.route('/edit', methods=['PUT'])
 def edit_profile():
-    if request.method == 'POST':
-        data = request.get_json()
-        user = User.query.get(current_user.id)
+    data = request.get_json()
+    user = User.query.get(current_user.id)
 
-        if 'username' in data:
-            user.username = data['username']
-        if 'email' in data:
-            user.email = data['email']
-        if 'suburb' in data:
-            user.suburb = data['suburb']
+    if 'username' in data:
+        user.username = data['username']
+    if 'email' in data:
+        user.email = data['email']
+    if 'suburb' in data:
+        user.suburb = data['suburb']
 
-        db.session.commit()
-        return json_response(ResponseStatus.SUCCESS, ResponseMessage.PROFILE_UPDATED_SUCCESS, {'success': True}), 200
+    db.session.commit()
+    return json_response(ResponseStatus.SUCCESS, ResponseMessage.PROFILE_UPDATED_SUCCESS), 200
 
-    elif request.method == 'GET':
-        suburbs = get_perth_suburbs()
-        return render_template('profile/edit_profile.html', user=current_user, suburbs=suburbs)
 
 @login_required
 @bp.route('/password', methods=['POST'])
@@ -199,17 +195,6 @@ def change_password():
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.PASSWORD_CHANGED_SUCCESS, {'success': True}), 200
-
-@login_required
-@bp.route('/update_image', methods=['POST'])
-def update_image():
-    data = request.get_json()
-    imageUrl = data.get('imageUrl')
-    if imageUrl:
-        current_user.profile_image = imageUrl.split('/')[-1]
-        db.session.commit()
-        return json_response(ResponseStatus.SUCCESS, "Profile image updated successfully.")
-    return json_response(ResponseStatus.ERROR, "Failed to update image.")
 
 @login_required
 @bp.route('/delete_image', methods=['DELETE'])
