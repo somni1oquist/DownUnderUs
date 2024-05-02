@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about-us.css') }}">
+{% endblock %}
+
+{% block container %}
+<div class="container">
+  <h2>Website Introduction and Background</h2>
+  <p> 
+    <strong>Our mission</strong>  is to simplify the everyday lives of Perth residents by creating a platform where they can help each other overcome challenges. <strong>No Worries, Neighbour</strong> connects people in need with community members who are eager to assist.
+  </p>
+  <p>
+    The goal of <strong>No Worries, Neighbour</strong> is to facilitate a supportive environment where Perth residents can post requests for help and respond to others’ needs. Whether it’s finding a new place, sharing food, or looking for company, our platform makes it easy to get the help you need.
+  </p>
+  <p>
+    Founded in March 2024 by community-minded IT students from UWA, <strong>No Worries, Neighbour</strong> was inspired by a passion for fostering mutual cooperation and addressing the challenges faced by community members in seeking and offering help.
+  </p>
+  <h2>Introduction of Functions and Services </h2>
+  <p>
+    <strong>No Worries, Neighbour</strong> provides the following core features to enhance user experience and support community interaction:
+  </p>
+  <ul>
+    <li><strong>Post Requests:</strong> Users can easily submit their help requests, detailing the specific assistance they need along with the relevant time and location.</li>
+    <li><strong>Search Requests:</strong> Users can search for requests based on topics, tags and post content.</li>
+    <li><strong>Respond to Requests:</strong> Other users can browse these requests and offer their help, facilitating meaningful community engagement.</li>
+    <li><strong>Profile Management:</strong> Users can manage their profiles, including updating personal information and profile images.</li>
+    <li><strong>Community Interaction:</strong> Users can connect with others in the community, build relationships, and support each other.</li>
+    <li><strong>Points System:</strong> We believe that helping each other should not only reflect community spirit but also be rewarded. Our points system incentivizes and recognizes active participation, making every act of help count.</li>
+  </ul>
+  <h2>User Stories</h2>
+  <ul>
+    <li> <strong>John</strong> is a university student who recently moved to Perth. He is looking for a place to stay and is unfamiliar with the local housing market. John posts a request on <strong>No Worries, Neighbour</strong> seeking advice on finding affordable accommodation. Thanks to the responses from community members, John receives valuable information and recommendations, helping him secure a suitable place to live.</li>
+    <li> <strong>Mary</strong> is a busy working professional who struggles to find time to cook healthy meals. She posts a request on <strong>No Worries, Neighbour</strong> asking for meal prep tips and recipes. Community members share their favorite recipes and meal planning strategies, enabling Mary to maintain a balanced diet despite her hectic schedule.</li>
+  </ul>
+  <h2>Value and Impact</h2>
+  <p>
+    Since its launch, <strong>No Worries, Neighbour</strong> has helped over 10,000 Perth residents assist each other, significantly strengthening community bonds. Feedback from our users consistently highlights how the platform has enhanced their quality of life and fostered greater community cohesion.
+  </p>
+  <h2>Contact Information</h2>
+  <p>
+    We warmly welcome new members to join our community support platform. If you're interested in becoming part of No Worries, Neighbour or if you have suggestions, please contact us:
+  </p>
+  <ul>
+    <li>Website: <a href="xxx">www.no_worries_neighbour.com</a></li>
+    <li>Email: <a href="mailto:support@noworries.neighbour.com">support@noworries.neighbour.com</a> </li>
+  </ul>
+  <p>
+    <a href="{{ url_for('auth.signup') }}">Register an account</a>today with No Worries, Neighbour and begin your journey of mutual support as we strive together to make Perth a more welcoming community!
+  </p>
+</div>
+{% endblock %}
