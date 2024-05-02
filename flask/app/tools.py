@@ -76,8 +76,7 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str=
     # return the results
     posts = []
     for post in results.all():
-        titles = Title.query.filter_by(user_id=post.user_id).all()
-        user_titles = [title.title for title in titles]
+        user_titles = [Title.title for Title in post.user.title.all()]
         post_dict ={
             "id": post.id,
             "title": post.title,
@@ -117,19 +116,3 @@ def user_level(user_id:int):
             return 'Level 6'
     return 'Unknown Level'
 
-# search for user info based on the user_id
-def user_tag(user_id:int):
-    from app.models import User, Title
-    if user_id:
-        titles = Title.query.filter_by(user_id=user_id).all()
-        user_titles = [title.title for title in titles]
-        user_info = {
-            "id": user.id,
-            "username": user.username,
-            "points": user.points,
-            "profile_img": user.profile_image,
-            "titles": user_titles
-        }
-        return user_info
-    else:
-        return None
