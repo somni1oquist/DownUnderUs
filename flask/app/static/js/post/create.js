@@ -52,7 +52,8 @@ $(document).ready(function () {
       processData: false,
       success: (res) => {
         // Make a toast
-        makeToast(res.message, BsType.SUCCESS)
+        const message = `Post created successfully! Points added: ${res.points_added}`;
+        makeToast(message, BsType.SUCCESS)
           .then(() => {
             // close modal
             document.querySelector('.btn-secondary[data-bs-dismiss="modal"]').click();

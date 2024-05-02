@@ -33,7 +33,7 @@ def create():
 
 
         # return message
-        return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id}), 201
+        return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id,'points_added': 15}), 201
     else:
         errors = form.errors
         return json_response(ResponseStatus.ERROR, ResponseMessage.FORM_ERROR, {"errors": errors}), 400
@@ -150,9 +150,7 @@ def reply(post_id):
     db.session.commit()
     update_user_points(current_user.id, 10)
 
-
-
-    return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ADDED), 201
+    return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ADDED,{'points_added': 10}), 201
 
 # Reply to a reply
 @login_required
