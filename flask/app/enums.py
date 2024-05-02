@@ -13,7 +13,6 @@ class Topic(Enum):
     PICK_UP_AND_DELIVERY = 'Pick Up and Delivery'
     SOCIAL = 'Social'
 
-# not using now
 class Title(str,Enum):
     #  Register
     NEWCOMER = 'Newcomer'

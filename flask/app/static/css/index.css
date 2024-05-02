@@ -8,16 +8,13 @@
 
 
 #hot_topics {
+    margin-top:30px;
     position: fixed;
     font-size: 14px;
 }
 
 
-#hot_tags {
-    position: fixed;
-    top: 400px; 
-    font-size: 14px;
-}
+
 
 .top_box {
     margin: 10px auto;

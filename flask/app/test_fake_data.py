@@ -1,8 +1,8 @@
 from faker import Faker
 import random
 from app import db
-from app.models import Post, User
-from app.enums import Topic
+from app.models import Post, User, Title as tableTitle
+from app.enums import Topic,Title as enumTitle
 
 fake = Faker()
 TAGS = [
@@ -60,3 +60,16 @@ def create_fake_users(num_users=10):
     db.session.commit()
 
 
+def create_fake_titles(num_titles=20):
+    for user_id in range(1, 11):
+        num_titles_for_user = random.randint(1, 6) # Each user can have 1-6 titles
+        selected_titles = random.sample(list(enumTitle), num_titles_for_user)
+        for title in selected_titles:
+            awarded_date = fake.date_time_this_year()
+            title_data = tableTitle(
+                title=title.value,
+                user_id=user_id,
+                awarded_date=awarded_date
+            )
+            db.session.add(title_data)
+        db.session.commit()
