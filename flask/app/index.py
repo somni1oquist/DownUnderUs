@@ -120,10 +120,23 @@ def index():
         
     return render_template('index.html',posts=posts, pagination=pagination, top_tags=top_tags, top_topics=top_topics)
 
+
 @bp.route("/about")
 def about():
     return render_template('about-us.html')
 
+<<<<<<< HEAD
+=======
+@bp.route('/rank')
+def rank():
+    from .tools import user_level
+    top_users = User.query.order_by(User.points.desc()).limit(10).all()
+    # Pass the function directly in the context
+    return render_template('./index/rank.html', users=top_users, user_level=user_level)
+
+
+
+>>>>>>> a7b8f5c (create a new page for ranking point)
         
 
 
