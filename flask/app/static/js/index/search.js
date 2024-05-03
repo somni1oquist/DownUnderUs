@@ -1,44 +1,13 @@
-import { getTopics } from "../utils.js";
-
-let changed = false; // Flag to check if input is changed
+let changed = false;
 $(() => {
 	let timer;
-	const $filterMenu = $('ul#filter-menu');
-	// Get topics
-	getTopics().then((topics) => {
-		// Add topics to filter menu
-		topics.forEach((topic) => {
-			const input = $('<input>').addClass('form-check-input')
-				.attr('type', 'checkbox')
-				.attr('role', 'switch')
-				.attr('name', 'topics')
-				.attr('value', topic)
-				.attr('id', topic);
-			const label = $('<label>').addClass('form-check-label').attr('for', topic).text(topic);
-			const switchDiv = $('<div>').addClass('form-check form-switch form-switch-lg');
-			switchDiv.append(input);
-			switchDiv.append(label);
-			const listItem = $('<li>').addClass('dropdown-item');
-			listItem.append(switchDiv);
-			$filterMenu.append(listItem);
-		});
+	// Reset input by params
+	resetInputByParams();
 
-		// Reset input by params
-		resetInputByParams();
-
-		// Event listener for topics
-		$('input[name=topics]').on('change', function (e) {
-			changed = true;
-		});
-		// Event listener for sort by
-		$('input[name=sort-by]').on('change', function (e) {
-			search(); // Search when sort by is changed
-		});
+	// Event listener for sort by
+	$('input[name=sort-by]').on('change', function (e) {
+		search(); // Search when sort by is changed
 	});
-
-	// Observe dropdowns for changes
-	observe($('#search-filter')[0]);
-	observe($('#search-sort')[0]);
 
 	// Search input
 	$('#search-body').on('keyup', function (e) {
@@ -54,69 +23,101 @@ $(() => {
 		search();
 	});
 
+	// Event listener for topic filter
+	$('#topics-container .dropdown-item').on('click', (e) => {
+		addBadge($(e.currentTarget).text(), $('#topic-filter'));
+	})
+	// Firing serach when dropdown is hidden
+	$('#topics-container .dropdown').on('hidden.bs.dropdown', (e) => {
+		changed && search();
+		changed = false; // Reset changed
+	});
+	// Remove topic
+	$('#topic-filter, #tag-filter').on('click', 'span.badge', (e) => {
+		$(e.currentTarget).remove();
+		search();
+	});
+
+	// Event listener for hashtag
+	$('#tags-container').on('click', 'button', (e) => {
+		const tags = prompt('Enter tags separated by comma');
+		if (tags) {
+			const tagsArray = tags.split(',');
+			tagsArray.forEach(tag => addBadge(tag.trim(), $('#tag-filter')));
+			search();
+		}
+	});
 });
 
-const observe = (target) => {
-	const observer = new MutationObserver((mutationList, observer) => {
-		for (let mutation of mutationList) {
-			// Check if the dropdown is changed
-			if (mutation.type === 'attributes' && mutation.attributeName === 'aria-expanded') {
-				// Check if the dropdown is closed and selection changed
-				if (mutation.target.getAttribute('aria-expanded') === 'false' && changed) {
-					search();
-					changed = false; // Reset status
-				}
-			}
-		}
-	})
-	const opts = {
-		attributes: true, // Listen for attribute changes
-		attributeFilter: ['aria-expanded'] // Specify the attribute to observe
-	};
-	observer.observe(target, opts);
-};
+/**
+ * Add badge to filter
+ * @param {string} content - Content of the badge
+ * @param {JQuery<HTMLElement>} $filter - Filter to append the badge
+ * @param {boolean} isReset - Flag to check if source is `resetInputByParams`
+ */
+const addBadge = (content, $filter, isReset = false) => {
+	const template = `<span class="badge text-bg-secondary">${content}<i class="fa-solid fa-xmark"></i></span>`
+	// Check if topic is already added
+	const existing = $filter.find('span.badge').map(function () {
+		return $(this).text();
+	}).get().includes(content);
+	if (existing) {
+		return;
+	}
+	$filter.append(template);
+	$filter.parent().removeClass('d-none');
+	!isReset && (changed = true);
+}
 
+/**
+ * Set params from input when searching
+ * @returns {URLSearchParams} - URLSearchParams object
+ */
 const setParams = () => {
 	const params = new URLSearchParams(window.location.search);
 	const query = $('#search-body').val();
-	const topics = $('input[name=topics]:checked').map(function () {
-		return $(this).val();
-	}).get();
 	const sortBy = $('input[name=sort-by]:checked').val();
+	const topics = $('#topic-filter').find('span.badge').map(function () {
+		return $(this).text();
+	}).get();
+	const tags = $('#tag-filter').find('span.badge').map(function () {
+		return $(this).text();
+	}).get();
 
 	params.set('query', query);
-	params.set('topics', topics);
 	params.set('sortBy', sortBy);
+	params.set('topics', topics.join(','));
+	params.set('tags', tags.join(','));
 
 	return params;
 };
 
+/**
+ * Reset input by params
+ */
 const resetInputByParams = () => {
 	const params = new URLSearchParams(window.location.search);
 	const query = params.get('query');
-	const topics = params.get('topics') ? params.get('topics').split(',') : [];
 	const sortBy = params.get('sortBy');
+	const topics = params.get('topics') ? params.get('topics').split(',') : [];
+	const tags = params.get('tags') ? params.get('tags').split(',') : [];
 
 	// Set input by params
 	$('#search-body').val(query);
-
-	if (topics.length) {
-		$('input[name=topics]').each(function () {
-			topics.includes($(this).val()) ? $(this).attr('checked', true) : $(this).removeAttr('checked');
-		});
-	} else {
-		$('input[name=topics]').each(function () {
-			$(this).attr('checked', true);
-		});
-	}
 
 	if (sortBy) {
 		$('input[name=sort-by]').each(function () {
 			$(this).prop('checked', $(this).val() === sortBy);
 		});
 	}
+
+	topics.forEach(topic => { addBadge(topic, $('#topic-filter'), true) });
+	tags.forEach(tag => { addBadge(tag, $('#tag-filter'), true) });
 };
 
+/**
+ * Search
+ */
 const search = () => {
 	const params = setParams();
 	window.location.href = '/search?' + params.toString()

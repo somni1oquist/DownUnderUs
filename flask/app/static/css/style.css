@@ -39,9 +39,31 @@
   background-color: #f9f9f9;
 
 }
+/* Filter options */
+#topics-container, #tags-container {
+  padding: 1rem;
+}
+#topic-filter, #tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  margin: 10px;
+}
+#topics-container li {
+  cursor: pointer;
+}
+#topics-container li > i {
+  margin: 5px 8px;
+}
+#topic-filter span > i, #tag-filter span > i{
+  margin: 2px 5px;
+}
+#topic-filter span, #tag-filter span {
+  width: fit-content;
+  cursor: pointer;
+}
 
 /* search result */
-
 #search-result-container {
   border-radius: 10px;
   font-size: 15px;
