@@ -113,8 +113,9 @@ def user_level(user_id:int):
     return 'Unknown Level'
 
 def update_user_points(user_id, points):
-    from app.models import User
+    from app.models import User, Points
     user = User.query.get(user_id)
     if user:
         user.points+= points
+        db.session.add(Points(user_id=user_id, points_added=points))
         db.session.commit()

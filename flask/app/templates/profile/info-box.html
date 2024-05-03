@@ -101,6 +101,12 @@
             <i class="fa-solid fa-fingerprint"></i>
           </button>
           {% endif %}
+          {% if current_user.id == user.id %}
+          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#pointsHistoryModal">
+              <i class="fa-solid fa-chart-column"></i>
+          </button>
+          {% endif %}
+
         </div>
       </div>
 
@@ -139,6 +145,27 @@
           data-url="{{ url_for('profile.change_password') }}" data-action="change-password">
           Change Password
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- points history -->
+{% if current_user.id == user.id %}
+<div class="modal fade" id="pointsHistoryModal" tabindex="-1" aria-labelledby="pointsHistoryModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pointsHistoryModalLabel">Points History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <iframe src="{{ url_for('profile.points_history', user_id=user.id) }}" width="100%" height="400px" frameborder="0"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

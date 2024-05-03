@@ -1,0 +1,42 @@
+<style>
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th {
+    padding: 10px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+</style>
+
+
+<table class="table">
+  <thead>
+      <tr>
+          <th>Timestamp</th>
+          <th>Points Added</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% for record in points_history %}
+      <tr>
+          <td>{{ record.timestamp }}</td>
+          <td>{{ record.points_added }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
