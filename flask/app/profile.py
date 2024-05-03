@@ -148,11 +148,11 @@ def profile_view(user_id=None):
         # Process each reply to find its root post
         for reply in replies:
             current_reply = reply
-            while current_reply.post_id is None and current_reply.parent_id is not None:
+            while current_reply.post is None and current_reply.parent_id is not None:
                 current_reply = Reply.query.get(current_reply.parent_id)
-            if current_reply.post_id and current_reply.post_id not in unique_post_ids:
-                unique_post_ids.add(current_reply.post_id)
-                post = Post.query.get(current_reply.post_id)
+            if current_reply.post and current_reply.post.id not in unique_post_ids:
+                unique_post_ids.add(current_reply.post.id)
+                post = Post.query.get(current_reply.post.id)
                 if post:
                     posts_in_order.append(post)
                     if len(posts_in_order) >= 10:

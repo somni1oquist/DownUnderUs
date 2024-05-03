@@ -72,29 +72,8 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str=
         results = results.offset(offset)
     if limit:
         results = results.limit(limit)
-        
-    # return the results
-    posts = []
-    for post in results.all():
-        user_titles = [Title.title for Title in post.user.title.all()]
-        post_dict ={
-            "id": post.id,
-            "title": post.title,
-            "body": post.body,
-            "topic": post.topic,
-            "user_id": post.user_id,
-            "views": post.views,
-            "timestamp": post.real_timestamp,
-            "username": post.user.username,
-            "tags": post.tags,
-            "level": user_level(post.user_id),
-            "user_titles": user_titles,
-            "profile_img": post.user.profile_image
-        }
-       
-        posts.append(post_dict)
     
-    return posts
+    return results.all()
 
 # set the user level based on the number of points
 def user_level(user_id:int):

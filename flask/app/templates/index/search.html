@@ -19,9 +19,9 @@
       <div class="row align-items-center mt-2 search-author-info">
           <!-- Profile image -->
           <div class="col-auto">
-            <a href="{{ url_for('profile.profile_view', user_id=post.user_id) }}">
-              {% if post.profile_img %}
-              <img src="{{ url_for('index.serve_uploaded_file', filename=post.profile_img) }}" >
+            <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
+              {% if post.user.profile_image %}
+              <img src="{{ url_for('index.serve_uploaded_file', filename=post.user.profile_image) }}" >
               {% else %}
               <i class="fa-solid fa-circle-user" ></i>
               {% endif %}
@@ -32,21 +32,19 @@
           <div class="col">
               <div class="row">
                   <div class="col-12">
-                    <a href="{{ url_for('profile.profile_view', user_id=post.user_id) }}">
-                      <span class="search-author-name">{{ post.username }}</span>
+                    <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
+                      <span class="search-author-name">{{ post.user.username }}</span>
                     </a>
                   </div>
               </div>
               <div class="row">
                   <div class="col-12">
                       <span class="search-author-level">{{ post.level }}</span>
-                      {% if post.user_titles %}
-                      {% for user_title in post.user_titles %}
+                      {% for user_title in post.user.title_names %}
                       {% if user_title != 'Newcomer' %}
                       <span class="badge rounded-pill bg-custom">{{ user_title }}</span>
                       {% endif %}
                       {% endfor %}
-                      {% endif %}
                   </div>
               </div>
           </div>

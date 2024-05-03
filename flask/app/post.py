@@ -254,21 +254,3 @@ def vote(post_id, reply_id):
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.VOTED), 200
 
-# Posts filter in portal
-@login_required
-@bp.route('/topics/<topic>', methods=['GET'])
-def posts_by_topic(topic):
-    posts = Post.query.filter_by(topic=topic).order_by(Post.timestamp.desc()).all()
-    posts_data = [{
-        'id': post.id,
-        'title': post.title,
-        'body': post.body,
-        'topic': post.topic,
-        'user_id': post.user_id,
-        'views': post.views,
-        'timestamp': post.real_timestamp,
-        'username': post.user.username
-    } for post in posts]
-
-    return jsonify(posts_data), 200
-

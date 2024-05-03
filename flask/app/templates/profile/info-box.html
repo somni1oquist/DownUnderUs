@@ -96,9 +96,11 @@
             </a>
             {% endif %}
           </p>
+          {% if current_user.id == user.id %}
           <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
             <i class="fa-solid fa-fingerprint"></i>
           </button>
+          {% endif %}
         </div>
       </div>
 
