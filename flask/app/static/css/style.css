@@ -255,3 +255,26 @@ body {
   /* this padding make sure no content is covered by banner */
   padding-bottom: 200px;  
 }
+
+/* pagination */
+
+/* alert for non-login user login or register */
+.alert-primary {
+  --bs-alert-color: var(--bs-info-text-emphasis);
+  --bs-alert-bg: #8edd2624;
+  --bs-alert-border-color: #198754;
+  --bs-alert-link-color: var(--bs-info-text-emphasis);
+  text-align: center;
+  line-height: 3;
+  margin-top: 40px;
+}
+
+#pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#prev-page, #next-page {
+  margin: 0 20px;
+}

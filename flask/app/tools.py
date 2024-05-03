@@ -32,9 +32,13 @@ def json_response(status:str, message:str, opts:dict=None):
 
     return jsonify(response)
 
-def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str='timestamp_desc', limit:int=None, offset:int=None):
-    '''Search posts based on content, topics, tags, and sort_by. Return a list of posts.'''
-    from .models import Post,Title
+def search_posts(content:str=None, topics:list=None, tags:str=None, \
+                 sort_by:str='timestamp_desc', offset:int=None,\
+                 page=1, per_page:int=10):
+    '''Search posts based on content, topics, tags, and sort_by. Return a list of posts.
+     Default limit is 10 posts per page.    
+    '''
+    from .models import Post
     query_filter = Post.query
     results = query_filter
 
@@ -70,10 +74,15 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, sort_by:str=
 
     if offset:
         results = results.offset(offset)
-    if limit:
-        results = results.limit(limit)
-    
-    return results.all()
+
+    '''
+    error_out: bool, optional
+     If set to True (the default), it causes the method to throw a 404 error if the page is out of range. 
+     If set to False, it will instead return an empty list for out-of-range pages.
+    '''
+    pagination = results.paginate(page=page, per_page=per_page, error_out= False)
+        
+    return pagination
 
 # set the user level based on the number of points
 def user_level(user_id:int):

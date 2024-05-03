@@ -25,7 +25,7 @@ def check_title():
         result,status= check_and_award_title(user_id)
         return result,status
     else:
-        return jsonify(ResponseStatus.ERROR, 'User not authenticated'), 401
+        return jsonify(ResponseStatus.ERROR, 'User not authenticated'), 204
     
 
 # check if user already had a title

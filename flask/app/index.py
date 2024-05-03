@@ -64,13 +64,18 @@ def search():
     sort_by = request.args.get('sortBy')
     filter_by = request.args.get('topics')
     tags = request.args.get('tags') 
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+
     # Search for posts title and body
-    posts = search_posts(content=query, topics=filter_by, sort_by=sort_by, tags=tags)
-    
-    return render_template('./index/search.html', posts=posts)
+    pagination = search_posts(content=query, topics=filter_by, sort_by=sort_by, tags=tags, page=page, per_page=per_page)
+    posts = pagination.items
+    return render_template('./index/search.html', posts=posts, pagination=pagination)
 
 @bp.route("/")
 def index():
+    # Get the page number from the request
+    page = request.args.get('page', 1, type=int) 
     # top 5 topics
     top_topics_data= db.session.query(
         Post.topic,
@@ -103,11 +108,15 @@ def index():
         
         default_topics = data.interested_topics.split(',')
         # Get the latest 10 interested posts
-        posts = search_posts(topics=default_topics, sort_by='timestamp_desc', limit=10)
-        return render_template('index.html', posts=posts,top_tags=top_tags, top_topics=top_topics)
-    
+        pagination = search_posts(topics=default_topics, sort_by='timestamp_desc', page=page, per_page=10)
+        # Get current page posts
+        posts = pagination.items
     else:
-        return render_template('index.html',top_topics=top_topics, top_tags=top_tags)
+        # if user is not logged in, show the latest 5 posts
+        pagination = search_posts(sort_by='timestamp_desc', page=page, per_page=5)
+        posts = pagination.items
+        
+    return render_template('index.html',posts=posts, pagination=pagination, top_tags=top_tags, top_topics=top_topics)
 
 @bp.route("/about")
 def about():
