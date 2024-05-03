@@ -115,6 +115,7 @@ def check_and_award_title(user_id:int, content=None):
 @bp.route('/', methods=['GET'])
 @bp.route('/<int:user_id>', methods=['GET'])
 def profile_view(user_id=None):
+    from .tools import user_level
     # If a user ID is provided, fetch the user with that ID
     if user_id:
         user = User.query.get(user_id)
@@ -160,7 +161,7 @@ def profile_view(user_id=None):
 
         offset += batch_size 
 
-    return render_template('profile/main.html', user=user, user_posts=user_posts, user_responses=posts_in_order,suburbs=get_perth_suburbs())
+    return render_template('profile/main.html', user=user, user_posts=user_posts, user_responses=posts_in_order,suburbs=get_perth_suburbs(), user_level=user_level)
 
 @login_required
 @bp.route('/edit', methods=['PUT'])

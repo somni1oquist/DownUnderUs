@@ -96,6 +96,15 @@
             </a>
             {% endif %}
           </p>
+          <p class="profile-detail">
+            POINTS:
+            <span>{{ user.points }}</span>
+          </p>
+          <p class="profile-detail">
+            LEVEL:
+            <span>{{ user_level(user.id) }}</span>
+          </p>
+
           {% if current_user.id == user.id %}
           <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
             <i class="fa-solid fa-fingerprint"></i>
@@ -106,6 +115,7 @@
               <i class="fa-solid fa-chart-column"></i>
           </button>
           {% endif %}
+
 
         </div>
       </div>
