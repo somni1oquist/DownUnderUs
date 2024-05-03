@@ -1,101 +1,104 @@
 {% extends 'base.html' %}
 {% block container %}
 <div class="container">
-  {% if current_user.is_authenticated or pagination.page ==1 %}
-    <div id="search-result-container">
-      {% if posts %}
-        {% for post in posts %}
-          <div class="container mt-3 search-result-box">
-            <!-- Header with title and topic -->
-            <div class="row">
-                <div class="col">
-                    <h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
-                </div>
-                <div class="col-auto">
-                    <span class="badge bg-secondary">{{ post.topic }}</span>
-                </div>
-            </div>
-        
-            <!-- Author info -->
-            <div class="row align-items-center mt-2 search-author-info">
-                <!-- Profile image -->
-                <div class="col-auto">
-                  <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
-                    {% if post.user.profile_image %}
-                      <img src="{{ url_for('index.serve_uploaded_file', filename=post.user.profile_image) }}" >
-                    {% else %}
-                      <i class="fa-solid fa-circle-user" ></i>
-                    {% endif %}
-                  </a>
-                </div>
-      
-                <!-- Author details: name and titles/level -->
-                <div class="col">
-                    <div class="row">
-                        <div class="col-12">
-                          <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
-                            <span class="search-author-name">{{ post.user.username }}</span>
-                          </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <span class="search-author-level">{{ post.level }}</span>
-                            {% for user_title in post.user.title_names %}
-                            {% if user_title != 'Newcomer' %}
-                            <span class="badge rounded-pill bg-custom">{{ user_title }}</span>
-                            {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-            <!-- Post body and footer -->
-            <div class="row mt-2">
-                <div class="col">
-                    <div class="search-post-body">
-                        <p>{{ post.body | safe }}</p>
-                    </div>
-                    <div class="search-footer">
-                        <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
-                        <span><i class="fa-solid fa-eye"></i> {{ post.views }}</span>
-                    </div>
-                </div>
-            </div>
-          </div>
-      
-        {% endfor %}
-        <div id="pagination">
-          {% if pagination.has_prev %}
-            <div id="prev-page">
-              <a class="btn btn-outline-success" href="{{ url_for('index.search', page=pagination.prev_num) }}">Previous page</a>
-            </div>
-          {% endif %}
-          {% if pagination.has_next %}
-            <div id="next-page">
-              <a class="btn btn-outline-success" href="{{ url_for('index.search', page=pagination.next_num) }}">Next page</a>
-            </div>
-          {% endif %}
-        </div>
+  {% if current_user.is_authenticated or pagination.page == 1 %}
+  <!-- Filter options -->
+  {% include 'index/filter.html' %}
 
-      {% else %}
-        <p> No results found </p>
+  <div id="search-result-container">
+    {% for post in posts %}
+    <div class="container mt-3 search-result-box">
+      <!-- Header with title and topic -->
+      <div class="row">
+          <div class="col">
+              <h4><a href="/post/{{ post.id }}">{{ post.title }}</a></h4>
+          </div>
+          <div class="col-auto">
+              <span class="badge bg-secondary">{{ post.topic }}</span>
+          </div>
+      </div>
+  
+      <!-- Author info -->
+      <div class="row align-items-center mt-2 search-author-info">
+          <!-- Profile image -->
+          <div class="col-auto">
+            <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
+              {% if post.user.profile_image %}
+                <img src="{{ url_for('index.serve_uploaded_file', filename=post.user.profile_image) }}" >
+              {% else %}
+                <i class="fa-solid fa-circle-user" ></i>
+              {% endif %}
+            </a>
+          </div>
+
+          <!-- Author details: name and titles/level -->
+          <div class="col">
+              <div class="row">
+                  <div class="col-12">
+                    <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
+                      <span class="search-author-name">{{ post.user.username }}</span>
+                    </a>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12">
+                      <span class="search-author-level">{{ post.level }}</span>
+                      {% for user_title in post.user.title_names %}
+                      {% if user_title != 'Newcomer' %}
+                      <span class="badge rounded-pill bg-custom">{{ user_title }}</span>
+                      {% endif %}
+                      {% endfor %}
+                  </div>
+              </div>
+          </div>
+      </div>
+  
+      <!-- Post body and footer -->
+      <div class="row mt-2">
+          <div class="col">
+              <div class="search-post-body">
+                  <p>{{ post.body | safe }}</p>
+              </div>
+              <div class="search-footer">
+                  <span><i class="fa-solid fa-feather"></i> {{ post.real_timestamp }}</span>
+                  <span><i class="fa-solid fa-eye"></i> {{ post.views }}</span>
+              </div>
+          </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- Page indicator -->
+    <div id="pagination">
+      {% if pagination.has_prev %}
+        <div id="prev-page">
+          <a class="btn btn-outline-success" href="{{ url_for('index.search', page=pagination.prev_num) }}">Previous page</a>
+        </div>
+      {% endif %}
+      {% if pagination.has_next %}
+        <div id="next-page">
+          <a class="btn btn-outline-success" href="{{ url_for('index.search', page=pagination.next_num) }}">Next page</a>
+        </div>
       {% endif %}
     </div>
+    <!-- No results -->
+    {% if not posts %}
+    <p> No results found </p>
+    {% endif %}
+  </div>
 
   {% else %}
-    <div class="alert alert-primary" role="alert">
-      <h4 class="alert-heading">Unlock Full Access!</h4>
-      <p>Enjoy unlimited access to all our premium content by signing in. Don't have an account yet? Join our community today!</p>
-      <hr>
-      <p class="mb-0">
-        <a href="{{ url_for('auth.signin') }}" class="btn btn-outline-success">Log In</a>
-        or
-        <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-success">Sign Up</a>
-        to start your journey with us.
-      </p>
-    </div>
+  <div class="alert alert-primary" role="alert">
+    <h4 class="alert-heading">Unlock Full Access!</h4>
+    <p>Enjoy unlimited access to all our premium content by signing in. Don't have an account yet? Join our community today!</p>
+    <hr>
+    <p class="mb-0">
+      <a href="{{ url_for('auth.signin') }}" class="btn btn-outline-success">Log In</a>
+      or
+      <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-success">Sign Up</a>
+      to start your journey with us.
+    </p>
+  </div>
   {% endif %}  
 
 
