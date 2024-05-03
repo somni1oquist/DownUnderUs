@@ -32,8 +32,8 @@ def json_response(status:str, message:str, opts:dict=None):
 
     return jsonify(response)
 
-def search_posts(content:str=None, topics:list=None, tags:str=None, /
-                 sort_by:str='timestamp_desc', offset:int=None,/
+def search_posts(content:str=None, topics:list=None, tags:str=None, \
+                 sort_by:str='timestamp_desc', offset:int=None,\
                  page=1, per_page:int=10):
     '''Search posts based on content, topics, tags, and sort_by. Return a list of posts.
      Default limit is 10 posts per page.    
