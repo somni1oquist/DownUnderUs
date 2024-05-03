@@ -398,3 +398,17 @@ body {
     margin-top: 20px;
 }
 
+#logo_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+#logo {
+    height: 100%;
+    width: auto;
+    max-height: 50px;
+    object-fit: contain;
+}
