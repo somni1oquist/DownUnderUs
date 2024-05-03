@@ -109,8 +109,9 @@ def index():
     else:
         return render_template('index.html',top_topics=top_topics, top_tags=top_tags)
 
-
-
+@bp.route("/about")
+def about():
+    return render_template('about-us.html')
 
         
 
