@@ -9,7 +9,7 @@
 <div class="container-fluid post-container">
   <div class="header-container">
     <h1 id="title">{{ post.title }}</h1>
-    {% if current_user.is_authenticated and current_user.id == post.user_id %}
+    {% if current_user.is_authenticated and current_user.id == post.user.id %}
     <!-- Edit title button -->
     <button id="title-btn" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
     data-bs-toggle="tooltip" data-bs-title="Edit title" data-bs-placement="right">
@@ -19,7 +19,7 @@
   </div>
   <div class="header-container">
     {% if post.location %}
-    {% if current_user.is_authenticated and current_user.id == post.user_id %}
+    {% if current_user.is_authenticated and current_user.id == post.user.id %}
     <!-- Edit location button -->
     <button id="location" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
       data-bs-toggle="tooltip" data-bs-title="Edit location" data-bs-placement="bottom">
@@ -32,7 +32,7 @@
       {{ post.location }}
     </h5>
     {% endif %}
-    {% elif current_user.is_authenticated and current_user.id == post.user_id %}
+    {% elif current_user.is_authenticated and current_user.id == post.user.id %}
     <!-- Add location button -->
     <button id="location" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
       data-bs-toggle="tooltip" data-bs-title="Add location" data-bs-placement="bottom">
@@ -45,7 +45,7 @@
     <div class="col-sm-2">
       <!-- Author Info -->
       <div class="author">
-        <a href="{{ url_for('profile.profile_view', user_id=post.user_id) }}">
+        <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
           {% if post.user.profile_image %}
           <img src="{{ url_for('index.serve_uploaded_file', filename=post.user.profile_image) }}"
             alt="Profile Image" class="rounded-circle">
@@ -79,7 +79,7 @@
     </div>
     <div class="col-sm-2">
       <div class="action-panel">
-        {% if current_user.id == post.user_id %}
+        {% if current_user.id == post.user.id %}
         <a href="" data-action="edit" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Edit the post">
           <i class="fa-solid fa-pen-to-square"></i>
         </a>

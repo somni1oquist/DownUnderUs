@@ -50,7 +50,7 @@
         {% endif %}
         <h5>{{ reply.votes }}</h5>
         <!-- Post author can accept reply if there is no answer yet -->
-        {% if current_user.id == post.user_id and not has_answer %}
+        {% if current_user.id == post.user.id and not has_answer %}
         <a href="{{ url_for('post.accept_reply', post_id=post.id, reply_id=reply.id )}}" data-action="accept"
           class="btn btn-success" data-bs-toggle="tooltip" data-bs-title="Accept this reply">
           <i class="fa-solid fa-check-double"></i>

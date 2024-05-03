@@ -1,9 +1,10 @@
 from sqlalchemy import UniqueConstraint, func, event
+from sqlalchemy.ext.hybrid import hybrid_property
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import db, loginManager
 from sqlalchemy.orm.attributes import get_history
-from app.tools import convert_timezone
+from .tools import convert_timezone, user_level
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,12 +13,20 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     suburb = db.Column(db.String(50))
     profile_image = db.Column(db.String(255))
-    posts = db.relationship('Post', backref='author', lazy='dynamic', cascade='all, delete-orphan')
+    posts = db.relationship('Post', back_populates='user', lazy='dynamic', cascade='all, delete-orphan')
+    replies = db.relationship('Reply', back_populates='user', lazy='dynamic', cascade='all, delete-orphan')
     interested_topics = db.Column(db.String(200))
     points = db.Column(db.Integer, default=0)
     registered_date = db.Column(db.DateTime, index=True, default=func.now())
-    title = db.relationship('Title', backref='user', lazy='dynamic')
+    titles = db.relationship('Title', backref='user', lazy='dynamic')
 
+    @property
+    def level(self):
+        return user_level(self.id)
+    
+    @hybrid_property
+    def title_names(self):
+        return [title.title for title in self.titles]
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -41,14 +50,11 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    replies = db.relationship('Reply', backref='post', lazy='dynamic', cascade='all, delete-orphan')
+    replies = db.relationship('Reply', back_populates='post', lazy='dynamic', cascade='all, delete-orphan')
     topic = db.Column(db.String(100), nullable=False)
     tags = db.Column(db.String(200))
     location = db.Column(db.String(100))
-
-    @property
-    def user(self):
-        return User.query.get(self.user_id)
+    user = db.relationship(User, back_populates='posts')
 
     @property
     def real_timestamp(self):
@@ -87,14 +93,12 @@ class Reply(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship(User, back_populates='replies')
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=True)
+    post = db.relationship(Post, back_populates='replies')
     accepted = db.Column(db.Boolean, default=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('reply.id', name='fk_reply_parent_id'))
     replies = db.relationship('Reply', backref=db.backref('parent', remote_side=[id]), lazy='dynamic', cascade='all, delete-orphan')
-
-    @property
-    def user(self):
-        return User.query.get(self.user_id)
 
     @property
     def real_timestamp(self):
