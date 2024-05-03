@@ -80,9 +80,9 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, \
      If set to True (the default), it causes the method to throw a 404 error if the page is out of range. 
      If set to False, it will instead return an empty list for out-of-range pages.
     '''
-    pagination = results.paginate(page, per_page, error_out= False)
+    pagination = results.paginate(page=page, per_page=per_page, error_out= False)
         
-    return results,pagination
+    return pagination
 
 # set the user level based on the number of points
 def user_level(user_id:int):

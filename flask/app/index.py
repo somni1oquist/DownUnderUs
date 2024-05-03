@@ -68,8 +68,8 @@ def search():
     per_page = 10
 
     # Search for posts title and body
-    posts, pagination = search_posts(content=query, topics=filter_by, sort_by=sort_by, tags=tags, page=page, per_page=per_page)
-    
+    pagination = search_posts(content=query, topics=filter_by, sort_by=sort_by, tags=tags, page=page, per_page=per_page)
+    posts = pagination.items
     return render_template('./index/search.html', posts=posts, pagination=pagination)
 
 @bp.route("/")
@@ -108,11 +108,13 @@ def index():
         
         default_topics = data.interested_topics.split(',')
         # Get the latest 10 interested posts
-        posts , pagination = search_posts(topics=default_topics, sort_by='timestamp_desc', page=page, per_page=10)
-    
+        pagination = search_posts(topics=default_topics, sort_by='timestamp_desc', page=page, per_page=10)
+        # Get current page posts
+        posts = pagination.items
     else:
         # if user is not logged in, show the latest 5 posts
-        posts, pagination = search_posts(sort_by='timestamp_desc', page=page, per_page=5)
+        pagination = search_posts(sort_by='timestamp_desc', page=page, per_page=5)
+        posts = pagination.items
         
     return render_template('index.html',posts=posts, pagination=pagination, top_tags=top_tags, top_topics=top_topics)
 
