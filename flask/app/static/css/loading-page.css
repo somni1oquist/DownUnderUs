@@ -1,33 +1,46 @@
-.container_1{
-  display:grid;
-  place-items:center;
-  background-color:#EBF3E8;
-  height:950px;
-  align-content:  center;
-  color: white;
-  margin-top:0;
-}
-.container_1_1{
-  background-color:#D2E3C8;
-  width:100%;
-  height:400px;
-  text-align:center;
-}
-#t_1{
-  padding:100px;
-  font-size:50px;
-  display: inline-block;
-  animation: jelly 4s infinite;
+#welcome_container {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
 }
 
-@keyframes jelly {
-    0%, 100% {
-        transform: scale(1);
-    }
-    25%, 75% {
-        transform: scale(1.05);
-    }
-    50% {
-        transform: scale(1);
-    }
+#welcome_box {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#welcome_img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#welcome_img img {
+  width: 100%;
+  height: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+#slogan h2 {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+
+#slogan {
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 20px;
+  color: black;
+  padding-top: 30px;
+  border-radius: 10px
 }

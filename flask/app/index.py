@@ -125,8 +125,6 @@ def index():
 def about():
     return render_template('about-us.html')
 
-<<<<<<< HEAD
-=======
 @bp.route('/rank')
 def rank():
     from .tools import user_level
@@ -136,7 +134,6 @@ def rank():
 
 
 
->>>>>>> a7b8f5c (create a new page for ranking point)
         
 
 
