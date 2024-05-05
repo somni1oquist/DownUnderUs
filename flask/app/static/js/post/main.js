@@ -83,8 +83,8 @@ $(() => {
         $modal.find('button:not([data-bs-dismiss])').data('url', url);
         $modal.modal('show');
         break;
-        
-      case Action.REPLY: // Reply to post 
+
+      case Action.REPLY: // Reply to post
         confirm('Are you sure to reply?') && reply($target, url);
         break;
 

@@ -24,13 +24,13 @@ $(() => {
 $(document).ready(function() {
   function checkAndShowTitle() {
       $.ajax({
-          url: 'http://127.0.0.1:5000/profile/check-and-award-title', 
-          type: 'GET', 
+          url: 'http://127.0.0.1:5000/profile/check-and-award-title',
+          type: 'GET',
           success: function(response) {
             if (response.titles_awarded && response.titles_awarded.length > 0) {
                 var titles = response.titles_awarded.join(", ");
                 makeToast('Congratulations! You have been awarded with: ' + titles, BsType.SUCCESS, true, 5000, 'top-center', 'md')
-            } 
+            }
         },
         error: function(error) {
             console.log(error);

@@ -100,7 +100,7 @@ const makeToast = (message, type, freeze, duration, placement = 'bottom-right', 
 const getTopics = (refresh = false) => {
   return new Promise((resolve, reject) => {
     const topics = sessionStorage.getItem('topics');
-    
+
     if (topics && !refresh) {
       // If topics are available in sessionStorage, resolve the Promise with them
       resolve(JSON.parse(topics));
@@ -172,12 +172,12 @@ const initEditor = (target, hashtag = true) => {
           'hashtag': () => {
             checkForHashtag();
             let range = editor.getSelection(true); // Get current selection
-            if (range 
+            if (range
               && range.length > 0
               && editor.getText(range.index, range.length).indexOf('#') >= 0) {
               // If there's a selection and it contains a hashtag
               editor.deleteText(range.index, range.length);
-            } else if (range 
+            } else if (range
               && range.length > 0) {
               // If there's a selection but no hashtag
               const tag = editor.getText(range.index, range.length).trim(); // Get selected text
@@ -222,7 +222,7 @@ const initEditor = (target, hashtag = true) => {
             const fileInput = document.createElement('input');
             fileInput.type = 'file';
             fileInput.accept = 'image/*'; // Restrict to images only
-            
+
             // When a file is selected, handle the file
             fileInput.onchange = async function(e) {
               const file = e.target.files[0];
@@ -251,7 +251,7 @@ const initEditor = (target, hashtag = true) => {
                 }
               }
             };
-            
+
             // Trigger the file input click to open the file selection dialog
             fileInput.click();
           }
@@ -283,7 +283,7 @@ const initEditor = (target, hashtag = true) => {
   
   // Save the editor instance in the target element's data
   $(target).data('quill', editor);
-  
+
   return editor;
 };
 

@@ -26,7 +26,7 @@ $(document).ready(function () {
   });
 
   initEditor($('#body')[0])
-  
+
   // Handle the form submission for creating a new post
   const form = document.getElementById('createModal').querySelector('form');
   form.onsubmit = function (event) {

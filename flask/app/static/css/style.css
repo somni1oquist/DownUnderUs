@@ -231,8 +231,8 @@ ul.topnav li.center {
 #search-input{
   border-radius: 10px;
   padding: 5px;
-  position: absolute;   
-  left: 50%;           
+  position: absolute;
+  left: 50%;
   transform: translateX(-50%);
 }
 
