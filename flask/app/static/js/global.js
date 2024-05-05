@@ -39,9 +39,5 @@ $(document).ready(function() {
   }
 
   // Trigger this function when needed:
-<<<<<<< HEAD
   checkAndShowTitle(); 
-=======
-  checkAndShowTitle();
->>>>>>> 64274e7 (solve conflicts)
 });

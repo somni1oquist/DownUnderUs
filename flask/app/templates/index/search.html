@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block container %}
 <div class="container">
-<<<<<<< HEAD
   {% if current_user.is_authenticated or pagination.page ==1 %}
     <div id="search-result-container">
       {% if posts %}
@@ -100,37 +99,5 @@
   {% endif %}  
 
 
-=======
-  <div id="search-result-container">
-    {% if posts %}
-    {% for post in posts %}
-    <div class="search-result-box">
-      <h4><a href="{{ url_for('post.post', post_id=post.id) }}">{{ post.title }}</a></h4>
-      <div class="search-author-info">
-        {% if post.profile_img %}
-        <img src="{{ url_for('index.serve_uploaded_file', filename=post.profile_img) }}" alt="author photo">
-        {% else %}
-        <i class="fa-solid fa-circle-user"></i>
-        {%endif%}
-        <span class="search-result-author-level">{{ post.level }}</span>
-        <span>{{ post.username }}</span>
-      </div>
-      <div class="search-post-body">
-        <p>{{ post.body | safe }}</p>
-      <a href="{{ url_for('post.post', post_id=post.id) }}" role="button" class="read">...Read more</a>
-      </div>
-      <div class="search-footer">
-        <span><i class="fa-solid fa-feather"></i> {{ post.timestamp }}</span>
-        <span>
-          <i class="fa-solid fa-eye"></i> {{ post.views }}
-        </span>
-      </div>
-    </div>
-    {% endfor %}
-    {% else %}
-    <p> No results found </p>
-    {% endif %}
-  </div>
->>>>>>> 64274e7 (solve conflicts)
 </div>
 {% endblock %}

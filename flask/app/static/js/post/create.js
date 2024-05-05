@@ -43,11 +43,7 @@ $(document).ready(function () {
       .get();
     formData.append('body', body);
     formData.append('tags', tags);
-<<<<<<< HEAD
     
-=======
-
->>>>>>> 64274e7 (solve conflicts)
     $.ajax({
       type: 'POST',
       url: '/post/create',

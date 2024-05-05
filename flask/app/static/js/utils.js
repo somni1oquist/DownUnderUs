@@ -280,11 +280,7 @@ const initEditor = (target, hashtag = true) => {
         editor.root.innerHTML = $doc.html();
     }
   });
-<<<<<<< HEAD
   
-=======
-
->>>>>>> 64274e7 (solve conflicts)
   // Save the editor instance in the target element's data
   $(target).data('quill', editor);
 
