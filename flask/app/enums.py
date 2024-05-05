@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Topic(Enum):
+class Topic(str, Enum):
     RENTALS = 'Rentals'
     PETS = 'Pets'
     GARDENING = 'Gardening'
@@ -13,7 +13,7 @@ class Topic(Enum):
     PICK_UP_AND_DELIVERY = 'Pick Up and Delivery'
     SOCIAL = 'Social'
 
-class Title(str,Enum):
+class Title(str, Enum):
     #  Register
     NEWCOMER = 'Newcomer'
 

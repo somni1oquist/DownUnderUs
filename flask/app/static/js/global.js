@@ -8,6 +8,8 @@ $(window).on('load', () => {
 });
 
 $(() => {
+  checkAndShowTitle();
+  
   // When the create button is clicked
   $('a#create').on('click', (e) => {
     const $createModal = $('#createModal');
@@ -18,26 +20,28 @@ $(() => {
         .then(() => window.location.href = '/auth/signin');
     }
   });
+
+  // When a tag in page body is clicked
+  $('a[rel*=noopener]').on('click', (e) => {
+    e.preventDefault();
+    const tag = $(e.currentTarget).text()?.split('#')[1];
+    // Redirect to the search page with the tag as the search query
+    window.location.href = `/search?tags=${tag}`;
+  });
 });
 
-// message notification for title award
-$(document).ready(function() {
-  function checkAndShowTitle() {
-      $.ajax({
-          url: 'http://127.0.0.1:5000/profile/check-and-award-title',
-          type: 'GET',
-          success: function(response) {
-            if (response.titles_awarded && response.titles_awarded.length > 0) {
-                var titles = response.titles_awarded.join(", ");
-                makeToast('Congratulations! You have been awarded with: ' + titles, BsType.SUCCESS, true, 5000, 'top-center', 'md')
-            }
-        },
-        error: function(error) {
-            console.log(error);
-        }
-      });
-  }
-
-  // Trigger this function when needed:
-  checkAndShowTitle(); 
-});
+const checkAndShowTitle = () => {
+  $.ajax({
+      url: '/profile/check-and-award-title', 
+      type: 'GET', 
+      success: function(response) {
+        if (response?.titles_awarded && response.titles_awarded.length > 0) {
+            var titles = response.titles_awarded.join(", ");
+            makeToast('Congratulations! You have been awarded with: ' + titles, BsType.SUCCESS, true, 5000, 'top-center', 'md')
+        } 
+    },
+    error: function(error) {
+        console.log(error);
+    }
+  });
+}

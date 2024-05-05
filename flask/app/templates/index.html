@@ -9,16 +9,16 @@
           <div class="box_head">TOP 5 Topics</div>
           <ul id="topic_list">
             {% for topic in top_topics %}
-            <li><a href="{{ url_for('index.search',topics=topic)}}">{{topic}}</a></li>
+            <li><a href="{{ url_for('index.search',topics=topic)}}">{{ topic }}</a></li>
             {% endfor %}
           </ul>
         </div>
-            <!-- top 5 tags -->
+        <!-- top 5 tags -->
         <div id="tag_box" class="top_box">
           <div class="box_head">TOP 5 Tags</div>
           <ul id="tag_list">
             {% for tag in top_tags %}
-            <li><a href="{{ url_for('index.search',tags=tag)}}">{{tag}}</a></li>
+            <li><a href="{{ url_for('index.search',tags=tag)}}">{{ tag }}</a></li>
             {% endfor %}
           </ul>
         </div>

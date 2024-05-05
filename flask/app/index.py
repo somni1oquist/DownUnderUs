@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request, redirect, send_from_direc
 from flask_login import current_user, login_required
 from .models import User, Post
 from .tools import search_posts, json_response
-from .enums import ResponseStatus
+from .enums import ResponseStatus, Topic
 from werkzeug.utils import secure_filename
 from app import db
 
@@ -70,7 +70,9 @@ def search():
     # Search for posts title and body
     pagination = search_posts(content=query, topics=filter_by, sort_by=sort_by, tags=tags, page=page, per_page=per_page)
     posts = pagination.items
-    return render_template('./index/search.html', posts=posts, pagination=pagination)
+
+    topics = [topic.value for topic in Topic]
+    return render_template('./index/search.html', posts=posts, pagination=pagination, topics=topics)
 
 @bp.route("/")
 def index():
