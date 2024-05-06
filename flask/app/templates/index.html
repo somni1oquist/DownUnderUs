@@ -64,13 +64,13 @@
                         <div class="row">
                             <div class="col-12">
                               <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
-                                <span class="search-author-name">{{ post.user.username }}</span>
+                                <span class="author-name">{{ post.user.username }}</span>
                               </a>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <span class="search-author-level">{{ post.user.level }}</span>
+                                <span class="author-level">{{ post.user.level }}</span>
                                       {% for user_title in post.user.title_names %}
                                     {% if user_title != 'Newcomer' %}
                                     <span class="badge rounded-pill bg-custom">{{ user_title }}</span>

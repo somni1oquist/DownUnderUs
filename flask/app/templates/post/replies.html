@@ -12,6 +12,7 @@
     <div class="col-sm-2">
       <!-- Author Info -->
       <div class="author">
+        <!-- Profile image -->
         <a href="{{ url_for('profile.profile_view', user_id=reply.user_id) }}">
           {% if reply.user.profile_image %}
           <img src="{{ url_for('index.serve_uploaded_file', filename=reply.user.profile_image) }}" alt="Profile Image"
@@ -20,6 +21,17 @@
           <h1><i class="fa-solid fa-circle-user"></i></h1>
           {% endif %}
         </a>
+        <!-- author name and level -->
+        <div class="col">
+          <div class="row">
+              <div class="col-12">
+                <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
+                  <span class="author-name">{{ current_user.username }}</span>
+                </a>
+                <span class="author-level">{{ current_user.level }}</span>
+              </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-sm-8">

@@ -55,6 +55,21 @@
           </h1>
           {% endif %}
         </a>
+        <!-- author name and level -->
+        <div class="col">
+          <div class="row">
+              <div class="col-12">
+                <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
+                  <span class="author-name">{{ post.user.username }}</span>
+                </a>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <span class="author-level">{{ post.user.level }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-sm-8">
