@@ -269,6 +269,18 @@ ul.topnav li.center {
   width: 100%;
 }
 
+.banner-header{
+  display: flex;           
+  justify-content: space-between; 
+  align-items: center;   
+  width: 100%; 
+}
+
+.banner-header h4 {
+  margin: 0;
+  flex-grow: 1;
+}
+
 .bottom-banner button {
   margin : 10px;
 }
