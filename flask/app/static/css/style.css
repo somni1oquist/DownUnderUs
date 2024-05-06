@@ -242,6 +242,50 @@ ul.topnav li.center {
 
 }
 
+/* left column part */
+.left-col{
+  position: fixed;
+  width: 15%;
+  margin-top:16px;
+}
+
+.search-bar{
+  background-color: green;
+}
+
+
+#hot_topics {
+  font-size: 14px;
+}
+
+.top_box {
+  margin: 10px auto;
+  background-color: rgba(210, 227, 200, 0.4);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.top_box a {
+  color: #000;
+  text-decoration: none;
+}
+
+
+.box_head {
+  border-bottom: 1px solid rgba(12, 12, 12, 30%);
+  padding: 10px 0;
+  font-weight: bold;
+  text-align: center;
+}
+
+.topic_item {
+  padding: 5px;
+  margin: 2px 0;
+}
+.topic_item a{
+color: black;
+}
+
 #search-btn{
   border: none;
   background-color: transparent;

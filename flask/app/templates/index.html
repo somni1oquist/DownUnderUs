@@ -2,35 +2,48 @@
 {% block container %}
 <div class="container">
   <div class ="row">
-    <!-- top 5 topics -->
-    <div class="col-md-2">
-      <div id="hot_topics">
-        <div id="topic_box" class="top_box">
-          <div class="box_head">TOP 5 Topics</div>
-          <ul id="topic_list">
-            {% for topic in top_topics %}
-            <li><a href="{{ url_for('index.search',topics=topic)}}">{{ topic }}</a></li>
-            {% endfor %}
-          </ul>
+
+    <div class="col-lg-2">
+      <div class =left-col>
+        <!-- Search bar -->
+        <div class="search-bar">
+          <div class="input-group">
+            <!-- Search button -->
+            <button class="btn" type="button" id="search-button">
+              <i class="fa-solid fa-search"></i>
+            </button>
+            <!-- Search input -->
+            <input type="text" class="form-control" id="search-body" placeholder="Enter keyword">
+          </div>
         </div>
-        <!-- top 5 tags -->
-        <div id="tag_box" class="top_box">
-          <div class="box_head">TOP 5 Tags</div>
-          <ul id="tag_list">
-            {% for tag in top_tags %}
-            <li><a href="{{ url_for('index.search',tags=tag)}}">{{ tag }}</a></li>
-            {% endfor %}
-          </ul>
+        <!-- top 5 topics -->
+        <div id="hot_topics">
+          <div id="topic_box" class="top_box">
+            <div class="box_head">TOP 5 Topics</div>
+            <ul id="topic_list">
+              {% for topic in top_topics %}
+              <li><a href="{{ url_for('index.search',topics=topic)}}">{{ topic }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- top 5 tags -->
+          <div id="tag_box" class="top_box">
+            <div class="box_head">TOP 5 Tags</div>
+            <ul id="tag_list">
+              {% for tag in top_tags %}
+              <li><a href="{{ url_for('index.search',tags=tag)}}">{{ tag }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
-
 
     </div>
 
 
 
     <!-- search result -->
-    <div class="col-md-10">
+    <div class="col-lg-8">
       {% if current_user.is_authenticated or pagination.page ==1 %}
         <div id="search-result-container">
           {% if posts %}
