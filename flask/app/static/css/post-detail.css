@@ -23,6 +23,7 @@
 
 .author a {
   color: #333;
+  text-decoration: none;
 }
 
 .author i {
@@ -34,6 +35,7 @@
   height: 6rem;
   object-fit: cover;
 }
+
 
 .post-container .card {
   min-height: 170px;
