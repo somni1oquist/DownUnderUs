@@ -39,29 +39,7 @@
   background-color: #f9f9f9;
 
 }
-/* Filter options */
-#topics-container, #tags-container {
-  padding: 1rem;
-}
-#topic-filter, #tag-filter {
-  display: flex;
-  flex-wrap: wrap;
-  /* justify-content: center; */
-  margin: 10px;
-}
-#topics-container li {
-  cursor: pointer;
-}
-#topics-container li > i {
-  margin: 5px 8px;
-}
-#topic-filter span > i, #tag-filter span > i{
-  margin: 2px 5px;
-}
-#topic-filter span, #tag-filter span {
-  width: fit-content;
-  cursor: pointer;
-}
+
 
 /* search result */
 #search-result-container {
@@ -242,6 +220,51 @@ ul.topnav li.center {
 
 }
 
+/* left column part */
+.left-col{
+  position: fixed;
+  width: 12vw;
+  margin-top: 16px;
+  padding: 10px;
+}
+
+.search-bar{
+  background-color: green;
+}
+
+
+#hot_topics {
+  font-size: 14px;
+}
+
+.top_box {
+  margin: 10px auto;
+  background-color: rgba(210, 227, 200, 0.4);
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.top_box a {
+  color: #000;
+  text-decoration: none;
+}
+
+
+.box_head {
+  border-bottom: 1px solid rgba(12, 12, 12, 30%);
+  padding: 10px 0;
+  font-weight: bold;
+  text-align: center;
+}
+
+.topic_item {
+  padding: 5px;
+  margin: 2px 0;
+}
+.topic_item a{
+color: black;
+}
+
 #search-btn{
   border: none;
   background-color: transparent;
@@ -259,6 +282,33 @@ ul.topnav li.center {
 }
 
 
+/* Filter options */
+.search-filter{
+  font-size: 15px;
+  margin-top: 10px;
+}
+#topic-filter, #tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  margin: 10px;
+}
+
+
+#topics-container li {
+  cursor: pointer;
+}
+#topics-container li > i {
+  margin: 5px 8px;
+}
+#topic-filter span > i, #tag-filter span > i{
+  margin: 2px 5px;
+}
+#topic-filter span, #tag-filter span {
+  width: fit-content;
+  cursor: pointer;
+}
+
 /* footer part */
 .bottom-banner {
   background-color: #76885B;
@@ -269,13 +319,25 @@ ul.topnav li.center {
   width: 100%;
 }
 
+.banner-header{
+  display: flex;           
+  justify-content: space-between; 
+  align-items: center;   
+  width: 100%; 
+}
+
+.banner-header h4 {
+  margin: 0;
+  flex-grow: 1;
+}
+
 .bottom-banner button {
   margin : 10px;
 }
 
 body {
   /* this padding make sure no content is covered by banner */
-  padding-bottom: 200px;  
+  padding-bottom: 300px;  
 }
 
 /* pagination */

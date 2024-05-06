@@ -1,16 +1,17 @@
 <!-- Filter box for topics -->
 <div id="topics-container" class="row d-flex justify-content-center align-items-center">
-  <div class="col-sm-2 d-flex justify-content-center align-items-center dropdown">
-    <button type="button" class="btn" data-bs-toggle="dropdown" data-bs-auto-close="false">
-      <i class="fa-solid fa-rectangle-list fa-2x" data-bs-toggle="tooltip" data-bs-title="Click to add more"></i>
+  <div class="d-flex align-items-center dropdown">
+    <button type="button" class="btn" data-bs-toggle="dropdown" data-bs-auto-close="false" name="search-filter">
+      <i class="fa-solid fa-rectangle-list" data-bs-toggle="tooltip" data-bs-title="Click to add more"></i>
     </button>
+    <label for="topics-filter"> Filter Topics</label>
     <ul class="dropdown-menu">
       {% for topic in topics %}
       <li class="dropdown-item"><i class="fa-solid fa-plus"></i>{{ topic }}</li>
       {% endfor %}
     </ul>
   </div>
-  <div class="col-sm-9 d-none">
+  <div class="d-none">
     <div id="topic-filter" class="row">
       <!-- Insert topics via javascript -->
     </div>
@@ -18,13 +19,14 @@
 </div>
 
 <!-- Filter box for tags -->
-<div id="tags-container" class="row d-flex justify-content-center align-items-center">
-  <div class="col-sm-2 d-flex justify-content-center align-items-center">
+<div id="tags-container" class="row d-flex align-items-center">
+  <div class="d-flex align-items-center">
     <button type="button" class="btn">
-      <i class="fa-solid fa-hashtag fa-2x" data-bs-toggle="tooltip" data-bs-title="Click to add more"></i>
+      <i class="fa-solid fa-hashtag" data-bs-toggle="tooltip" data-bs-title="Click to add more"></i>
     </button>
+    <label for="tags-filter"> Filter Tags</label>
   </div>
-  <div class="col-sm-9 d-none">
+  <div class="d-none">
     <div id="tag-filter" class="row">
       <!-- Insert tags via javascript -->
     </div>

@@ -3,46 +3,9 @@
     <li><a href="/">Home</a></li>
     <li><a href="#createModal" id="create" data-bs-toggle="modal">Create post</a></li>
     <li><a href="/about"> About us</a></li>
-    <!-- Search bar -->
+    <!-- Logo and name -->
     <li class="center">
-      <div class="input-group">
-        <!-- Search button -->
-        <button class="btn" type="button" id="search-button">
-          <i class="fa-solid fa-search"></i>
-        </button>
-        <!-- Search input -->
-        <input type="text" class="form-control" id="search-body" placeholder="Enter keyword">
-        <!-- Sort button -->
-        <button type="button" id="search-sort" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-solid fa-arrow-down-wide-short"></i>
-        </button>
-        <ul class="dropdown-menu">
-          <li class="dropdown-item">
-            <input id="timestamp_desc" name="sort-by" type="radio" class="btn-check" value="timestamp_desc" autocomplete="off" checked>
-            <label class="btn" for="timestamp_desc">
-              New to Old
-            </label>
-          </li>
-          <li class="dropdown-item">
-            <input id="timestamp_asc" name="sort-by" type="radio" class="btn-check" value="timestamp_asc" autocomplete="off">
-            <label class="btn" for="timestamp_asc">
-              Old to New
-            </label>
-          </li>
-          <li class="dropdown-item">
-            <input id="views_desc" name="sort-by" type="radio" class="btn-check" value="views_desc" autocomplete="off">
-            <label class="btn" for="views_desc">
-              Most Views
-            </label>
-          </li>
-          <li class="dropdown-item">
-            <input id="views_asc" name="sort-by" type="radio" class="btn-check" value="views_asc" autocomplete="off">
-            <label class="btn" for="views_asc">
-              Least Views
-            </label>
-          </li>
-        </ul>
-      </div>
+      <h1 style="color:white;">LOGO and Name</h1>
     </li>
     {% if not current_user.is_authenticated %}
     <li class="right">

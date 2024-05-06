@@ -28,6 +28,12 @@ $(() => {
     // Redirect to the search page with the tag as the search query
     window.location.href = `/search?tags=${tag}`;
   });
+
+  // close bottom banner
+  $('.banner-header .btn-close').on('click', (e) => {
+    $(e.target).closest('.bottom-banner').hide();
+});
+
 });
 
 const checkAndShowTitle = () => {
@@ -45,3 +51,5 @@ const checkAndShowTitle = () => {
     }
   });
 }
+
+

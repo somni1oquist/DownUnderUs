@@ -76,6 +76,7 @@ const addBadge = (content, $filter, isReset = false) => {
 const setParams = () => {
 	const params = new URLSearchParams(window.location.search);
 	const query = $('#search-body').val();
+	// This can be undefined if nothing is selected
 	const sortBy = $('input[name=sort-by]:checked').val();
 	const topics = $('#topic-filter').find('span.badge').map(function () {
 		return $(this).text();
@@ -85,7 +86,11 @@ const setParams = () => {
 	}).get();
 
 	params.set('query', query);
-	params.set('sortBy', sortBy);
+	if (sortBy){
+		params.set('sortBy', sortBy);
+	} else {
+		params.delete('sortBy');
+	}
 	params.set('topics', topics.join(','));
 	params.set('tags', tags.join(','));
 

@@ -65,10 +65,17 @@ def search_posts(content:str=None, topics:list=None, tags:str=None, \
     # sort the results by views / timestamp and descending / ascending
     
     if sort_by:
-        sort_column = sort_by.split('_')[0]
-        reversed = True if sort_by.split('_')[1] == 'desc' else False
-        results = query_filter.order_by(getattr(Post, sort_column).desc()\
-                                        if reversed else getattr(Post, sort_column).asc())
+        sort_parts = sort_by.split('_')
+        sort_column = sort_parts[0]
+        if len(sort_parts) >1 and sort_parts[1] == 'desc':
+            reversed = True
+        else:
+            reversed = False
+        
+        if reversed:
+            results = query_filter.order_by(getattr(Post, sort_column).desc())
+        else:
+            results = query_filter.order_by(getattr(Post, sort_column).asc())
     else:
         results = query_filter.order_by(Post.timestamp.desc())
 
