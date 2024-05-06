@@ -47,6 +47,11 @@
             </ul>
           </div>
         </div>
+        <!-- Filter options -->
+        <div class="search-filter">
+          {% include 'index/filter.html' %}
+        </div>
+
       </div>
 
     </div>
@@ -54,9 +59,6 @@
     <div class="col-lg-8">
       <div class="right-col">
         {% if current_user.is_authenticated or pagination.page == 1 %}
-        <!-- Filter options -->
-        {% include 'index/filter.html' %}
-      
         <div id="search-result-container">
           {% for post in posts %}
           <div class="container mt-3 search-result-box">
