@@ -116,18 +116,18 @@ def check_and_award_title(user_id:int, content=None):
 @bp.route('/<int:user_id>', methods=['GET'])
 def profile_view(user_id=None):
     from .tools import user_level
-    # If a user ID is provided, fetch the user with that ID
-    if user_id:
-        user = User.query.get(user_id)
-        if not user:
-            return render_template('404.html'), 404
-    # Otherwise, fetch the current user
-    else:
-        user = current_user
-    # Fetch the top 10 posts created by the current user
+
+    # If a user ID is provided, fetch the user with that ID; otherwise, use the current user
+    user = User.query.get(user_id) if user_id else current_user
+
+    # if the user does not exist, return a 404 error
+    if not user:
+        return jsonify({"status": "error", "message": "No such a user."}), 404
+
+    # get the user's 10 most recent posts
     user_posts = user.posts.order_by(Post.timestamp.desc()).limit(10).all()
 
-    # Initialize a set to keep track of unique post IDs and a list for the posts
+    # initialize a set to store unique post IDs and a list to store posts in order
     unique_post_ids = set()
     posts_in_order = []
 
@@ -142,11 +142,10 @@ def profile_view(user_id=None):
                              .offset(offset)\
                              .limit(batch_size)\
                              .all()
-
         if not replies:
-            break  
+            break
 
-        # Process each reply to find its root post
+        #  Process each reply to find its root post
         for reply in replies:
             current_reply = reply
             while current_reply.post is None and current_reply.parent_id is not None:
@@ -159,9 +158,9 @@ def profile_view(user_id=None):
                     if len(posts_in_order) >= 10:
                         break
 
-        offset += batch_size 
+        offset += batch_size
 
-    return render_template('profile/main.html', user=user, user_posts=user_posts, user_responses=posts_in_order,suburbs=get_perth_suburbs(), user_level=user_level)
+    return render_template('profile/main.html', user=user, user_posts=user_posts, user_responses=posts_in_order, suburbs=get_perth_suburbs(), user_level=user_level)
 
 @login_required
 @bp.route('/edit', methods=['PUT'])
@@ -213,14 +212,6 @@ def delete_image():
         return json_response(ResponseStatus.SUCCESS, "Profile image deleted successfully.")
     
     return json_response(ResponseStatus.ERROR, "No profile image to delete.")
-
-@bp.route('/<int:user_id>', methods=['GET'])
-def view_user_profile(user_id):
-    user = User.query.get(user_id)
-    if not user:
-        return json_response(ResponseStatus.ERROR, "No such a user.")
-
-    return render_template('profile/main.html', user=user)
 
 @bp.route('/<int:user_id>/points_history', methods=['GET'])
 def points_history(user_id):
