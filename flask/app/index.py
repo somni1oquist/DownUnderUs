@@ -127,10 +127,9 @@ def about():
 
 @bp.route('/rank')
 def rank():
-    from .tools import user_level
     top_users = User.query.order_by(User.points.desc()).limit(10).all()
     # Pass the function directly in the context
-    return render_template('./index/rank.html', users=top_users, user_level=user_level)
+    return render_template('./index/rank.html', users=top_users)
 
 
 

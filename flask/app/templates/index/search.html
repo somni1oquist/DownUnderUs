@@ -159,19 +159,6 @@
       </div>
     </div>
   </div>
-  {% else %}
-    <div class="alert alert-primary" role="alert">
-      <h4 class="alert-heading">Unlock Full Access!</h4>
-      <p>Enjoy unlimited access to all our premium content by signing in. Don't have an account yet? Join our community today!</p>
-      <hr>
-      <p class="mb-0">
-        <a href="{{ url_for('auth.signin') }}" class="btn btn-outline-success">Log In</a>
-        or
-        <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-success">Sign Up</a>
-        to start your journey with us.
-      </p>
-    </div>
-  {% endif %}  
 </div>
 
 {% endblock %}

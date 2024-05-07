@@ -17,7 +17,7 @@
               <td>{{ loop.index }}</td>
               <td><a href="{{ url_for('profile.profile_view', user_id=user.id) }}">{{ user.username }}</a></td>
               <td>{{ user.points }}</td>
-              <td>{{ user_level(user.id) }}</td>
+              <td>{{ user.level }}</td>
           </tr>
           {% endfor %}
       </tbody>
