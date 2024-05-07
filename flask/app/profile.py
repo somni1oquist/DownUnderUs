@@ -2,7 +2,6 @@ import errno
 import os
 from flask import Blueprint, current_app, jsonify, render_template, request
 from flask_login import current_user, login_required
-from sqlalchemy import func
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from app.models import Post, Reply, User,Title ,Points
