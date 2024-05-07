@@ -81,7 +81,6 @@ class UploadProfileimg(unittest.TestCase):
         self.assertEqual(response_data['status'], ResponseStatus.ERROR)
         self.assertEqual(response_data['message'], 'Invalid file type')
     
-    def test_serve_upload(self):
         
 
 
