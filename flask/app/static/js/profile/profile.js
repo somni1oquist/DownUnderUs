@@ -100,6 +100,7 @@ const uploadProfileImage = (url, file) => {
           const imageUrl = response.url;
           const image = `<img id="profile-image" src="${imageUrl}" alt="Profile Image">`;
           $('#image-container').find('#profile-image').remove();
+          $('#image-container').find('[data-action="delete-image"]').removeClass('d-none');
           $('#image-container').prepend(image);
         });
     },

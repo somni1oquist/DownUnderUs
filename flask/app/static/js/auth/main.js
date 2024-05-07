@@ -18,6 +18,7 @@ function setupSignIn() {
       e.preventDefault();
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
+      const callbackUrl = new URLSearchParams(window.location.search).get("callbackUrl");
       const errorMessageDiv = document.getElementById("error-message");
 
       errorMessageDiv.style.display = "none";
@@ -31,7 +32,7 @@ function setupSignIn() {
         fetch("/auth/signin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ username, password, callbackUrl }),
         })
           .then((response) => response.json())
           .then((data) => {
