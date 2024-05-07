@@ -1,0 +1,17 @@
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+<table class="points_history_table">
+  <thead>
+      <tr>
+          <th>Timestamp</th>
+          <th>Points Added</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% for record in points_history %}
+      <tr>
+          <td>{{ record.timestamp }}</td>
+          <td>{{ record.points_added }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>

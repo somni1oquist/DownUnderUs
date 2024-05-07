@@ -169,7 +169,7 @@ ul.topnav {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #76885B;
+  background-color: #176B87;
   position: initial;
   top: 0;
   height: 65px;
@@ -191,7 +191,7 @@ ul.topnav li a {
 }
 
 ul.topnav li a:hover:not(.active) {
-  background-color: #627254;
+  background-color: rgba(77, 134, 156,50%);
 }
 
 ul.topnav li.right {
@@ -311,7 +311,7 @@ color: black;
 
 /* footer part */
 .bottom-banner {
-  background-color: #76885B;
+  background-color: #176B87;
   color: white;
   text-align: center;
   padding: 10px;
@@ -337,7 +337,8 @@ color: black;
 
 body {
   /* this padding make sure no content is covered by banner */
-  padding-bottom: 300px;  
+  padding-bottom: 200px;
+  background-color: #EEF5FF;
 }
 
 /* pagination */
@@ -361,4 +362,76 @@ body {
 
 #prev-page, #next-page {
   margin: 0 20px;
+}
+
+
+#rank_container {
+    width: 80%;
+    margin: 0 auto;
+    color: black;
+}
+
+#rank_table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+}
+
+#rank_table th, #rank_table td {
+    padding: 10px 20px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+#rank_table th {
+    background-color: #B4D4FF;
+    font-weight: bold;
+}
+
+#rank_table tr:nth-child(even) {
+    background-color: #B4D4FF;
+}
+
+#rank_title {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#logo_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+#logo {
+    height: 100%;
+    width: auto;
+    max-height: 50px;
+    object-fit: contain;
+}
+
+.points_history_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.points_history_table th {
+  padding: 10px;
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.points_history_table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.points_history_table tr:hover {
+  background-color: #f1f1f1;
 }

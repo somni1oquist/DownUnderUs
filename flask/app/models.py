@@ -148,4 +148,13 @@ class Title(db.Model):
     title = db.Column(db.String(50), nullable=False)
     awarded_date = db.Column(db.DateTime, index=True, default=func.now())
 
+class Points(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, index=True, default=func.now())
+    points_added = db.Column(db.Integer, nullable=False)
 
+    user = db.relationship('User', backref='points_history')
+
+    def __repr__(self):
+        return f"<Points {self.user_id}: +{self.points_added} at {self.timestamp}>"

@@ -39,7 +39,11 @@ function setupSignIn() {
             if (!data.success) {
               throw new Error(data.message);
             }
-            makeToast("Sign-in successful!", BsType.SUCCESS).then(
+            makeToast(`Sign-in successful!`, BsType.SUCCESS).then(() => {
+              makeToast(`Points added: ${data.points_added}`, BsType.SUCCESS).then(() => {
+                window.location.href = data.redirect;
+              });
+            });
               () => (window.location.href = data.redirect)
             );
           })

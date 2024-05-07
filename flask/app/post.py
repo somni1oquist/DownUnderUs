@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from .forms import CreatePostForm
 from .models import Post, Reply, Vote
 from .enums import Topic, ResponseStatus, ResponseMessage
-from .tools import json_response
+from .tools import json_response, update_user_points
 from app import db
 
 # Define prefix for url
@@ -27,12 +27,13 @@ def create():
         location = form.location.data
         quest = Post(title=title, body=body, user_id=current_user.id, topic=topic, tags=tags, location=location)
         db.session.add(quest)
+        update_user_points(current_user.id,15)
         db.session.commit()
 
 
 
         # return message
-        return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id}), 201
+        return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id,'points_added': 15}), 201
     else:
         errors = form.errors
         return json_response(ResponseStatus.ERROR, ResponseMessage.FORM_ERROR, {"errors": errors}), 400
@@ -147,10 +148,9 @@ def reply(post_id):
     reply = Reply(body=body, post_id=post_id, user_id=current_user.id)
     db.session.add(reply)
     db.session.commit()
+    update_user_points(current_user.id, 10)
 
-
-
-    return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ADDED), 201
+    return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_ADDED,{'points_added': 10}), 201
 
 # Reply to a reply
 @login_required
@@ -185,6 +185,7 @@ def accept_reply(post_id, reply_id):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
 
     reply.accepted = True
+    update_user_points(reply.user_id, 30)
     db.session.commit()
 
 

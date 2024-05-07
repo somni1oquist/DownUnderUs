@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app import db
 from app.models import User
 from .enums import ResponseMessage, ResponseStatus, Topic
-from .tools import json_response
+from .tools import json_response, update_user_points
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -64,7 +64,8 @@ def signin():
             return json_response(ResponseStatus.ERROR, ResponseMessage.INCORRECT_CREDENTIALS, {'success': False}), 401
 
         login_user(user)
-        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'success': True, 'redirect': redirect_url}), 200
+        update_user_points(user.id,5)
+        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS,{'success': True, 'redirect': url_for('index.index'), 'points_added': 5}), 200
 
     return render_template('auth/signin.html')
 

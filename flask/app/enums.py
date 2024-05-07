@@ -57,7 +57,7 @@ class ResponseMessage(str, Enum):
     CREATED = 'Created successfully'
     EDITED = 'Edited successfully'
     DELETED = 'Deleted successfully'
-    REPLY_ADDED = 'Reply added successfully'
+    REPLY_ADDED = 'Reply added successfully. Points added:10'
     REPLY_ACCEPTED = 'Reply accepted successfully'
     REPLY_EDITED = 'Reply edited successfully'
     REPLY_DELETED = 'Reply deleted successfully'
