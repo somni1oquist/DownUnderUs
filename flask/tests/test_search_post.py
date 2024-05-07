@@ -49,27 +49,32 @@ class SearchPostsTests(unittest.TestCase):
         self.app_context.pop()
 
     def test_search_by_content(self):
-        results = search_posts(content="chocolate")
+        pagination = search_posts(content="chocolate")
+        results = pagination.items
         self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]['title'], "Raspberry Chocolate Cake")
+        self.assertEqual(results[0].title, "Raspberry Chocolate Cake")
 
     def test_search_by_topic_gardening(self):
-        results = search_posts(topics=["Gardening"])
+        pagination = search_posts(topics=["Gardening"])
+        results = pagination.items
         self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]['title'], 'Urban Gardening Essentials')
+        self.assertEqual(results[0].title, 'Urban Gardening Essentials')
 
     def test_search_by_topic_pets(self):
-        results = search_posts(topics=["Pets"])
+        pagination = search_posts(topics=["Pets"])
+        results = pagination.items
         self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]['title'], 'Caring for your Dog') 
+        self.assertEqual(results[0].title, 'Caring for your Dog') 
 
     def test_search_with_sorting(self):
-        results = search_posts(sort_by = 'timestamp_desc')
+        pagination = search_posts(sort_by = 'timestamp_desc')
+        results = pagination.items
         self.assertEqual(len(results), 3)
-        self.assertEqual(results[0]['title'], 'Urban Gardening Essentials')
+        self.assertEqual(results[0].title, 'Urban Gardening Essentials')
 
     def test_empty_search(self):
-        results = search_posts()
+        pagination = search_posts()
+        results = pagination.items
         self.assertEqual(len(results), 3)
 
 if __name__ == '__main__':
