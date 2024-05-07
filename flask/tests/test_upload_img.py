@@ -6,7 +6,8 @@ import os
 import json
 import unittest
 from app.enums import ResponseStatus
-
+from werkzeug.datastructures import FileStorage
+from io import BytesIO
 
 
 class UploadProfileimg(unittest.TestCase):
@@ -50,5 +51,38 @@ class UploadProfileimg(unittest.TestCase):
         self.assertEqual(response_data['status'], ResponseStatus.SUCCESS)
         self.assertIn('url', response_data)
         self.assertTrue(os.path.exists(os.path.join(self.app.config['UPLOAD_FOLDER'], self.user.profile_image)))
+    
+    def test_upload_profileimg_no_file(self):
+        response = self.client.post('/upload/1')
+        self.assertEqual(response.status_code, 400)
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['status'], ResponseStatus.ERROR)
+        self.assertEqual(response_data['message'], 'No file part')
+    
+    def test_upload_profileimg_no_selected_file(self):
+        data = {
+            'image': (BytesIO(b''), '') 
+        }
+        response = self.client.post('/upload/1', data=data)
+        self.assertEqual(response.status_code, 400)
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['status'], ResponseStatus.ERROR)
+        self.assertEqual(response_data['message'], 'No selected file')
+    
+    def test_upload_profileimg_invalid_file_type(self):
+        example_image = './app/static/images/icons8-bmo-48.png'
+        with open(example_image, 'rb') as img:
+            data={
+                'image': (img, 'example_image.ico')
+            }
+            response = self.client.post('/upload/1', data=data, content_type='multipart/form-data')
+        self.assertEqual(response.status_code, 400)
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['status'], ResponseStatus.ERROR)
+        self.assertEqual(response_data['message'], 'Invalid file type')
+    
+    def test_serve_upload(self):
+        
+
 
 
