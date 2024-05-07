@@ -123,7 +123,7 @@
       <div class="form-control d-flex justify-content-center align-items-center"
         style="min-height: 150px; background-color: var(--bs-secondary-bg);">
         <div>
-          <a href="{{ url_for('auth.signin') }}">Sign in</a> to reply
+          <a href="{{ url_for('auth.signin') + '?callbackUrl=' + url_for('post.post', post_id=post.id) }}">Sign in</a> to reply
         </div>
       </div>
       {% endif %}

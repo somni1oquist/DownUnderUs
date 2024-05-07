@@ -50,8 +50,9 @@ def signup():
 def signin():
     if request.method == 'POST':
         data = request.get_json()
-        username = data.get('username') 
+        username = data.get('username')
         password = data.get('password')
+        redirect_url = data.get('callbackUrl', url_for('index.index'))
 
         if not username:
             return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, {'success': False}), 400
@@ -63,7 +64,7 @@ def signin():
             return json_response(ResponseStatus.ERROR, ResponseMessage.INCORRECT_CREDENTIALS, {'success': False}), 401
 
         login_user(user)
-        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'success': True, 'redirect': url_for('index.index')}), 200
+        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS, {'success': True, 'redirect': redirect_url}), 200
 
     return render_template('auth/signin.html')
 
