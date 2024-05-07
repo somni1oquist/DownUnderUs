@@ -1,5 +1,5 @@
-import { Action } from '../enums.js';
-import { initEditor, getEditorContent } from '../utils.js';
+import { Action, BsType } from '../enums.js';
+import { initEditor, getEditorContent, makeToast } from '../utils.js';
 import { editPost, abortEdit, del, reply, acceptReply, editReply, save, vote } from './functions.js';
 $(() => {
   // Initialise editor
@@ -52,6 +52,11 @@ $(() => {
           .filter((_, el) => el.innerText.trim().startsWith('#'))
           .map((_, el) => el.innerText.trim().substring(1))
           .get();
+        // Empty post = <p></p>
+        if ($(body).text().length === 0 && $(body).find('img').length === 0) {
+          makeToast('Please reply with more contents', BsType.WARNING, false);
+          return;
+        }
 
         save(url, { body: body, tags: tags});
         break;
@@ -99,6 +104,11 @@ $(() => {
       case Action.SAVE:
         const $editor = $target.find('div#editor');
         const body = getEditorContent($editor[0]);
+        // Empty reply = <p></p>
+        if ($(body).text().length === 0 && $(body).find('img').length === 0) {
+          makeToast('Please reply with more contents', BsType.WARNING, false);
+          return;
+        }
         save(url, { body: body });
         break;
 

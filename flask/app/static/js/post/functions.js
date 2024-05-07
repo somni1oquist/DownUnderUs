@@ -30,7 +30,11 @@ const editPost = ($target) => {
 const reply = ($target, url) => {
   const $container = $target.find('#reply-editor').length ? $target.find('#reply-editor') : $target.find('#modal-editor');
   const body = getEditorContent($container[0]);
-
+  // Empty reply = <p></p>
+  if ($(body).text().length === 0 && $(body).find('img').length === 0) {
+    makeToast('Please reply with more contents', BsType.WARNING, false);
+    return;
+  }
   const data = {
     body: body
   };
