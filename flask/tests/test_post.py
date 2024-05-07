@@ -1,10 +1,9 @@
 import unittest
-
-from flask import json
 from app import create_app, db
 from app.models import User, Post
 from config import TestConfig
 from werkzeug.security import generate_password_hash
+from app.enums import ResponseStatus, ResponseMessage
 
 class CreatePostTestClass(unittest.TestCase):
     def setUp(self):
@@ -69,49 +68,47 @@ class CreatePostTestClass(unittest.TestCase):
         self.assertIn('errors', response.get_json())
 
     def test_edit_post_success(self):
-        data = {
-            'title': 'Edited Test Post',
-            'body': 'Edited Post Content',
-            'location': None,
-            'tags': None
-        }
         response = self.client.put(
             f'/post/{self.post.id}/edit', 
-            data=json.dumps(data), 
+            json={
+                'title': 'Edited Test Post',
+                'body': 'Edited Post Content',
+                'location': None,
+                'tags': None
+            }, 
             content_type='application/json'
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('Edited successfully' in response.get_json()['message'])
+        self.assertTrue(ResponseMessage.EDITED in response.get_json()['message'])
 
     def test_edit_post_failure(self):
         # Test with invalid data
-        data = {
-            'title': '',
-            'body': '',
-            'location': '',
-            'tags': '#unittest'
-        }
         response = self.client.put(
             f'/post/{self.post.id}/edit', 
-            data=json.dumps(data), 
+            json={
+                'title': '',
+                'body': '',
+                'location': '',
+                'tags': '#unittest'
+            }, 
             content_type='application/json'
         )
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual('error', response.get_json()['status'])
+        self.assertEqual(ResponseStatus.ERROR, response.get_json()['status'])
 
     def test_delete_post_success(self):
         response = self.client.delete(f'/post/{self.post.id}/delete')
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('Deleted successfully' in response.get_json()['message'])
+        self.assertTrue(ResponseMessage.DELETED in response.get_json()['message'])
 
     def test_delete_nonexistent_post(self):
         response = self.client.delete(f'/post/999/delete')
 
         self.assertEqual(response.status_code, 404)
-        self.assertEqual('error', response.get_json()['status'])
+        self.assertEqual(ResponseStatus.ERROR, response.get_json()['status'])
 
 if __name__ == '__main__':
     unittest.main()
