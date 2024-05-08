@@ -1,12 +1,9 @@
-.profile-container {
-  background-color: rgba(154, 200, 205, .5)
-}
-
 #profile-box {
   background-color: #fff;
-  border-radius: 1rem;
-  padding: .5rem;
   margin: 1rem;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(67, 186, 173, .5);
 }
 
 #image-container {
@@ -59,6 +56,13 @@
   display: inline-block;
 }
 
+.badge {
+  background-color: rgba(253, 146, 45, .7);
+  color: #333;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
 .profile-detail {
   font-size: 1.1rem;
   color: #666;
@@ -106,8 +110,10 @@
 
 #recent-posts, #recent-actions {
   min-height: 200px;
-  margin: 5px;
-  border-radius: 1rem;
+  margin: 16px;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(67, 186, 173, .5);
 }
 
 #recent-posts h3, #recent-actions h3 {
@@ -116,7 +122,6 @@
 
 .post-card {
   background-color: #fff;
-  border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;

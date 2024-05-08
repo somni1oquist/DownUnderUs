@@ -169,7 +169,7 @@ ul.topnav {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #176B87;
+  background: linear-gradient(45deg, rgba(34,193,195,1) 0%, rgba(253,146,45,1) 100%);
   position: initial;
   top: 0;
   height: 65px;
@@ -338,7 +338,6 @@ color: black;
 body {
   /* this padding make sure no content is covered by banner */
   padding-bottom: 200px;
-  background-color: #EEF5FF;
 }
 
 /* pagination */

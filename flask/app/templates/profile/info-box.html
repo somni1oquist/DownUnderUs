@@ -53,7 +53,7 @@
                 {% if user.interested_topics %}
                 <i class="fas fa-heart profile-topics-icon"></i>
                 {% for topic in user.interested_topics.split(',') %}
-                <span class="badge rounded-pill text-bg-secondary">{{ topic }}</span>
+                <span class="badge rounded-pill">{{ topic }}</span>
                 {% endfor %}
                 {% else %}
                 <span>No topics selected.</span>
@@ -67,52 +67,57 @@
               </div>
             </div>
           </div>
-          <p class="profile-detail">
-            <i class="fas fa-envelope profile-icon"></i>
-            <span>{{ user.email }}</span>
-            {% if current_user.id == user.id %}
-            <a href="{{ url_for('profile.edit_profile') }}" class="hide" data-action="edit-email">
-              <i class="fas fa-pen"></i>
-            </a>
-            {% endif %}
-          </p>
-          <p class="profile-detail">
-            <i class="fas fa-map-marker-alt profile-icon"></i>
-            <span>{{ user.suburb }}</span>
-            {% if current_user.id == user.id %}
-            <a href="{{ url_for('profile.edit_profile') }}" class="hide" data-action="edit-suburb">
-              <i class="fas fa-pen"></i>
-            </a>
-            <select name="suburb" id="suburb" class="form-control d-none">
-              {% for suburb in suburbs %}
-              <option value="{{ suburb }}" {% if suburb==user.suburb %} selected {% endif %}>{{ suburb }}</option>
-              {% endfor %}
-            </select>
-            <a href="{{ url_for('profile.edit_profile') }}" class="d-none" data-action="save-suburb">
-              <i class="fa-solid fa-circle-check"></i>
-            </a>
-            <a href="{{ url_for('profile.edit_profile') }}" class="d-none" data-action="abort-suburb">
-              <i class="fa-solid fa-circle-xmark"></i>
-            </a>
-            {% endif %}
-          </p>
-          <p class="profile-detail">
-            POINTS:
-            <span>{{ user.points }}</span>
-          </p>
-          <p class="profile-detail">
-            LEVEL:
-            <span>{{ user.level }}</span>
-          </p>
+          <div class="row">
+            <!-- Email and suburb -->
+            <div class="col-sm-6">
+              <p class="profile-detail">
+                <i class="fas fa-envelope profile-icon"></i>
+                <span>{{ user.email }}</span>
+                {% if current_user.id == user.id %}
+                <a href="{{ url_for('profile.edit_profile') }}" class="hide" data-action="edit-email">
+                  <i class="fas fa-pen"></i>
+                </a>
+                {% endif %}
+              </p>
+              <p class="profile-detail">
+                <i class="fas fa-map-marker-alt profile-icon"></i>
+                <span>{{ user.suburb }}</span>
+                {% if current_user.id == user.id %}
+                <a href="{{ url_for('profile.edit_profile') }}" class="hide" data-action="edit-suburb">
+                  <i class="fas fa-pen"></i>
+                </a>
+                <select name="suburb" id="suburb" class="form-control d-none">
+                  {% for suburb in suburbs %}
+                  <option value="{{ suburb }}" {% if suburb==user.suburb %} selected {% endif %}>{{ suburb }}</option>
+                  {% endfor %}
+                </select>
+                <a href="{{ url_for('profile.edit_profile') }}" class="d-none" data-action="save-suburb">
+                  <i class="fa-solid fa-circle-check"></i>
+                </a>
+                <a href="{{ url_for('profile.edit_profile') }}" class="d-none" data-action="abort-suburb">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                </a>
+                {% endif %}
+              </p>
+            </div>
+            <!-- Points and level -->
+            <div class="col-sm-6">
+              <p class="profile-detail">
+                <i class="fa-solid fa-star profile-icon"></i>
+                <a role="button" data-bs-toggle="modal" data-bs-target="#pointsHistoryModal">
+                  <span data-bs-toggle="tooltip" data-bs-title="Click to check points history">{{ user.points }}</span>
+                </a>
+              </p>
+              <p class="profile-detail">
+                <i class="fa-solid fa-ranking-star profile-icon"></i>
+                <span data-bs-toggle="tooltip" data-bs-title="Current level">{{ user.level }}</span>
+              </p>
+            </div>
+          </div>
 
           {% if current_user.id == user.id %}
           <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
             <i class="fa-solid fa-fingerprint"></i>
-          </button>
-          {% endif %}
-          {% if current_user.id == user.id %}
-          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#pointsHistoryModal">
-              <i class="fa-solid fa-chart-column"></i>
           </button>
           {% endif %}
 
@@ -158,10 +163,8 @@
     </div>
   </div>
 </div>
-{% endif %}
 
 <!-- points history -->
-{% if current_user.id == user.id %}
 <div class="modal fade" id="pointsHistoryModal" tabindex="-1" aria-labelledby="pointsHistoryModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-lg">
