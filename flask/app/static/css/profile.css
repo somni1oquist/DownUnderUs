@@ -4,6 +4,16 @@
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0px 0px 10px 0px rgba(67, 186, 173, .5);
+  position: relative;
+}
+
+#profile-box img#pin{
+  position: absolute;
+  padding: 0;
+  top: 5px;
+  right: 5px;
+  width: 48px;
+  height: 48px;
 }
 
 #image-container {
@@ -39,6 +49,13 @@
 .profile-info {
   margin-left: 15px;
   position: relative;
+}
+
+.profile-info button:last-child {
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+  margin: 10px;
 }
 
 .profile-greeting {
@@ -98,14 +115,6 @@
 
 .profile-detail a {
   color: #333;
-}
-
-
-.profile-info button:last-child {
-  position: absolute;
-  right: 5px;
-  top: 20px;
-  margin: 10px;
 }
 
 #recent-posts, #recent-actions {
