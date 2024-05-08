@@ -16,6 +16,7 @@
 </head>
 <body>
   <div class="lmask" style="display: none;"></div>
+  <input type="hidden" id="csrf_token" value="{{ csrf_token() }}"/>
   {% include 'nav.html' %}
 
   {% block container %}{% endblock %}

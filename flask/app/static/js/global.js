@@ -32,7 +32,17 @@ $(() => {
   // close bottom banner
   $('.banner-header .btn-close').on('click', (e) => {
     $(e.target).closest('.bottom-banner').hide();
-});
+  });
+
+  // Inject CSRF token into AJAX requests
+  // From https://flask-wtf.readthedocs.io/en/0.15.x/csrf/#javascript-requests
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrf_token);
+      }
+    }
+  });
 
 });
 
@@ -51,5 +61,4 @@ const checkAndShowTitle = () => {
     }
   });
 }
-
 

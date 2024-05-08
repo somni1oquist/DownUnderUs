@@ -4,8 +4,6 @@ import pytz
 from app import db
 
 
-
-
 def convert_timezone(timestamp, from_zone=None, to_zone='Australia/Perth', as_string=True):
     '''Convert timestamp between specified time zones.'''
     if from_zone is None:
