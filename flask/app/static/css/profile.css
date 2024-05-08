@@ -1,12 +1,18 @@
-.profile-container {
-  background-color: rgba(154, 200, 205, .5)
-}
-
 #profile-box {
   background-color: #fff;
-  border-radius: 1rem;
-  padding: .5rem;
   margin: 1rem;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+#profile-box img#pin{
+  position: absolute;
+  padding: 0;
+  top: -5px;
+  right: -5px;
+  width: 48px;
+  height: 48px;
 }
 
 #image-container {
@@ -44,6 +50,13 @@
   position: relative;
 }
 
+.profile-info button:last-child {
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+  margin: 10px;
+}
+
 .profile-greeting {
   display: block;
   color: #333;
@@ -57,6 +70,13 @@
 }
 .profile-name h1 {
   display: inline-block;
+}
+
+.badge {
+  background-color: rgba(253, 146, 45, .7);
+  color: #333;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .profile-detail {
@@ -96,18 +116,12 @@
   color: #333;
 }
 
-
-.profile-info button:last-child {
-  position: absolute;
-  right: 5px;
-  top: 20px;
-  margin: 10px;
-}
-
 #recent-posts, #recent-actions {
   min-height: 200px;
-  margin: 5px;
-  border-radius: 1rem;
+  margin: 16px;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(67, 186, 173, .5);
 }
 
 #recent-posts h3, #recent-actions h3 {
@@ -116,7 +130,6 @@
 
 .post-card {
   background-color: #fff;
-  border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
@@ -129,7 +142,7 @@
 }
 
 .post-title {
-  color: #007bff;
+  color: #115253;
   text-decoration: none;
   font-weight: 500;
   margin-bottom: 1rem;
@@ -141,4 +154,35 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* Letters Effect. Reference: https://codepen.io/mlms13/pen/ngbMxq */
+.letter {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  margin: 26px auto 0;
+  padding: 24px;
+  position: relative;
+  width: 100%;
+}
+.letter:before, .letter:after {
+  content: "";
+  height: 98%;
+  position: absolute;
+  width: 100%;
+  z-index: -1;
+}
+.letter:before {
+  background: #fafafa;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  left: -5px;
+  top: 4px;
+  transform: rotate(-2.5deg);
+}
+.letter:after {
+  background: #f6f6f6;
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  right: -3px;
+  top: 1px;
+  transform: rotate(1.4deg);
 }
