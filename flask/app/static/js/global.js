@@ -35,10 +35,12 @@ $(() => {
   });
 
   // Inject CSRF token into AJAX requests
-  $(document).ajaxSend(function(event, xhr, settings) {
-    if (!/^https?:\/\//.test(settings.url)) {  // Ignore external URLs
-      const csrfToken = $('#csrf_token').val();
-      xhr.setRequestHeader('X-CSRFToken', csrfToken);
+  // From https://flask-wtf.readthedocs.io/en/0.15.x/csrf/#javascript-requests
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrf_token);
+      }
     }
   });
 
