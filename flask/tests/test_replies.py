@@ -1,6 +1,7 @@
 import unittest
 from app import create_app, db
-from app.models import User, Post, Reply
+from app.models import User, Post, Reply, Vote
+from app.enums import ResponseStatus, ResponseMessage
 from config import TestConfig
 from flask_login import current_user
 from werkzeug.security import generate_password_hash
@@ -65,6 +66,110 @@ class ReplyTests(unittest.TestCase):
     def test_reply_to_nonexistent_post(self):
         response = self.client.post('/post/999/reply', json={'body': 'This is a reply'})
         self.assertEqual(response.status_code, 404)
+
+    def test_edit_reply(self):
+        reply = Reply(body='Reply body', post_id=self.post.id, user_id=self.user.id)
+        db.session.add(reply)
+        db.session.commit()
+
+        response = self.client.put(
+            f'/post/{self.post.id}/reply/{reply.id}/edit',
+            json={'body': 'Edited Reply body'},
+            content_type='application/json'
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(ResponseMessage.REPLY_EDITED in response.get_json()['message'])
+
+    # def test_edit_reply_malicious(self):
+
+    def test_delete_reply(self):
+        reply = Reply(body='Reply body', post_id=self.post.id, user_id=self.user.id)
+        db.session.add(reply)
+        db.session.commit()
+
+        response = self.client.delete(f'/post/{self.post.id}/reply/{reply.id}/delete')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(ResponseMessage.REPLY_DELETED in response.get_json()['message'])
+
+    def test_delete_nonexistent_reply(self):
+        response = self.client.delete(f'/post/{self.post.id}/reply/999/delete')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(ResponseStatus.ERROR, response.get_json()['status'])
+        
+    def test_accept_reply(self):
+        reply = Reply(body='Reply body', post_id=self.post.id, user_id=self.user.id)
+        db.session.add(reply)
+        db.session.commit()
+
+        response = self.client.put(f'/post/{self.post.id}/reply/{reply.id}/accept')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(ResponseMessage.REPLY_ACCEPTED in response.get_json()['message'])
+
+    def test_accept_more_reply(self):
+        first_reply = Reply(body='Reply body', post_id=self.post.id, user_id=self.user.id, accepted=0)
+        second_reply = Reply(body='Reply body', post_id=self.post.id, user_id=self.user.id, accepted=1)
+        db.session.add(first_reply)
+        db.session.add(second_reply)
+        db.session.commit()
+
+        response = self.client.put(f'/post/{self.post.id}/reply/{first_reply.id}/accept')
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(ResponseStatus.ERROR, response.get_json()['status'])
+
+    def test_upvote_reply(self):
+        # Create another user
+        user_password = generate_password_hash('testpassword')
+        another_user = User(username='another_user', email='another_user@example.com', password_hash=user_password)
+        db.session.add(another_user)
+        db.session.commit()
+
+        # Create reply by another user
+        reply = Reply(body='Reply body', post_id=self.post.id, user_id=another_user.id)
+        db.session.add(reply)
+        db.session.commit()
+
+        response = self.client.post(f'/post/{self.post.id}/reply/{reply.id}/vote', json={
+            'vote': 'upvote'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(ResponseMessage.VOTED, response.get_json()['message'])
+
+    def test_upvote_reply_yourself(self):
+        # Create reply by current user
+        reply = Reply(body='Reply body', post_id=self.post.id, user_id=self.user.id)
+        db.session.add(reply)
+        db.session.commit()
+
+        response = self.client.post(f'/post/{self.post.id}/reply/{reply.id}/vote', json={
+            'vote': 'upvote'
+        })
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(ResponseStatus.ERROR, response.get_json()['status'])
+    
+    def test_revoke_reply(self):
+        # Create another user
+        user_password = generate_password_hash('testpassword')
+        another_user = User(username='another_user', email='another_user@example.com', password_hash=user_password)
+        db.session.add(another_user)
+        db.session.commit()
+
+        # Create reply by another user
+        reply = Reply(body='Reply body', post_id=self.post.id, user_id=another_user.id)
+        db.session.add(reply)
+        db.session.commit()
+
+        # Create vote record from current user
+        vote = Vote(user_id=self.user.id, reply_id=reply.id, vote_type='upvote')
+        db.session.add(vote)
+        db.session.commit()
+
+        response = self.client.post(f'/post/{self.post.id}/reply/{reply.id}/vote', json={
+            'vote': 'downvote'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(ResponseMessage.VOTE_REVOKED, response.get_json()['message'])
+
 
 if __name__ == '__main__':
     unittest.main()
