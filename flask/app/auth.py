@@ -65,7 +65,7 @@ def signin():
 
         login_user(user)
         update_user_points(user.id,5)
-        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS,{'success': True, 'redirect': url_for('index.index'), 'points_added': 5}), 200
+        return json_response(ResponseStatus.SUCCESS, ResponseMessage.LOGIN_SUCCESS,{'success': True, 'redirect': redirect_url, 'points_added': 5}), 200
 
     return render_template('auth/signin.html')
 
