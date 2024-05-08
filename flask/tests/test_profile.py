@@ -4,6 +4,11 @@ from app import create_app, db
 from app.models import Post, Reply, Title, User
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import TestConfig
+import json
+import os
+from app.enums import ResponseStatus
+from io import BytesIO
+
 
 class ProfileTestCase(unittest.TestCase):
     def setUp(self):
@@ -110,6 +115,50 @@ class ProfileTestCase(unittest.TestCase):
         self.assertIn('<h3>Recent 10 interactions</h3>', data)
         self.assertIn('Test Post 0', data)  
         self.assertNotIn('Test Post 11', data)
+
+
+
+    def test_upload_profileimg(self):
+        example_image = './app/static/images/icons8-bmo-48.png'
+        with open(example_image, 'rb') as img:
+            data={
+                'image': (img, 'example_image.png')
+            }
+            response = self.client.post('/upload/1', data=data, content_type='multipart/form-data')
+        self.assertEqual(response.status_code, 200)
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['status'], ResponseStatus.SUCCESS)
+        self.assertIn('url', response_data)
+        self.assertTrue(os.path.exists(os.path.join(self.app.config['UPLOAD_FOLDER'], self.user.profile_image)))
+    
+    def test_upload_profileimg_no_file(self):
+        response = self.client.post('/upload/1')
+        self.assertEqual(response.status_code, 400)
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['status'], ResponseStatus.ERROR)
+        self.assertEqual(response_data['message'], 'No file part')
+    
+    def test_upload_profileimg_no_selected_file(self):
+        data = {
+            'image': (BytesIO(b''), '') 
+        }
+        response = self.client.post('/upload/1', data=data)
+        self.assertEqual(response.status_code, 400)
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['status'], ResponseStatus.ERROR)
+        self.assertEqual(response_data['message'], 'No selected file')
+    
+    def test_upload_profileimg_invalid_file_type(self):
+        example_image = './app/static/images/icons8-bmo-48.png'
+        with open(example_image, 'rb') as img:
+            data={
+                'image': (img, 'example_image.ico')
+            }
+            response = self.client.post('/upload/1', data=data, content_type='multipart/form-data')
+        self.assertEqual(response.status_code, 400)
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['status'], ResponseStatus.ERROR)
+        self.assertEqual(response_data['message'], 'Invalid file type')
 
 if __name__ == '__main__':
     unittest.main()
