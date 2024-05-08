@@ -1,14 +1,16 @@
 import os
-from flask import Flask, jsonify, redirect, render_template, url_for
+from flask import Flask, redirect, url_for
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, current_user, login_required
+from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 from werkzeug.exceptions import Unauthorized
 from config import Config, TestConfig
 
 db = SQLAlchemy()
 migrate = Migrate()
 loginManager = LoginManager()
+csrf = CSRFProtect()
 
 def create_app(test_config=None):
     # create and configure the app
@@ -31,6 +33,7 @@ def create_app(test_config=None):
     db.init_app(app)
     migrate.init_app(app, db)
     loginManager.init_app(app)
+    csrf.init_app(app)
 
     # Import models (must after db init)
     from . import models

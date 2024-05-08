@@ -38,7 +38,6 @@ def signup():
             db.session.commit()
             login_user(new_user)
             
-
             return json_response(ResponseStatus.SUCCESS, ResponseMessage.REGISTRATION_SUCCESSFUL, {'success': True, 'redirect': url_for("index.index")}), 201
         except IntegrityError:
             db.session.rollback()

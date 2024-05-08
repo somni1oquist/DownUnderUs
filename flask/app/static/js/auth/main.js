@@ -1,4 +1,4 @@
-import { makeToast } from "../utils.js";
+import { makeToast, csrfFetch } from "../utils.js";
 import { BsType } from "../enums.js";
 
 // Initialize the sign-in and sign-up after DOM content has loaded
@@ -29,7 +29,7 @@ function setupSignIn() {
         errorMessageDiv.style.display = "block";
       } else {
         // AJAX request for sign-in
-        fetch("/auth/signin", {
+        csrfFetch("/auth/signin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password, callbackUrl }),
@@ -94,7 +94,7 @@ function setupSignUp() {
         errorMessageDiv.style.display = "block";
       } else {
         // Proceed with AJAX request
-        fetch("/auth/signup", {
+        csrfFetch("/auth/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, email, password, suburb }),

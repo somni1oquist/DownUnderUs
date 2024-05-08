@@ -231,7 +231,7 @@ const initEditor = (target, hashtag = true) => {
                 formData.append('image', file);
 
                 try {
-                  const response = await fetch('/upload/0', {
+                  const response = await csrfFetch('/upload/0', {
                     method: 'POST',
                     body: formData,
                   });
@@ -298,4 +298,11 @@ const getEditorContent = (container) => {
   return content;
 };
 
-export { makeToast, getTopics, initEditor, getEditorContent }
+const csrfFetch = (url, options = {}) => {
+  const csrfToken = document.getElementById("csrf_token").value;
+  options.headers = options.headers || {};
+  options.headers['X-CSRFToken'] = csrfToken;
+  return fetch(url, options);
+}
+
+export { makeToast, getTopics, initEditor, getEditorContent, csrfFetch }

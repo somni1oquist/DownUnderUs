@@ -32,7 +32,15 @@ $(() => {
   // close bottom banner
   $('.banner-header .btn-close').on('click', (e) => {
     $(e.target).closest('.bottom-banner').hide();
-});
+  });
+
+  // Inject CSRF token into AJAX requests
+  $(document).ajaxSend(function(event, xhr, settings) {
+    if (!/^https?:\/\//.test(settings.url)) {  // Ignore external URLs
+      const csrfToken = $('#csrf_token').val();
+      xhr.setRequestHeader('X-CSRFToken', csrfToken);
+    }
+  });
 
 });
 
@@ -51,5 +59,4 @@ const checkAndShowTitle = () => {
     }
   });
 }
-
 
