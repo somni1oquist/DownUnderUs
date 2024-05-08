@@ -56,7 +56,7 @@ def check_author(subject, user):
 # Get post detail by id
 @bp.route('/<int:post_id>', methods=['GET'])
 def post(post_id):
-    post = Post.query.get(id)
+    post = Post.query.get(post_id)
     if not post:
         return json_response(ResponseStatus.ERROR, ResponseMessage.NOT_FOUND), 404
     
