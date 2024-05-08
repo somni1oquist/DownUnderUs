@@ -44,8 +44,6 @@ function setupSignIn() {
                 window.location.href = data.redirect;
               });
             });
-              () => (window.location.href = data.redirect)
-            );
           })
           .catch((error) => {
             console.error("Error:", error);

@@ -30,31 +30,23 @@ def create():
         update_user_points(current_user.id,15)
         db.session.commit()
 
-
-
         # return message
         return  json_response(ResponseStatus.SUCCESS, ResponseMessage.CREATED, {"post_id": quest.id,'points_added': 15}), 201
     else:
         errors = form.errors
         return json_response(ResponseStatus.ERROR, ResponseMessage.FORM_ERROR, {"errors": errors}), 400
 
-
-
-
-# Get post with replies
-def load_post(id):
-    '''Load post by id and return post with user and replies'''
-    post = Post.query.get(id)
-    if not post:
-        return None
-    return post
-
 def check_answer(replies):
     '''Check if any reply is accepted or has accepted replies'''
-    if any(reply.accepted for reply in replies):
-        return True
-    elif any(reply.replies for reply in replies):
-        return any(check_answer(reply.replies) for reply in replies)
+    stack = [reply for reply in replies]
+    while stack:
+        current_reply = stack.pop()
+        if current_reply.accepted:
+            return True
+        
+        if current_reply.replies:
+            stack.extend(current_reply.replies)
+
     return False
 
 def check_author(subject, user):
@@ -64,7 +56,7 @@ def check_author(subject, user):
 # Get post detail by id
 @bp.route('/<int:post_id>', methods=['GET'])
 def post(post_id):
-    post = load_post(post_id)
+    post = Post.query.get(post_id)
     if not post:
         return json_response(ResponseStatus.ERROR, ResponseMessage.NOT_FOUND), 404
     
@@ -106,12 +98,18 @@ def edit(post_id):
     # If title is not None, update title only
     update_title = False
     title = data.get('title')
-    if (title):
+    if title and len(title) >= 3:
         post.title = title
         update_title = True
+
+    body = data.get('body')
+    # TODO: Use RegEx to check malicious code in body e.g., <script>
+    if len(body) < 10 or len(title) < 3:
+        return json_response(ResponseStatus.ERROR, 'Please enter proper contents.'), 400
     
     if not update_location and not update_title:
-        post.body = data.get('body') if data.get('body') else post.body
+        post.body = body
+        # TODO: Check after clearing tags
         post.tags = ','.join(data.get('tags')) if data.get('tags') else None
 
     db.session.commit()
@@ -184,6 +182,10 @@ def accept_reply(post_id, reply_id):
     elif not check_author(post, current_user):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
 
+    # Check if post has an answer
+    if check_answer(post.replies):
+        return json_response(ResponseStatus.ERROR, 'The post already has an answer.'), 403
+
     reply.accepted = True
     update_user_points(reply.user_id, 30)
     db.session.commit()
@@ -196,6 +198,7 @@ def accept_reply(post_id, reply_id):
 @bp.route('/<int:post_id>/reply/<int:reply_id>/edit', methods=['PUT'])
 def edit_reply(post_id, reply_id):
     data = request.get_json()
+    body = data.get('body')
     post = Post.query.get(post_id)
     reply = Reply.query.get(reply_id)
 
@@ -204,7 +207,12 @@ def edit_reply(post_id, reply_id):
     elif not check_author(reply, current_user):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
 
-    reply.body = data.get('body')
+    # Check body
+    # TODO: Use RegEx to check malicious code e.g., <script>
+    if (len(body) < 10):
+        return json_response(ResponseStatus.ERROR, 'Please enter valid content.'), 400
+
+    reply.body = body
     db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.REPLY_EDITED), 200
@@ -245,13 +253,11 @@ def vote(post_id, reply_id):
         reply.votes -= 1
         db.session.delete(vote)
         db.session.commit()
+        return json_response(ResponseStatus.SUCCESS, ResponseMessage.VOTE_REVOKED), 200
     # If user has not voted, add vote and update reply
-    else:
-        reply.votes += 1
-        db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
-        db.session.commit()
-
-
+    reply.votes += 1
+    db.session.add(Vote(user_id=current_user.id, reply_id=reply_id, vote_type=vote_type))
+    db.session.commit()
 
     return json_response(ResponseStatus.SUCCESS, ResponseMessage.VOTED), 200
 
