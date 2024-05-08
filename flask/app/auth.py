@@ -52,7 +52,7 @@ def signin():
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
-        redirect_url = data.get('callbackUrl', url_for('index.index'))
+        redirect_url = data.get('callbackUrl') or url_for('index.index')
 
         if not username:
             return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, {'success': False}), 400
