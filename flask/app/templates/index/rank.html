@@ -1,27 +1,40 @@
 {% extends 'base.html' %}
 {% block container %}
-<div id="rank_container">
-  <h1 id="rank_title">User Rankings</h1>
-  <table id="rank_table">
-      <thead>
-          <tr>
-              <th>Rank</th>
-              <th>Username</th>
-              <th>Points</th>
-              <th>Level</th>
-          </tr>
-      </thead>
-      <tbody>
-          {% for user in users %}
-          <tr>
-              <td>{{ loop.index }}</td>
-              <td><a href="{{ url_for('profile.profile_view', user_id=user.id) }}">{{ user.username }}</a></td>
-              <td>{{ user.points }}</td>
-              <td>{{ user.level }}</td>
-          </tr>
-          {% endfor %}
-      </tbody>
-  </table>
+<div id="rank_top_container">
+    <div id="rank_header"></div>
+    <div id="rank_container">
+    <table id="rank_table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Points</th>
+                <th>Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td id="rank-profile_img">
+                    <a href="{{ url_for('profile.profile_view', user_id=user.id) }}">
+                        <div>
+                            {% if user.profile_image %}
+                            <img id=nav-profile-img src="{{ url_for('index.serve_uploaded_file', filename=user.profile_image) }}" alt="Profile Image">
+                            {% else %}
+                            <i class="fa-solid fa-face-smile fa-2xl" id="substitute-img"></i>
+                            {% endif %}
+                            {{ user.username }}
+                        </div>
+                    </a>
+                </td>
+                <td>{{ user.points }}</td>
+                <td>{{ user.level }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
 </div>
 
 {% endblock %}
