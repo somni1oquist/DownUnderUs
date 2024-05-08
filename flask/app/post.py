@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, render_template, request, jsonify, session, url_for
 from flask_login import current_user, login_required
+import nh3
 from .forms import CreatePostForm
 from .models import Post, Reply, Vote
 from .enums import Topic, ResponseStatus, ResponseMessage
@@ -8,6 +9,8 @@ from app import db
 
 # Define prefix for url
 bp = Blueprint('post', __name__, url_prefix='/post')
+
+ALLOWED_TAGS = {'a', 'p', 'br', 'img'} # for sanitising post/reply body
 
 # Get topic list
 @bp.route('/topics', methods=['GET'])
@@ -21,7 +24,7 @@ def create():
     form = CreatePostForm(request.form)
     if form.validate():
         title = form.title.data
-        body = form.body.data
+        body = nh3.clean(form.body.data, tags=ALLOWED_TAGS) # Santise body
         topic = form.topic.data
         tags = request.form.get('tags', None)
         location = form.location.data
@@ -102,14 +105,13 @@ def edit(post_id):
         post.title = title
         update_title = True
 
-    body = data.get('body')
-    # TODO: Use RegEx to check malicious code in body e.g., <script>
+    # Sanitise body
+    body = nh3.clean(data.get('body'), tags=ALLOWED_TAGS)
     if len(body) < 10 or len(title) < 3:
         return json_response(ResponseStatus.ERROR, 'Please enter proper contents.'), 400
     
     if not update_location and not update_title:
         post.body = body
-        # TODO: Check after clearing tags
         post.tags = ','.join(data.get('tags')) if data.get('tags') else None
 
     db.session.commit()
@@ -142,7 +144,7 @@ def reply(post_id):
     if not post:
         return json_response(ResponseStatus.ERROR, ResponseMessage.NOT_FOUND), 404
 
-    body = data.get('body')
+    body = nh3.clean(data.get('body'), tags=ALLOWED_TAGS)
     reply = Reply(body=body, post_id=post_id, user_id=current_user.id)
     db.session.add(reply)
     db.session.commit()
@@ -161,7 +163,7 @@ def reply_to_reply(post_id, reply_id):
     if not post or not reply:
         return json_response(ResponseStatus.ERROR, ResponseMessage.NOT_FOUND), 404
 
-    body = data.get('body')
+    body = nh3.clean(data.get('body'), tags=ALLOWED_TAGS)
     reply = Reply(body=body, user_id=current_user.id, parent_id=reply_id)
     db.session.add(reply)
     db.session.commit()
@@ -198,7 +200,7 @@ def accept_reply(post_id, reply_id):
 @bp.route('/<int:post_id>/reply/<int:reply_id>/edit', methods=['PUT'])
 def edit_reply(post_id, reply_id):
     data = request.get_json()
-    body = data.get('body')
+    body = nh3.clean(data.get('body'), tags=ALLOWED_TAGS)
     post = Post.query.get(post_id)
     reply = Reply.query.get(reply_id)
 
@@ -207,8 +209,7 @@ def edit_reply(post_id, reply_id):
     elif not check_author(reply, current_user):
         return json_response(ResponseStatus.ERROR, ResponseMessage.UNAUTHORISED), 401
 
-    # Check body
-    # TODO: Use RegEx to check malicious code e.g., <script>
+    # Check body length
     if (len(body) < 10):
         return json_response(ResponseStatus.ERROR, 'Please enter valid content.'), 400
 

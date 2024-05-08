@@ -28,7 +28,7 @@ flask shell
 
 - Step4: Import Method
 ```
-from test_fake_data import create_fake_data()
+from test_fake_data import create_fake_data
 create_fake_data()
 ```
 
