@@ -1,7 +1,7 @@
 <nav class="navbar fixed-top  navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <!-- this search bar will hide on desktop devices and display on mobile devices -->
-    <div class="search-bar  mobile-search">
+    <div class="mobile-search">
       <div class="input-group">
         <!-- Search button -->
         <button class="btn" type="button" id="search-button">
@@ -40,14 +40,7 @@
         </li>
         {% else %}
         <li class="nav-item login-item">
-          <a href="{{ url_for('auth.signout') }}">
-            Sign Out
-            <i class="fas fa-sign-out-alt"></i>
-          </a>
-        </li>
-        <li class="nav-item login-item">
           <a href="/profile/">
-            <!-- TODO: align the img and name -->
             {% if current_user.profile_image %}
             <img id=nav-profile-img src="{{ url_for('index.serve_uploaded_file', filename=current_user.profile_image) }}" alt="Profile Image">
             {% else %}
@@ -56,9 +49,12 @@
             <span></span>
             {{ current_user.username }}
           </a>
+          <a href="{{ url_for('auth.signout') }}">
+            Sign Out
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
         </li>
         {% endif %}
-    
       </ul>
     </div>
 
