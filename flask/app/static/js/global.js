@@ -38,8 +38,9 @@ $(() => {
   // From https://flask-wtf.readthedocs.io/en/0.15.x/csrf/#javascript-requests
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
+      const csrfToken = $('#csrfToken').val();
       if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrf_token);
+          xhr.setRequestHeader("X-CSRFToken", csrfToken);
       }
     }
   });
