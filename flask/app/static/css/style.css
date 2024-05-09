@@ -261,25 +261,7 @@ ul.topnav li.center {
   border: 2px solid #22c1c3;
 }
 
-
-#hot-topics {
-  font-size: 14px;
-  display: block;
-}
-
-@media (max-width: 900px) {
-  #hot_topics {
-      display: none;
-  }
-}
-
-@media (min-width: 899px) {
-  #hot_topics {
-      display: block;
-  }
-}
-
-.top-box {
+.top_box {
   margin: 10px auto;
   padding: 15px;
   border-radius: 5px;
