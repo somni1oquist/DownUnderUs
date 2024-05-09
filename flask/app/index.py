@@ -101,14 +101,8 @@ def index():
     top_tags_data = sorted(tag_views.items(), key=lambda x: x[1], reverse=True)[:5]
     top_tags = [tag for tag, views in top_tags_data]
 
-    if current_user.is_authenticated:
-    
-        data = User.query.filter(User.username == current_user.username).first()
-        # Force user to select interested topics if None
-        if (data.interested_topics is None):
-            return redirect(url_for('auth.topic_select'))
-        
-        default_topics = data.interested_topics.split(',')
+    if current_user.is_authenticated and current_user.interested_topics is not None:
+        default_topics = current_user.interested_topics.split(',')
         # Get the latest 10 interested posts
         pagination = search_posts(topics=default_topics, sort_by='timestamp_desc', page=page, per_page=10)
         # Get current page posts

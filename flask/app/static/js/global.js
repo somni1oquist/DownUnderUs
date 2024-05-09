@@ -9,7 +9,16 @@ $(window).on('load', () => {
 
 $(() => {
   checkAndShowTitle();
-  
+  // Show the topics modal if the user has not selected any topics
+  const showTopics = $('#showTopicsModal').val();
+  if (showTopics) {
+    const topicModal = new bootstrap.Modal('#topicModal', {
+      backdrop: 'static',
+      keyboard: false
+    });
+    topicModal.show();
+  }
+
   // When the create button is clicked
   $('a#create').on('click', (e) => {
     const $createModal = $('#createModal');
@@ -62,4 +71,3 @@ const checkAndShowTitle = () => {
     }
   });
 }
-

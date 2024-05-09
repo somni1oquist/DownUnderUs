@@ -55,9 +55,12 @@ def create_app(test_config=None):
     
     # Inject form to all templates
     @app.context_processor
-    def inject_form():
+    def inject_globally():
         from .forms import CreatePostForm
-        create_post_form = CreatePostForm()
-        return {'create_post_form': create_post_form}
+        from .enums import Topic
+        return {
+            'create_post_form': CreatePostForm(),
+            'topics': [topic.value for topic in Topic]
+        }
 
     return app
