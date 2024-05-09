@@ -29,6 +29,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!confirmDelete) return;
         deleteProfileImage(url);
         break;
+      case 'edit-topics':
+        const topicModal = new bootstrap.Modal('#topicModal', {
+          backdrop: 'static',
+          keyboard: false
+        });
+        topicModal.show();
+        break;
       case 'edit-username':
         const username = prompt('Enter new username:', oldVal);
         if (username === null || username === oldVal) return;

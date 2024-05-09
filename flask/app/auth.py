@@ -73,22 +73,20 @@ def signout():
     logout_user()
     return redirect(url_for('index.index'))
 
-@bp.route('/topic-select', methods=['GET', 'POST'])
+@bp.route('/topic-select', methods=['POST'])
 @login_required
 def topic_select():
-    if request.method == 'POST':
-        selected_topics = request.get_json().get('topics')
-        # Validate selected topics
-        if len(selected_topics) < 2 or len(selected_topics) > 6:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.TOPIC_RANGE), 400
-        
-        current_user.interested_topics = ','.join(selected_topics)
-        db.session.commit()
-        return json_response(ResponseStatus.SUCCESS, ResponseMessage.TOPIC_SELECTED,\
-                            {'redirect': url_for('index.index')}), 200
-
-    topics = [topic.value for topic in Topic]
-    return render_template('auth/topic-select.html', topics=topics)
+    data = request.get_json()
+    selected_topics = data.get('topics')
+    redirect_url = data.get('callbackUrl') or url_for('index.index')
+    # Validate selected topics
+    if len(selected_topics) < 2 or len(selected_topics) > 6:
+        return json_response(ResponseStatus.ERROR, ResponseMessage.TOPIC_RANGE), 400
+    
+    current_user.interested_topics = ','.join(selected_topics)
+    db.session.commit()
+    return json_response(ResponseStatus.SUCCESS, ResponseMessage.TOPIC_SELECTED,\
+                        {'redirect': redirect_url}), 200
 
 def get_perth_suburbs():
     # List of suburbs in Perth, WA
