@@ -390,7 +390,21 @@ body {
   margin: 0 20px;
 }
 
-/* rank board */
+#rank_top_container{
+  background-color: #EDAE4D;
+  padding: 0%;
+}
+#rank_header{
+  padding: 0%;
+  padding-bottom: 0%;
+  height: 200px;
+  background-image: url('../images/Top.png');
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 0%;
+}
+
+
 #rank_container {
   padding: 0%;
   width: 100%;
