@@ -74,7 +74,7 @@ def search():
     topics = [topic.value for topic in Topic]
     return render_template('./index/search.html', posts=posts, pagination=pagination, topics=topics)
 
-@bp.route("/")
+@bp.route("/index")
 def index():
     # Get the page number from the request
     page = request.args.get('page', 1, type=int) 
@@ -125,7 +125,13 @@ def rank():
     # Pass the function directly in the context
     return render_template('./index/rank.html', users=top_users)
 
+@bp.route('/')
+def home():
+    return redirect(url_for('index.landing'))
 
+@bp.route("/landing")
+def landing():
+    return render_template('landing.html')
 
         
 

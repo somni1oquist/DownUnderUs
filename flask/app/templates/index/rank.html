@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block container %}
 <div id="rank_top_container">
-    <div id="rank_header"></div>
+    <div id="rank_header">TOP 10</div>
     <div id="rank_container">
     <table id="rank_table">
         <thead>
@@ -18,7 +18,7 @@
                 <td>{{ loop.index }}</td>
                 <td id="rank-profile_img">
                     <a href="{{ url_for('profile.profile_view', user_id=user.id) }}">
-                        <div>
+                        <div id="rank_name">
                             {% if user.profile_image %}
                             <img id=nav-profile-img src="{{ url_for('index.serve_uploaded_file', filename=user.profile_image) }}" alt="Profile Image">
                             {% else %}

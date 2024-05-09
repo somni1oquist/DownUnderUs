@@ -391,33 +391,40 @@ body {
 }
 
 #rank_top_container{
-  background-color: #EDAE4D;
+  background-color:#176B87;
   padding: 0%;
 }
 #rank_header{
   padding: 0%;
   padding-bottom: 0%;
-  height: 200px;
-  background-image: url('../images/Top.png');
-  background-size: cover;
-  background-position: center;
+  height: 100px;
   margin-bottom: 0%;
+  font-size: 50px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-align: center;
+  color:  whitesmoke;;
 }
 
-
+#rank_name{
+  color: whitesmoke;
+}
 #rank_container {
+  align-items: center;
   padding: 0%;
   width: 100%;
   margin: 0 auto;
   color: #BAE4E6;
+  margin-bottom: 5px;
 }
 
 #rank_table {
-  color: white;
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ddd;
-    margin-top: 20px;
+  margin-left: 10%;
+  color:  whitesmoke;;
+  width: 80%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 #nav-profile-img {
@@ -449,14 +456,23 @@ body {
     padding: 0;
     margin: 0;
 }
+#logo_cantainer{
+  padding: 0;
+  margin-top: -5px;
+  margin-left: 10%;
+  padding-top: 0%;
 
+}
 #logo {
-    height: 100%;
-    width: auto;
-    max-height: 50px;
-    object-fit: contain;
+padding: 0%;
+height: 75px;
+width: auto;
+object-fit: contain;
 }
 
+#logo_and{
+  padding: 0%;
+}
 .points_history_table {
   width: 100%;
   border-collapse: collapse;
