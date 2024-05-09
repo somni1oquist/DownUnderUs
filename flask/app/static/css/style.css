@@ -252,7 +252,8 @@ ul.topnav li.center {
   position: fixed;
   width: 12vw;
   margin-top: 16px;
-  padding: 10px;
+  padding-right: 10px;
+  margin-left: -40px;
 }
 
 .search-bar{
@@ -373,12 +374,13 @@ body {
 /* pagination */
 
 /* alert for non-login user login or register */
-.alert-primary {
-  --bs-alert-color: var(--bs-info-text-emphasis);
-  --bs-alert-bg: #8edd2624;
-  --bs-alert-border-color: #198754;
+.alert-info {
+  --bs-alert-color: #095b6b;
+  --bs-alert-bg: white ;
+  --bs-alert-border-color: rgba(34,193,195,1) ;
   --bs-alert-link-color: var(--bs-info-text-emphasis);
   text-align: center;
+  font-weight: bold;
   line-height: 3;
   margin-top: 40px;
 }
@@ -467,10 +469,18 @@ body {
 
 /* button style */
 .btn-outline-info {
+  --bs-btn-color: black;
   --border-color: rgba(67, 186, 173);
   --bs-btn-hover-bg:rgba(67, 186, 173);
+  --bs-btn-active-bg: rgba(67, 186, 173);
 }
 
 .btn-outline-light{
   font-weight: bold;
+}
+
+.btn-info {
+  --bs-btn-color: #000;
+  --bs-btn-bg: rgba(67, 186, 173);
+  --bs-btn-hover-bg: rgb(78, 218, 201);
 }
