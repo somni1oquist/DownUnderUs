@@ -57,7 +57,7 @@
 .search-result-box {
   margin: 10px;
   padding: 20px;
-  /* border: 1px solid #22c1c33b; */
+  border: 1px solid #22c1c33b; 
   border-radius: 5px;
   box-shadow: 5px 5px 10px 0px rgba(67, 186, 173, 0.2);
 }
@@ -161,24 +161,25 @@ div.postContainer {
 }
 
 /*nav style */
+.navbar-nav{
+  --bs-nav-link-hover-color: #fff;
+}
+
 ul.topnav {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 10px;
   overflow: hidden;
   background:linear-gradient(45deg, rgba(34,193,195,1) 0%, rgba(253,146,45,1) 100%);
   position: initial;
   top: 0;
-  height: 65px;
   width: 100%;
-  z-index: 1000;
   align-content: center;
   font-weight: 700;
+  text-align: center;
 }
 
-ul.topnav li {
-  float: left;
-}
+
 
 ul.topnav li a {
   display: block;
@@ -189,23 +190,14 @@ ul.topnav li a {
 }
 
 ul.topnav li a:hover:not(.active) {
-  background-color: rgba(77, 134, 156,50%);
+  background-color: rgba(15, 84, 85, 0.5);
 }
 
-ul.topnav li.right {
-  float: right;
-}
 
-@media screen and (max-width: 600px) {
 
-  ul.topnav li.right,
-  ul.topnav li {
-    float: none;
-  }
-}
+
 
 ul.topnav li.center {
-  padding: 10px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -215,8 +207,35 @@ ul.topnav li.center {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-
 }
+
+.login-item{
+  margin-right: 0;
+  margin-left:auto;
+}
+
+/* hide search bar on the nav bar*/
+.mobile-search {
+  display: none;
+}
+
+.desktop-left-col {
+  display: block;
+}
+
+@media screen and (max-width: 600px) {
+  .mobile-search {
+    display: block;  
+  } 
+  .desktop-left-col {
+    display: none;
+  }
+  ul.topnav li.right,
+  ul.topnav li {
+    float: none;
+  }
+}
+
 
 /* left column part */
 .left-col{
@@ -334,6 +353,8 @@ ul.topnav li.center {
 }
 
 body {
+  /* this padding make sure no content is covered by navbar */
+  padding-top: 100px;
   /* this padding make sure no content is covered by banner */
   padding-bottom: 200px;
 
