@@ -299,7 +299,7 @@ const getEditorContent = (container) => {
 };
 
 const csrfFetch = (url, options = {}) => {
-  const csrfToken = document.getElementById("csrf_token").value;
+  const csrfToken = document.getElementById("csrfToken").value;
   options.headers = options.headers || {};
   options.headers['X-CSRFToken'] = csrfToken;
   return fetch(url, options);
