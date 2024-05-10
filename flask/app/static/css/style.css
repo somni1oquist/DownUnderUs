@@ -221,7 +221,7 @@ ul.topnav li.center {
   display: block;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 991px) {
   .mobile-search {
     display: block;  
   } 
@@ -534,11 +534,6 @@ object-fit: contain;
 .text-bg-secondary{
   color: #000 !important;
   background-color:#22c1c363 !important;
-}
-
-/* all modal */
-.modal-content {
-  margin-top: 150px;
 }
 
 /* select interested topic modal */
