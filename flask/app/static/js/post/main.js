@@ -145,4 +145,10 @@ $(() => {
     const $target = $('#replyModal')
     reply($target, url);
   });
+
+  // show/hide replies
+  $('.show-replies-btn').on('click', function () {
+    var targetId=$(this).data('target-id');
+    $('#'+targetId).toggleClass('hidden');
+  });
 })

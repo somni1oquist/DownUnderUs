@@ -93,16 +93,6 @@
   margin-bottom: 5px;
 }
 
-.bg-secondary {
-  --bs-bg-opacity: 1;
-  background-color: rgba(253, 146, 45, .5) !important;
-}
-
-.bg-info {
-  --bs-bg-opacity: 1;
-  background-color: rgba(67, 186, 173, .5)!important;
-
-}
 
 .badge {
   color: #000;
@@ -502,6 +492,7 @@ object-fit: contain;
   --border-color: rgba(67, 186, 173);
   --bs-btn-hover-bg:rgba(67, 186, 173);
   --bs-btn-active-bg: rgba(67, 186, 173);
+  --bs-btn-border-color: rgba(67, 186, 173);
 }
 
 .btn-outline-light{
@@ -509,7 +500,58 @@ object-fit: contain;
 }
 
 .btn-info {
-  --bs-btn-color: #000;
+  --bs-btn-color: white;
   --bs-btn-bg: rgba(67, 186, 173);
   --bs-btn-hover-bg: rgb(78, 218, 201);
+  --bs-btn-border-color: rgba(67, 186, 173);
 }
+
+.btn-secondary {
+  --bs-btn-color: white;
+  --bs-btn-bg: rgba(253, 146, 45);
+  --bs-btn-hover-bg: rgba(238, 140, 48, 0.637);
+  --bs-btn-border-color: rgba(253, 146, 45);
+}
+
+/* badge style */
+.bg-secondary {
+  --bs-bg-opacity: 1;
+  background-color: rgba(253, 146, 45, .5) !important;
+}
+
+.bg-info {
+  --bs-bg-opacity: 1;
+  background-color: rgba(67, 186, 173, .5)!important;
+
+}
+
+/* search filter */
+.dropdown-item:focus, .dropdown-item:hover{
+  background-color:#22c1c3;
+}
+
+
+.text-bg-secondary{
+  color: #000 !important;
+  background-color:#22c1c363 !important;
+}
+
+/* all modal */
+.modal-content {
+  margin-top: 150px;
+}
+
+/* select interested topic modal */
+#topicModal .btn-outline-info{
+  margin: 5px;
+}
+
+/* create post modal */
+.ql-toolbar.ql-snow {
+  background: linear-gradient(45deg, rgba(34, 193, 195, 1) 0%, rgba(253, 146, 45, 1) 100%);}
+
+.form-control:focus {
+    border-color: rgba(34, 193, 195, 1);
+    box-shadow: 0 0 0 0.25rem rgb(34 193 195 / 50%);
+}
+

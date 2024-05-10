@@ -15,6 +15,7 @@
   background: rgba(255, 255, 255, 0.8);
   border-radius: 5px;
   padding: 20px;
+  margin-top: -200px
 }
 
 /* Adjustments for the login box */
@@ -23,30 +24,10 @@
   border: 1px solid #ffffff;
   padding: 20px;
   border-radius: 5px;
-  background-color: #e0f4eb;
+  background-color: rgba(67, 186, 173, .3)
 }
 
-/* Style for the sign in button */
-.btn-primary {
-  background-color: #191717;
-  border-color: #191717;
-  color: #ffffff;
-}
 
-/* Style for the sign in button when active/clicked */
-.btn-primary:active {
-  background-color: #191717;
-  border-color: #191717;
-  color: #ffffff;
-}
-
-/* Adjust the focus and hover states */
-.btn-primary:focus,
-.btn-primary:hover {
-  background-color: #333333;
-  border-color: #333333;
-  color: #ffffff;
-}
 
 /* Style for input boxes when they are focused */
 .form-control:focus {
