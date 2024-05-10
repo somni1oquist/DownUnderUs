@@ -1,7 +1,10 @@
 /* Post detail */
+.hidden{
+  display: none;
+}
+
 .post-container {
   padding: 2rem;
-  background-color: rgba(225, 247, 245, .3);
 }
 
 .post-container .header-container {
@@ -15,6 +18,11 @@
   justify-content: center;
   align-items: center;
   margin-block: 1rem;
+}
+
+.post-container .h1 {
+  text-align: center;
+
 }
 
 .author {
@@ -31,16 +39,19 @@
 }
 
 .author img {
-  width: 6rem;
-  height: 6rem;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
 }
 
 
 .post-container .card {
-  min-height: 170px;
+  min-height: 200px;
   position: static;
+  border: 1px solid #22c0c37e; 
+  border-radius: 5px;
 }
+
 /* Image resize */
 .post-container .card-text:not(.ql-container) img {
   width: 100%;
@@ -123,6 +134,7 @@
 @media only screen and (max-width: 700px){
   .modal-content {
     width: 100%;
+    
   }
 }
 
@@ -137,28 +149,20 @@
 }
 
 /* Replies */
-ul.reply-thread {
-  padding: 0
-}
-
-ul,
-li {
+ul.reply-thread, ul.reply-thread li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
   list-style: none;
 }
 
-ul.reply-thread li ul {
-  margin-left: 2rem;
-  position: relative;
+.card-footer .flex-grow-1 {
+  text-align: right;  
 }
 
-ul.reply-thread li ul::before {
-  content: "";
-  height: 100%;
-  position: absolute;
-  top: 0;
-  width: .5rem;
-  left: 2.5rem;
-  border: 1px solid gray;
-  border-radius: 15px 0 0 15px;
-  background-color: gray;
+
+/* editor */
+.ql-toolbar.ql-snow {
+  background:  rgba(34, 193, 195, 0.5) !important;
 }
+
