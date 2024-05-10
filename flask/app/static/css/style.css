@@ -261,12 +261,7 @@ ul.topnav li.center {
   border: 2px solid #22c1c3;
 }
 
-
-#hot-topics {
-  font-size: 14px;
-}
-
-.top-box {
+.top_box {
   margin: 10px auto;
   padding: 15px;
   border-radius: 5px;
@@ -395,38 +390,63 @@ body {
   margin: 0 20px;
 }
 
-/* rank board */
+#rank_top_container{
+  background-color:#3d98b4;
+  padding: 0%;
+}
+#rank_header{
+  padding: 0%;
+  padding-bottom: 0%;
+  height: 100px;
+  margin-bottom: 0%;
+  font-size: 50px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-align: center;
+  color:  whitesmoke;;
+}
+
+#rank_name{
+  color: whitesmoke;
+}
 #rank_container {
-    width: 80%;
-    margin: 0 auto;
-    color: black;
+  align-items: center;
+  padding: 0%;
+  width: 100%;
+  margin: 0 auto;
+  color: #BAE4E6;
+  margin-bottom: 5px;
 }
 
 #rank_table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ddd;
-    margin-top: 20px;
+  margin-left: 10%;
+  color:  whitesmoke;;
+  width: 80%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+#nav-profile-img {
+  margin-right: 20px;
+}
+
+#substitute-img{
+  color: #f3d37c; 
+  padding-right: 20px;
+}
+
+#rank-profile_img div {
+  display: inline-block;
 }
 
 #rank_table th, #rank_table td {
-    padding: 10px 20px;
+    padding: 20px 40px;
     text-align: left;
-    border: 1px solid #ddd;
 }
 
 #rank_table th {
-    background-color: #B4D4FF;
     font-weight: bold;
-}
-
-#rank_table tr:nth-child(even) {
-    background-color: #B4D4FF;
-}
-
-#rank_title {
-    text-align: center;
-    margin-top: 20px;
 }
 
 #logo_box {
@@ -436,14 +456,23 @@ body {
     padding: 0;
     margin: 0;
 }
+#logo_cantainer{
+  padding: 0;
+  margin-top: -5px;
+  margin-left: 10%;
+  padding-top: 0%;
 
+}
 #logo {
-    height: 100%;
-    width: auto;
-    max-height: 50px;
-    object-fit: contain;
+padding: 0%;
+height: 75px;
+width: auto;
+object-fit: contain;
 }
 
+#logo_and{
+  padding: 0%;
+}
 .points_history_table {
   width: 100%;
   border-collapse: collapse;

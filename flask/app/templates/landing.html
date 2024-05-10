@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+{% endblock %}
+{% block container %}
+<div id="landing_container">
+    <div id=""><img src="../static/images/logo.png" alt="logo" id="landing_logo"></div>
+    <div id="name">No Worries, Neighbour</div>
+    <div id="slogan">Join In, Help Out, Smile On!</div>
+    <div id="landing_buttons">
+        <a href="{{ url_for('auth.signin') }}" class="button_landing" role="button">Login</a>
+        <a href="{{ url_for('index.index') }}" class="button_landing" role="button">Have a look</a>
+    </div>
+</div>
+
+{% endblock %}

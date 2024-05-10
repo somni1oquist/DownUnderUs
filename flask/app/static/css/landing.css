@@ -1,0 +1,59 @@
+#landing_container{
+    background-image: url("../images/landing_back.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 900px;
+}
+
+#landing_logo{
+    width: 10%;
+    height: auto;
+    margin-left: 45%;
+    margin-top: 5%;
+}
+
+#name{
+    text-align: center;
+    padding-top: 0;
+    padding-left: 10%;
+    padding-right: 10%;
+    font-size: 80px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 900;
+    color: #DA8928;
+    margin-top: 20px;
+}
+
+#slogan{
+    text-align: center;
+    color: #259B99;
+    font-size: 20px;
+    margin: 0%;
+    padding-top: 10px;
+    font-weight: 800;
+}
+#landing_buttons{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 25%;
+    margin-top: 70px;
+    margin-left: 37.5%;
+    margin-right: 37.5%;
+}
+
+.button_landing{
+    text-decoration: none;
+    background-color: #0F6481;
+    height: 30;
+    color: #FEFEFE;
+    padding: 0 20;
+    font-size: 18; 
+    text-align: center;
+    line-height: 40px; 
+    display: inline-block; 
+    width: 130px;
+    border-radius: 8px;
+    margin: 15px;
+}
