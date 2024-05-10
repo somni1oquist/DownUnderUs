@@ -70,13 +70,6 @@
 
           <!-- post body -->
           <div class="mb-3">
-            <div class="d-flex align-items-center mb-2">
-              <img src="{{ url_for('static', filename='images/icons8-bmo-48.png') }}"
-                style="width: 48px; height: 48px; border-radius: 50%;" alt="profile photo">
-              <span class="mb-3" id="author">
-                {{ current_user.username }}
-              </span>
-            </div>
             <div id="body" class="form-control" style="height: 200px;"></div>
             <!-- div for topic errors -->
             <div class="invalid-feedback" style="display: none;">
@@ -87,7 +80,7 @@
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Post</button>
+          <button type="submit" class="btn btn-info">Post</button>
         </div>
       </form>
 
