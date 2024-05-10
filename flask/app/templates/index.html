@@ -3,7 +3,7 @@
 <div class="container">
   <div class ="row">
 
-    <div class="col-lg-2">
+    <div class="col-lg-2 desktop-left-col">
       <div class =left-col>
         <!-- Search bar -->
         <div class="search-bar">
@@ -17,9 +17,9 @@
           </div>
         </div>
         <!-- top 5 topics -->
-        <div id="hot_topics">
-          <div id="topic_box" class="top_box">
-            <div class="box_head">TOP 5 Topics</div>
+        <div id="hot-topics">
+          <div id="topic_box" class="top-box">
+            <div class="box-head">TOP 5 Topics</div>
             <ul id="topic_list">
               {% for topic in top_topics %}
               <li><a href="{{ url_for('index.search',topics=topic)}}">{{ topic }}</a></li>
@@ -27,8 +27,8 @@
             </ul>
           </div>
           <!-- top 5 tags -->
-          <div id="tag_box" class="top_box">
-            <div class="box_head">TOP 5 Tags</div>
+          <div id="tag_box" class="top-box">
+            <div class="box-head">TOP 5 Tags</div>
             <ul id="tag_list">
               {% for tag in top_tags %}
               <li><a href="{{ url_for('index.search',tags=tag)}}">{{ tag }}</a></li>
@@ -86,7 +86,7 @@
                                 <span class="author-level">{{ post.user.level }}</span>
                                       {% for user_title in post.user.title_names %}
                                     {% if user_title != 'Newcomer' %}
-                                    <span class="badge rounded-pill bg-custom">{{ user_title }}</span>
+                                    <span class="badge bg-info">{{ user_title }}</span>
                                     {% endif %}
                                   {% endfor %}
                                 </div>
@@ -99,6 +99,7 @@
                     <div class="col">
                         <div class="search-post-body">
                             <p>{{ post.body | safe }}</p>
+                            <a href="{{ url_for('post.post', post_id=post.id) }}" role="button" class="read">...(Read more)</a>
                         </div>
                         <div class="search-footer">
                             <span><i class="fa-solid fa-feather"></i> {{ post.real_timestamp }}</span>
@@ -112,12 +113,12 @@
             <div id="pagination">
               {% if pagination.has_prev %}
                 <div id="prev-page">
-                  <a class="btn btn-outline-success" href="{{ url_for('index.index', page=pagination.prev_num) }}">Previous page</a>
+                  <a class="btn btn-outline-info" href="{{ url_for('index.index', page=pagination.prev_num) }}">Previous page</a>
                 </div>
               {% endif %}
               {% if pagination.has_next %}
                 <div id="next-page">
-                  <a class="btn btn-outline-success" href="{{ url_for('index.index', page=pagination.next_num) }}">Next page</a>
+                  <a class="btn btn-outline-info" href="{{ url_for('index.index', page=pagination.next_num) }}">Next page</a>
                 </div>
               {% endif %}
             </div>
@@ -129,14 +130,14 @@
 
 
       {% else %}
-        <div class="alert alert-primary" role="alert">
+        <div class="alert alert-info" role="alert">
           <h4 class="alert-heading">Unlock Full Access!</h4>
           <p>Enjoy unlimited access to all our premium content by signing in. Don't have an account yet? Join our community today!</p>
           <hr>
           <p class="mb-0">
-            <a href="{{ url_for('auth.signin') }}" class="btn btn-outline-success">Log In</a>
+            <a href="{{ url_for('auth.signin') }}" class="btn btn-info">Log In</a>
             or
-            <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-success">Sign Up</a>
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-info">Sign Up</a>
             to start your journey with us.
           </p>
         </div>

@@ -1,40 +1,62 @@
-<nav>
-  <ul class="topnav">
-    <li id="logo_box"><a href="/"><img id="logo" src="/static/images/logo.png" alt="Home Logo"></a></li>
-    <li><a href="{{ url_for('index.rank') }}">Rank</a></li>
-    <li><a href="#createModal" id="create" data-bs-toggle="modal">Create post</a></li>
-    <li><a href="/about"> About us</a></li>
-    <!-- Logo and name -->
-    <li class="center">
-      <h1 style="color:white;">LOGO and Name</h1>
-    </li>
-    {% if not current_user.is_authenticated %}
-    <li class="right">
-      <a href="{{ url_for('auth.signin') }}">
-        Sign In
-        <i class="fas fa-sign-in-alt"></i>
-      </a>
-    </li>
-    {% else %}
-    <li class="right">
-      <a href="{{ url_for('auth.signout') }}">
-        Sign Out
-        <i class="fas fa-sign-out-alt"></i>
-      </a>
-    </li>
-    <li class="right">
-      <a href="/profile/">
-        <!-- TODO: align the img and name -->
-        {% if current_user.profile_image %}
-        <img id=nav-profile-img src="{{ url_for('index.serve_uploaded_file', filename=current_user.profile_image) }}" alt="Profile Image">
+<nav class="navbar fixed-top  navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <!-- this search bar will hide on desktop devices and display on mobile devices -->
+    <div class="mobile-search">
+      <div class="input-group">
+        <!-- Search button -->
+        <button class="btn" type="button" id="search-button">
+          <i class="fa-solid fa-search"></i>
+        </button>
+        <!-- Search input -->
+        <input type="text" class="form-control" id="search-body" placeholder="Enter keyword">
+      </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 topnav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#createModal" id="create" data-bs-toggle="modal">Create post</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/rank">Scoreboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About us</a>
+        </li>
+        <li class="nav-item center">
+          <h1 style="color:white;">LOGO and Name</h1>
+        </li>
+        {% if not current_user.is_authenticated %}
+        <li class="nav-item login-item">
+          <a href="{{ url_for('auth.signin') }}">
+            Sign In
+            <i class="fas fa-sign-in-alt"></i>
+          </a>
+        </li>
         {% else %}
-        <i class="fa-solid fa-circle-user" ></i>
+        <li class="nav-item login-item">
+          <a href="/profile/">
+            {% if current_user.profile_image %}
+            <img id=nav-profile-img src="{{ url_for('index.serve_uploaded_file', filename=current_user.profile_image) }}" alt="Profile Image">
+            {% else %}
+            <i class="fa-solid fa-circle-user" ></i>
+            {% endif %}
+            <span></span>
+            {{ current_user.username }}
+          </a>
+          <a href="{{ url_for('auth.signout') }}">
+            Sign Out
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+        </li>
         {% endif %}
-        <span></span>
-        {{ current_user.username }}
-      </a>
-    </li>
-    {% endif %}
-  </ul>
+      </ul>
+    </div>
 
+  </div>
 </nav>
