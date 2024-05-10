@@ -4,7 +4,7 @@
 {% set show_topics = not current_user.interested_topics %}
 <input type="text" id="showTopicsModal" value="{% if show_topics %}true{% endif %}" hidden>
 <div class="modal fade" id="topicModal" tabindex="-1" aria-labelledby="topicModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="topicModalLabel">Select Your Interested Topics</h1>
@@ -17,14 +17,14 @@
           <div class="form-group">
             <div class="form-check">
               {% for topic in topics %}
-              <input class="btn btn-outline-success" data-bs-toggle="button" type="button" value="{{ topic }}">
+              <input class="btn btn-outline-info" data-bs-toggle="button" type="button" value="{{ topic }}">
               {% endfor %}
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" id="next" class="btn btn-primary">Proceed</button>
+        <button type="button" id="next" class="btn btn-info">Proceed</button>
       </div>
     </div>
   </div>

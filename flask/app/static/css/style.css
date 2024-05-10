@@ -502,6 +502,7 @@ object-fit: contain;
   --border-color: rgba(67, 186, 173);
   --bs-btn-hover-bg:rgba(67, 186, 173);
   --bs-btn-active-bg: rgba(67, 186, 173);
+  --bs-btn-border-color: rgba(67, 186, 173);
 }
 
 .btn-outline-light{
@@ -509,7 +510,18 @@ object-fit: contain;
 }
 
 .btn-info {
-  --bs-btn-color: #000;
+  font-weight: bold;
+  --bs-btn-color: white;
   --bs-btn-bg: rgba(67, 186, 173);
   --bs-btn-hover-bg: rgb(78, 218, 201);
+}
+
+
+/* select interested topic modal */
+#topicModal .modal-content {
+  margin-top: 150px;
+}
+
+#topicModal .btn-outline-info{
+  margin: 5px;
 }
