@@ -8,7 +8,12 @@ $(window).on('load', () => {
 });
 
 $(() => {
+  // When the window is resized, check the search result box height and hide the more button if necessary
+  $(window).resize(checkOverflow);
+
   checkAndShowTitle();
+  // Initial check for overflow
+  checkOverflow();
   // Show the topics modal if the user has not selected any topics
   const showTopics = $('#showTopicsModal').val();
   if (showTopics) {
@@ -68,6 +73,24 @@ const checkAndShowTitle = () => {
     },
     error: function(error) {
         console.log(error);
+    }
+  });
+}
+
+const checkOverflow = () => {
+  // If the search result container does not exist, return
+  if (!$('#search-result-container').length)
+    return;
+
+  const $seachResults = $('.search-post-body');
+  const $more = $('.more');
+  $seachResults.each((index, box) => {
+    // Calculate the sum of the heights of all the children except the last one
+    const height = [...box.children].slice(0, -1).reduce((acc, child) => acc + child.clientHeight, 0);
+    if (height > box.clientHeight) {
+      $more.eq(index).removeClass('d-none'); // Show "more" link
+    } else {
+      $more.eq(index).addClass('d-none'); // Hide "more" link
     }
   });
 }

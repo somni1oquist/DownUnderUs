@@ -112,6 +112,9 @@
                 <div class="col">
                     <div class="search-post-body">
                         <p>{{ post.body | safe }}</p>
+                        <div class="more">
+                          <a href="{{ url_for('post.post', post_id=post.id) }}" role="button">...more</a>
+                        </div>
                     </div>
                     <div class="search-footer">
                         <span><i class="fa-solid fa-feather"></i> {{ post.real_timestamp }}</span>
