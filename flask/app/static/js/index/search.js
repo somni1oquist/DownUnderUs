@@ -1,6 +1,8 @@
 let changed = false;
 $(() => {
 	let timer;
+	const $mobileSearchBody = $('div.mobile-search .search-body');
+	const $searchBody = $('div.search-bar .search-body');
 	// Reset input by params
 	resetInputByParams();
 
@@ -10,7 +12,15 @@ $(() => {
 	});
 
 	// Search input
-	$('#search-body').on('keyup', function (e) {
+	$('.search-body').on('keyup', function (e) {
+		const isMobile = $(this).closest('.mobile-search').length > 0;
+
+		// Synchronise the search input
+		if (isMobile)
+			$searchBody.val($(this).val());
+		else
+			$mobileSearchBody.val($(this).val());
+		
 		clearTimeout(timer);
 		// Set timeout to prevent multiple requests
 		timer = setTimeout(() => {
@@ -19,7 +29,7 @@ $(() => {
 	});
 
 	// Search button
-	$('#search-button').on('click', function (e) {
+	$('.search-button').on('click', function (e) {
 		search();
 	});
 
@@ -75,7 +85,7 @@ const addBadge = (content, $filter, isReset = false) => {
  */
 const setParams = () => {
 	const params = new URLSearchParams(window.location.search);
-	const query = $('#search-body').val();
+	const query = $('.search-body').val();
 	// This can be undefined if nothing is selected
 	const sortBy = $('input[name=sort-by]:checked').val();
 	const topics = $('#topic-filter').find('span.badge').map(function () {
@@ -84,13 +94,17 @@ const setParams = () => {
 	const tags = $('#tag-filter').find('span.badge').map(function () {
 		return $(this).text();
 	}).get();
+	const isMobile = window.getComputedStyle($('.mobile-search')[0]).display !== 'none'
+
+	// If mobile, sort by timestamp_desc
+	if (isMobile) {
+		params.set('query', query);
+		params.set('sortBy', 'timestamp_desc');
+		return params;
+	}
 
 	params.set('query', query);
-	if (sortBy){
-		params.set('sortBy', sortBy);
-	} else {
-		params.delete('sortBy');
-	}
+	sortBy ? params.set('sortBy', sortBy) : params.delete('sortBy');
 	params.set('topics', topics.join(','));
 	params.set('tags', tags.join(','));
 
@@ -108,7 +122,7 @@ const resetInputByParams = () => {
 	const tags = params.get('tags') ? params.get('tags').split(',') : [];
 
 	// Set input by params
-	$('#search-body').val(query);
+	$('.search-body').val(query);
 
 	if (sortBy) {
 		$('input[name=sort-by]').each(function () {

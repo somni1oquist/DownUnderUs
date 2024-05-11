@@ -9,11 +9,11 @@
         <div class="search-bar">
           <div class="input-group">
             <!-- Search button -->
-            <button class="btn" type="button" id="search-button">
+            <button class="btn search-button" type="button">
               <i class="fa-solid fa-search"></i>
             </button>
             <!-- Search input -->
-            <input type="text" class="form-control" id="search-body" placeholder="Enter keyword">
+            <input type="text" class="form-control search-body" id="search-body" placeholder="Enter keyword">
           </div>
         </div>
         <!-- top 5 topics -->
@@ -99,7 +99,9 @@
                     <div class="col">
                         <div class="search-post-body">
                             <p>{{ post.body | safe }}</p>
-                            <a href="{{ url_for('post.post', post_id=post.id) }}" role="button" class="read">...(Read more)</a>
+                            <div class="more">
+                              <a href="{{ url_for('post.post', post_id=post.id) }}" role="button">...more</a>
+                            </div>
                         </div>
                         <div class="search-footer">
                             <span><i class="fa-solid fa-feather"></i> {{ post.real_timestamp }}</span>

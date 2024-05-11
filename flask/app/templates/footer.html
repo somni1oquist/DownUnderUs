@@ -4,7 +4,7 @@
 {% set show_topics = not current_user.interested_topics %}
 <input type="text" id="showTopicsModal" value="{% if show_topics %}true{% endif %}" hidden>
 <div class="modal fade" id="topicModal" tabindex="-1" aria-labelledby="topicModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="topicModalLabel">Select Your Interested Topics</h1>
@@ -31,7 +31,7 @@
 </div>
 <!-- Modal #create-post -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <!-- Modal header -->
       <div class="modal-header">

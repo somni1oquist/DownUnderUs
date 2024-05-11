@@ -35,6 +35,9 @@ def create_app(test_config=None):
     loginManager.init_app(app)
     csrf.init_app(app)
 
+    # If user is not authenticated, redirect to signin page
+    loginManager.login_view = 'auth.signin'
+
     # Import models (must after db init)
     from . import models
 
@@ -47,11 +50,6 @@ def create_app(test_config=None):
     app.register_blueprint(profile.bp)
     app.register_blueprint(post.bp)
     app.register_blueprint(index.bp)
-
-    # If user is not authenticated, redirect to signin page
-    @app.errorhandler(Unauthorized)
-    def unauthorized(error):
-        return redirect(url_for('auth.signin'))
     
     # Inject form to all templates
     @app.context_processor
