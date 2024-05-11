@@ -90,6 +90,10 @@ const makeToast = (message, type, freeze, duration, placement = 'bottom-right', 
 
     $actionToast.on('hidden.bs.toast', handleHidden);
     toast.show();
+
+    setTimeout(() => {
+      toast.hide();
+    }, duration || 2000);
   });
 };
 
