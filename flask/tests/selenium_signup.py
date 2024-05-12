@@ -72,9 +72,12 @@ class TestE2E(unittest.TestCase):
 
         # Wait for the select interested topics modal to show
         topics_modal = WebDriverWait(self.driver, SHORT_TIMEOUT).until(
-            EC.presence_of_element_located((By.ID, "topicModalLabel"))
+            EC.visibility_of_element_located((By.ID, "topicModalLabel"))
         )
         self.assertTrue(topics_modal.is_displayed())
+        lmask = self.driver.find_element(By.CLASS_NAME, 'lmask')
+        if (lmask.is_displayed()):
+            self.wait_for_load_mask()
         
         topic_inputs = self.driver.find_elements(By.XPATH, "//input[@type='button']")[:5]
         topics_selected = [input.get_attribute('value') for input in topic_inputs]

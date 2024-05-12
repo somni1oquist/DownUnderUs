@@ -26,6 +26,3 @@ flask/migrations/README
 # Ignore test coverage report files
 .coverage
 htmlcov/
-
-# Ignore selenium webdriver executable
-drivers/
