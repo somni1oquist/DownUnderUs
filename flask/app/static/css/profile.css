@@ -55,9 +55,14 @@
   right: 5px;
   bottom: 10px;
   margin: 10px;
+  color: rgba(67, 186, 173);
+}
+.profile-info button:last-child:hover {
+  color: white;
 }
 
 .profile-greeting {
+  font-family: cursive;
   display: block;
   color: #333;
   font-size: 1.2rem;
@@ -67,6 +72,7 @@
 .profile-name {
   color: #333;
   font-weight: bold;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
 .profile-name h1 {
   display: inline-block;
@@ -81,7 +87,6 @@
 
 .profile-detail {
   font-size: 1.1rem;
-  color: #666;
   margin: 10px 0;
   display: flex;
   align-items: center;
@@ -94,10 +99,10 @@
   margin-right: 10px;
 }
 
-.profile-topics-label {
+#profile-topics-label {
+  font-family: cursive;
   font-weight: bold;
   display: block;
-  margin-top: 20px;
 }
 
 .hide {
@@ -121,7 +126,7 @@
   margin: 16px;
   border-radius: 5px;
   padding: 10px;
-  box-shadow: 0px 0px 10px 0px rgba(67, 186, 173, .5);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 #recent-posts h3, #recent-actions h3 {
