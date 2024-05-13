@@ -253,10 +253,20 @@ ul.topnav li.center {
 /* left column part */
 .left-col{
   position: fixed;
-  width: 12vw;
+  /* vm means viewport width */
+  width: 11vw;
   margin-top: 16px;
   padding-right: 10px;
   margin-left: -40px;
+}
+
+#hot-topics {
+  margin-top:30px;
+  font-size: 14px;
+}
+
+#hot-topics li{
+  list-style: none;
 }
 
 .search-bar{
@@ -264,7 +274,7 @@ ul.topnav li.center {
   border: 2px solid #22c1c3;
 }
 
-.top_box {
+.top-box {
   margin: 10px auto;
   padding: 15px;
   border-radius: 5px;
@@ -275,6 +285,7 @@ ul.topnav li.center {
   color: #000;
   text-decoration: none;
 }
+
 
 
 .box-head {
@@ -346,7 +357,7 @@ body {
   padding-top: 100px;
   /* this padding make sure no content is covered by banner */
   padding-bottom: 200px;
-
+  font-family: "Helvetica Neue";
 }
 
 /* pagination */

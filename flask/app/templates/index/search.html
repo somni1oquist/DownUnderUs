@@ -96,10 +96,10 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <span class="author-level">{{ post.level }}</span>
+                            <span class="author-level">{{ post.user.level }}</span>
                             {% for user_title in post.user.title_names %}
                             {% if user_title != 'Newcomer' %}
-                            <span class="badge rounded-pill bg-custom">{{ user_title }}</span>
+                            <span class="badge bg-info">{{ user_title }}</span>
                             {% endif %}
                             {% endfor %}
                         </div>
