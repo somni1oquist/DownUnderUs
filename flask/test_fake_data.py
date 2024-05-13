@@ -7,13 +7,21 @@ import datetime
 import requests
 import os
 from flask import current_app as app
+from werkzeug.security import generate_password_hash
 
 fake = Faker()
-TAGS = [
-    'urban', 'rural', 'education', 'public transport', 'infrastructure',
-    'healthcare', 'sports', 'community', 'safety', 'technology',
-    'environment', 'governance', 'culture', 'leisure', 'real estate'
-]
+topic_tags = {
+    "Rentals": ["apartment", "lease", "tenant", "landlord", "rent agreement"],
+    "Pets": ["dogs", "cats", "pet care", "veterinarian", "pet adoption"],
+    "Gardening": ["plants", "horticulture", "landscaping", "gardening tools", "flower gardening"],
+    "Give and Take": ["swap", "exchange", "freebies", "donation", "recycle"],
+    "Job": ["career", "part-time jobs", "interviews", "hiring", "resumes"],
+    "Food and Cooking": ["recipes", "cooking tips", "healthy eating", "baking", "foodie"],
+    "Sports and Games": ["fitness", "team sports", "board games", "outdoor activities", "competitions"],
+    "Ride Share": ["carpool", "commuting", "rides", "transportation", "eco-friendly travel"],
+    "Pick Up and Delivery": ["courier", "package", "mail", "delivery services", "logistics"],
+    "Social": ["events", "meetups", "community", "networking", "social media"]
+}
 
 suburbs = [
     "Perth", "Armadale", "Bayswater", "Canning", "Cockburn", "Fremantle",
@@ -28,10 +36,15 @@ def create_fake_posts(num_posts=50):
         title = fake.sentence(nb_words=6)
         views = random.randint(0, 1000)
         last_edited = timestamp + datetime.timedelta(hours=random.randint(0, 100))
-        topic = random.choice(list(Topic)).value
         votes = random.randint(0, 500)
         location = random.choice(suburbs)
-        tags = ', '.join(random.sample(TAGS, random.randint(2, 5)))
+        topic = random.choice(list(Topic)).value
+        TAGS = topic_tags[topic]
+        selected_tags = random.sample(TAGS, random.randint(2, 5))
+        for tag in selected_tags:
+            hash_tag = '<a href="#" rel="noopener noreferrer">#' + tag + '</a>'
+            body = hash_tag + ' ' + body
+        tags = ', '.join(selected_tags)
         post = Post(
             title=title,
             body=body,
@@ -54,7 +67,7 @@ def create_fake_users(num_users=20):
     for _ in range(num_users):
         username = fake.user_name()
         email = fake.email()
-        password_hash = fake.password()
+        password_hash = generate_password_hash('testpassword')
         suburb =random.choice(suburbs)
         interested_topics = ', '.join(random.sample(topic_values, random.randint(2, 6)))
         points = random.randint(0, 1000)
@@ -87,6 +100,8 @@ def create_fake_titles(num_titles=20):
         db.session.commit()
 
 def create_fake_replies(num_reply=100):
+    # use set to make sure we don't accept the same post twice
+    accepted_posts=set()
     for _ in range(num_reply):
         body = fake.text(max_nb_chars=400)
         votes = random.randint(0, 100)
@@ -96,8 +111,15 @@ def create_fake_replies(num_reply=100):
         last_edited = timestamp + datetime.timedelta(hours=delta_hours)
         user_id = random.randint(1, 20) # Assuming we have 20 users
         post_id = random.randint(1, 50) # Assuming we have 50 posts
-        accepted = random.choice([True, False])
         parent_id = random.choice([None, random.randint(1, 50)])
+
+        if post_id in accepted_posts:
+            accepted = False
+        else:
+            accepted = random.choice([True, False])
+            if accepted:
+                accepted_posts.add(post_id)
+
         reply = Reply(
             body=body,
             votes=votes,
