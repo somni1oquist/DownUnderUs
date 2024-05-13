@@ -75,7 +75,8 @@ source .venv/bin/activate (Linux/Mac)
 from test_fake_data import create_fake_data
 create_fake_data()
 ```
-7. Launch the app: `flask run` (add `--debug` parameter when developing) and access website through designated url.
+7. Set a secret key for the app e.g. `export SECRET_KEY=cynthia-is-ceo`
+8. Launch the app: `flask run` (add `--debug` parameter when developing) and access website through designated url.
 
 # Instructions for Testing
 
