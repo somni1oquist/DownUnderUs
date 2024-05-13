@@ -129,8 +129,8 @@ const resetInputByParams = () => {
 			$(this).prop('checked', $(this).val() === sortBy);
 		});
 		sortLabel = $('input[name=sort-by]:checked').next().text();
-		$('#sort').text(sortLabel);
 	}
+	$('#sort').text(sortLabel);
 
 	topics.forEach(topic => { addBadge(topic, $('#topic-filter'), true) });
 	tags.forEach(tag => { addBadge(tag, $('#tag-filter'), true) });
