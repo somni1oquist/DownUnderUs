@@ -105,6 +105,10 @@
   display: block;
 }
 
+.profile-user-titles{
+  margin-top: 10px;
+}
+
 .hide {
   display: none;
 }
