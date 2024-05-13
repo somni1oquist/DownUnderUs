@@ -253,7 +253,8 @@ ul.topnav li.center {
 /* left column part */
 .left-col{
   position: fixed;
-  width: 12vw;
+  /* vm means viewport width */
+  width: 11vw;
   margin-top: 16px;
   padding-right: 10px;
   margin-left: -40px;
@@ -261,7 +262,6 @@ ul.topnav li.center {
 
 #hot-topics {
   margin-top:30px;
-  position: fixed;
   font-size: 14px;
 }
 
@@ -357,7 +357,7 @@ body {
   padding-top: 100px;
   /* this padding make sure no content is covered by banner */
   padding-bottom: 200px;
-
+  font-family: "Helvetica Neue";
 }
 
 /* pagination */
