@@ -67,7 +67,7 @@ def create_fake_users(num_users=20):
     for _ in range(num_users):
         username = fake.user_name()
         email = fake.email()
-        password_hash = generate_password_hash('testpassword')
+        password_hash = generate_password_hash('test123')
         suburb =random.choice(suburbs)
         interested_topics = ', '.join(random.sample(topic_values, random.randint(2, 6)))
         points = random.randint(0, 1000)
