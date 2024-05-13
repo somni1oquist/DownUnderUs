@@ -16,11 +16,13 @@
 - Follow the workflow before creating pull request:
 
 0. Checkout to master branch and confirm the branch is up-to-date by `git pull`.
-1. If you have few commits behind `master` branch, reabase using `git rebase master`.
-2. If necessary, resolve the conflicts manually or using merge tools.
-3. (Optional) Squash Commits: If you've made multiple commits, consider squashing them into a single commit before merging.
-4. Review your change and make sure the app work properly.
-5. Create pull request. 
+1. If you have few commits behind `master` branch, rebase using `git rebase -i master`.
+2. If necessary, resolve the conflicts manually or using merge tools and then commit all changes **EXCEPT** migration file.
+3. Check if there is any new migrations in master. If so, execute `flask db upgrade`.
+4. If you've made modifications on `models.py` e.g. create a table, add columns etc. If so, delete your migration directly and use `flask db migrate -m "<comment>"` to generate newly indexed migration. After that, commit and push your migration to remote repository.
+5. (Optional) Squash Commits: If you've made multiple commits, consider squashing them into a single commit before merging.
+6. Review your changes and make sure the app works properly.
+7. Create pull request. 
 
 ## Front-End
 
