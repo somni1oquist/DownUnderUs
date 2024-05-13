@@ -7,11 +7,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from werkzeug.security import generate_password_hash
-
 from app import create_app, db
-from app.models import User
+from app.models import Post, User
 from app.enums import Topic
 from config import TestConfig
+from selenium.webdriver.common.keys import Keys
 
 localhost = f'http://{TestConfig.SERVER_NAME}/'
 SHORT_TIMEOUT  = 2
@@ -30,6 +30,11 @@ class TestE2E(unittest.TestCase):
         interested_topics = ','.join([Topic.FOOD_AND_COOKING.value, Topic.PETS.value, Topic.RENTALS.value])
         self.user = User(username='test_user', email='test@example.com', password_hash=user_password, interested_topics=interested_topics)
         db.session.add(self.user)
+        db.session.commit()
+
+         # Create a post
+        self.post = Post(title='Test Post', body='This is a test post.', user_id=self.user.id, topic='Food and Cooking')
+        db.session.add(self.post)
         db.session.commit()
         
         # Start the server in a separate process
@@ -77,42 +82,52 @@ class TestE2E(unittest.TestCase):
         if (lmask.is_displayed()):
             self.wait_for_load_mask()
 
-        # Click on the create button
-        create_btn = WebDriverWait(self.driver, SHORT_TIMEOUT).until(
-            EC.element_to_be_clickable((By.ID, 'create'))
-        )
-        create_btn.click()
+        # Click on search button
+        search_input = self.driver.find_element(By.ID, 'search-body')
+        search_input.send_keys('Test Post')
+        search_input.send_keys(Keys.ENTER)
 
-        # Wait for the create modal to show
-        create_modal = WebDriverWait(self.driver, SHORT_TIMEOUT).until(
-            EC.visibility_of_element_located((By.ID, "createModal"))
-        )
-        self.assertTrue(create_modal.is_displayed())
-
-        # Enter title
-        title_input = self.driver.find_element(By.NAME, 'title')
-        title_input.send_keys('Test Post')
-        # Click on the topic dropdown
-        topic_dropdown = self.driver.find_element(By.CSS_SELECTOR, '#createModal .dropdown-toggle')
-        topic_dropdown.click()
-        # Select a random topic
-        topic_items = self.driver.find_elements(By.CSS_SELECTOR, '#topic-list .dropdown-item')
-        topic_selected = topic_items[random.randint(0, len(topic_items) - 1)]
-        topic_selected.click()
-        # Enter content
-        content_input = self.driver.find_element(By.CSS_SELECTOR, '#createModal .ql-editor')
-        content_input.send_keys('This is a test post')
-        # Click Post button
-        create_btn = self.driver.find_element(By.CSS_SELECTOR, '#createModal button[type="submit"]')
-        create_btn.click()
-        
         self.wait_for_load_mask()
+        lmask = self.driver.find_element(By.CLASS_NAME, 'lmask')
+        if (lmask.is_displayed()):
+            self.wait_for_load_mask()
 
-        # Check if the post is displayed
-        post_title = self.driver.find_element(By.ID, 'title')
-        post_content = self.driver.find_element(By.CSS_SELECTOR, '#post .card-body').text
+        # Wait for search results to be visible
+        WebDriverWait(self.driver, TIMEOUT).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, 'search-result-box'))
+        )
 
-        self.assertEqual('Test Post', post_title.text)
-        self.assertEqual('This is a test post', post_content)
+        # Click on the post link
+        post_link = self.driver.find_element(By.LINK_TEXT, 'Test Post')
+        post_link.click()
 
-        time.sleep(SHORT_TIMEOUT)
+        # Reply to the post
+        reply_editor = self.driver.find_element(By.CLASS_NAME, 'ql-editor')
+        reply_editor.click()
+        reply_editor.send_keys('This is reply to the post.')
+        send_reply_button = self.driver.find_element(By.CSS_SELECTOR, 'a[data-action="reply"]')
+        send_reply_button.click()
+
+        WebDriverWait(self.driver, LONG_TIMEOUT).until(
+            EC.alert_is_present()
+        )
+
+        alert = self.driver.switch_to.alert
+        alert.accept()  
+
+        self.wait_for_load_mask()
+        lmask = self.driver.find_element(By.CLASS_NAME, 'lmask')
+        if (lmask.is_displayed()):
+            self.wait_for_load_mask()
+
+        reply = self.driver.find_element(By.CSS_SELECTOR, "div.reply")
+        
+        # Assert the reply text
+        reply_text = reply.find_element(By.CSS_SELECTOR, ".card-text").text
+        expected_reply_text = "This is reply to the post."  
+        self.assertIn(expected_reply_text, reply_text, "The reply content does not match the expected text")
+        
+        # Assert the author's name
+        author_name = reply.find_element(By.CSS_SELECTOR, ".author-name").text
+        expected_author_name = "test_user" 
+        self.assertEqual(author_name, expected_author_name, "The author name does not match")

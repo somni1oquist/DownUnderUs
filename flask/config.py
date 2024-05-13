@@ -22,4 +22,4 @@ class TestConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     WTF_CSRF_ENABLED = False
-    SERVER_NAME = 'localhost:5001'
+    SERVER_NAME = 'localhost:4999'
