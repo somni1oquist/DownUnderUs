@@ -161,7 +161,12 @@ def download_image(img_url):
         # write the image to the file
         with open(file_path, 'wb') as file:
             file.write(response.content) 
-        return filename  
+
+        if os.path.getsize(file_path) > 0:
+            return filename  
+        else:
+            os.remove(file_path)
+
     return None 
 
 def update_profile_img(user_id, filename):
