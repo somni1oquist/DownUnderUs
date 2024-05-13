@@ -51,7 +51,7 @@
             {% endif %}
           </div>
           <div class="profile-topics">
-            <span class="profile-topics-label">Find me around these interest areas:</span>
+            <span id="profile-topics-label">Find me around these interest areas:</span>
             <div class="d-flex align-items-center flex-wrap">
               <div class="profile-topics-tags">
                 {% if user.interested_topics %}
@@ -109,7 +109,11 @@
               <p class="profile-detail">
                 <i class="fa-solid fa-star profile-icon"></i>
                 <a role="button" data-bs-toggle="modal" data-bs-target="#pointsHistoryModal">
-                  <span data-bs-toggle="tooltip" data-bs-title="Click to check points history">{{ user.points }}</span>
+                  <span 
+                    {% if current_user.id == user.id %}
+                    data-bs-toggle="tooltip" data-bs-title="Click to check points history"
+                    {% endif %}
+                  >{{ user.points }}</span>
                 </a>
               </p>
               <p class="profile-detail">
@@ -120,8 +124,8 @@
           </div>
 
           {% if current_user.id == user.id %}
-          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-            <i class="fa-solid fa-fingerprint"></i>
+          <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+            <i class="fa-solid fa-fingerprint" data-bs-toggle="tooltip" data-bs-title="Click to change password"></i>
           </button>
           {% endif %}
 
@@ -159,7 +163,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-outline-primary" id="submitChangePassword"
+        <button type="button" class="btn btn-info" id="submitChangePassword"
           data-url="{{ url_for('profile.change_password') }}" data-action="change-password">
           Change Password
         </button>
