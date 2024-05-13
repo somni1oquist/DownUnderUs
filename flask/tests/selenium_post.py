@@ -41,6 +41,7 @@ class TestE2E(unittest.TestCase):
         options.add_argument("--incognito")
         self.driver = webdriver.Chrome(options)
         self.driver.get(localhost)
+        self.driver.maximize_window()
 
     def tearDown(self):
         self.server_process.terminate()

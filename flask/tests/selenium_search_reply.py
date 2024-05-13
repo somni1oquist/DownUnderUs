@@ -46,6 +46,7 @@ class TestE2E(unittest.TestCase):
         options.add_argument("--incognito")
         self.driver = webdriver.Chrome(options)
         self.driver.get(localhost)
+        self.driver.maximize_window()
 
     def tearDown(self):
         self.server_process.terminate()
@@ -86,11 +87,6 @@ class TestE2E(unittest.TestCase):
         search_input = self.driver.find_element(By.ID, 'search-body')
         search_input.send_keys('Test Post')
         search_input.send_keys(Keys.ENTER)
-
-        self.wait_for_load_mask()
-        lmask = self.driver.find_element(By.CLASS_NAME, 'lmask')
-        if (lmask.is_displayed()):
-            self.wait_for_load_mask()
 
         # Wait for search results to be visible
         WebDriverWait(self.driver, TIMEOUT).until(
