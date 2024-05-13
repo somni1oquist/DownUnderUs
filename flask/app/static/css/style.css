@@ -259,12 +259,22 @@ ul.topnav li.center {
   margin-left: -40px;
 }
 
+#hot-topics {
+  margin-top:30px;
+  position: fixed;
+  font-size: 14px;
+}
+
+#hot-topics li{
+  list-style: none;
+}
+
 .search-bar{
   background-color: #22c1c3;
   border: 2px solid #22c1c3;
 }
 
-.top_box {
+.top-box {
   margin: 10px auto;
   padding: 15px;
   border-radius: 5px;
@@ -275,6 +285,7 @@ ul.topnav li.center {
   color: #000;
   text-decoration: none;
 }
+
 
 
 .box-head {
