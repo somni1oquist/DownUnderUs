@@ -303,8 +303,6 @@ ul.topnav li.center {
 #topic-filter, #tag-filter {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: center; */
-  margin: 10px;
 }
 
 #topics-container li {
