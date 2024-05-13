@@ -120,7 +120,7 @@ const resetInputByParams = () => {
 	const sortBy = params.get('sortBy');
 	const topics = params.get('topics') ? params.get('topics').split(',') : [];
 	const tags = params.get('tags') ? params.get('tags').split(',') : [];
-
+	let sortLabel = 'New to Old';
 	// Set input by params
 	$('.search-body').val(query);
 
@@ -128,6 +128,8 @@ const resetInputByParams = () => {
 		$('input[name=sort-by]').each(function () {
 			$(this).prop('checked', $(this).val() === sortBy);
 		});
+		sortLabel = $('input[name=sort-by]:checked').next().text();
+		$('#sort').text(sortLabel);
 	}
 
 	topics.forEach(topic => { addBadge(topic, $('#topic-filter'), true) });
