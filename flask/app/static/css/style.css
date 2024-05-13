@@ -52,6 +52,17 @@ a:hover {
 
 
 /* search result */
+.no-search-result{
+  text-align: center;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.no-search-result img{
+  width: 300px;
+  height: 300px;
+}
+
 #search-result-container {
   border-radius: 10px;
   font-size: 15px;
