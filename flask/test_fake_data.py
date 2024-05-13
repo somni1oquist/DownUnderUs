@@ -8,19 +8,20 @@ import requests
 import os
 from flask import current_app as app
 from werkzeug.security import generate_password_hash
+from sqlalchemy.exc import IntegrityError
 
 fake = Faker()
 topic_tags = {
-    "Rentals": ["apartment", "lease", "tenant", "landlord", "rent agreement"],
-    "Pets": ["dogs", "cats", "pet care", "veterinarian", "pet adoption"],
-    "Gardening": ["plants", "horticulture", "landscaping", "gardening tools", "flower gardening"],
+    "Rentals": ["apartment", "lease", "tenant", "landlord", "rent_agreement"],
+    "Pets": ["dogs", "cats", "pet_care", "veterinarian", "pet_adoption"],
+    "Gardening": ["plants", "horticulture", "landscaping", "gardening_tools", "flower_gardening"],
     "Give and Take": ["swap", "exchange", "freebies", "donation", "recycle"],
-    "Job": ["career", "part-time jobs", "interviews", "hiring", "resumes"],
-    "Food and Cooking": ["recipes", "cooking tips", "healthy eating", "baking", "foodie"],
-    "Sports and Games": ["fitness", "team sports", "board games", "outdoor activities", "competitions"],
-    "Ride Share": ["carpool", "commuting", "rides", "transportation", "eco-friendly travel"],
-    "Pick Up and Delivery": ["courier", "package", "mail", "delivery services", "logistics"],
-    "Social": ["events", "meetups", "community", "networking", "social media"]
+    "Job": ["career", "part-time_jobs", "interviews", "hiring", "resumes"],
+    "Food and Cooking": ["recipes", "cooking_tips", "healthy_eating", "baking", "foodie"],
+    "Sports and Games": ["fitness", "team_sports", "board_games", "outdoor_activities", "competitions"],
+    "Ride Share": ["carpool", "commuting", "rides", "transportation", "eco-friendly_travel"],
+    "Pick Up and Delivery": ["courier", "package", "mail", "delivery_services", "logistics"],
+    "Social": ["events", "meetups", "community", "networking", "social_media"]
 }
 
 suburbs = [
@@ -144,7 +145,10 @@ def create_fake_vote(num_vote = 50):
             vote_type=vote_type
         )
         db.session.add(vote)
-    db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
 
 '''
 >>> fake.image_url()
@@ -197,4 +201,3 @@ def create_fake_data():
     create_fake_vote()
     print("Created 50 fake votes")
     create_fake_profile_img()
-    print("Created 20 fake profile images")
