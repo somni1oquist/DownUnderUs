@@ -45,24 +45,17 @@ def create_post(content, post_date, title, location, topic, selected_tags, img_p
     return post.id
             
 
-def create_replies(content,reply_date,post_id=None,selected_tags=None, img_path=None,accepted=False, parent_id=None, user_id=None, votes=None, last_edited=None):
+def create_replies(content,reply_date,post_id=None, img_path=None,accepted=False, parent_id=None, user_id=None, votes=None, last_edited=None):
     if votes is None:
         votes = random.randint(0, 100)
     delta_hours=random.randint(0, 100)
-    timestamp =datetime.strptime(reply_date, "%Y-%m-%d %H:%M:%S")+timedelta(hours=delta_hours)
-    hash_tag = ''
+    timestamp =datetime.strptime(reply_date, "%Y-%m-%d %H:%M:%S")
     if last_edited is None:
         # last_edited time must be greater than timestamp
         last_edited = timestamp + timedelta(hours=delta_hours)
     if user_id is None:
         user_id = random.randint(1, 20) # Assuming we have 20 users
     body = f'<p>{content}</p>'
-    if selected_tags:
-        selected_tags = ["#Stargazing #Carpool #Mandurah #event"]
-        # img_path="/static/images/scenario1/stars.jpg"
-        for tag in selected_tags:
-            hash_tag += f'<a href="#" rel="noopener noreferrer">{tag}</a>'
-        body = hash_tag + '<br>' + body
     if img_path:
         img =  f'<img src="{img_path}" alt="Uploaded Image">'
         body = body + '<br>' + img
