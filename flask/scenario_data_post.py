@@ -47,7 +47,7 @@ def create_post(content, post_date, title, location, topic, selected_tags, img_p
     return post.id
             
 
-def create_replies(content,reply_date,post_id,selected_tags=None, img_path=None,accepted=False, parent_id=None, user_id=None, votes=None, last_edited=None):
+def create_replies(content,reply_date,post_id=None,selected_tags=None, img_path=None,accepted=False, parent_id=None, user_id=None, votes=None, last_edited=None):
     if votes is None:
         votes = random.randint(0, 100)
     delta_hours=random.randint(0, 100)

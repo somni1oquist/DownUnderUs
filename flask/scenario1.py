@@ -13,7 +13,7 @@ def scenario1():
     reply_1=create_replies(content="Count me in! 😍 I have a telescope that I can bring. We should find a place with less light pollution to watch the stars. I recommend going to Preston Beach; there are public restrooms and formal parking available.",
                 reply_date="2024-05-13 21:15:24",
                 post_id=post_id,
-                img_path="/static/images/scenario1/route.jpg",
+                img_path="/static/images/scenario1/route.png",
                 user_id=2,
                 votes=666,
                 accepted=True
@@ -21,19 +21,16 @@ def scenario1():
     # reply to one
     create_replies(content="I agree! Preston Beach is a great place to stargaze. I'm excited to see the stars!😍",
                 reply_date="2024-05-13 23:15:24",
-                post_id=post_id,
                 parent_id=reply_1,
                 user_id=3
                 )
     create_replies(content="I am in, too! I have a car and can drive. I can pick up people from the city. I'm excited to see the stars!😍",
                 reply_date="2024-05-13 23:19:24",
-                post_id=post_id,
                 parent_id=reply_1,
                 user_id=4
                 )
     create_replies(content="Very nice recommendation! Let's go to Preston Beach!😍",
                 reply_date="2024-05-14 00:01:24",
-                post_id=post_id,
                 parent_id=reply_1,
                 user_id=1
                 )
@@ -46,21 +43,18 @@ def scenario1():
 
     reply_2_1= create_replies(content="How about this Saturday 6PM? We could have dinner at a restaurant in Mandurah before we start stargazing.😀",
                 reply_date="2024-05-13 00:18:20",
-                post_id=post_id,
                 parent_id=reply_2,
                 user_id=1
                 )
 
     reply_2_1_1=create_replies(content="Sounds good! Saturday is a sunny day, but i have a shift at work until 5PM. Can we leave at 6:30PM?",
                 reply_date="2024-05-13 00:20:20",
-                post_id=post_id,
                 parent_id=reply_2_1,
                 user_id=2
                 )
 
     create_replies(content="Sure! We can leave at 6:30PM. I'll update the post.😂",
                 reply_date="2024-05-13 00:22:20",
-                post_id=post_id,
                 parent_id=reply_2_1_1,
                 user_id=1      
     )
@@ -74,14 +68,12 @@ def scenario1():
 
     create_replies(content="I recommend bringing a blanket, a chair, and some snacks. I'll bring a chair and some snacks for everyone.😀",
                 reply_date="2024-05-14 08:15:20",
-                post_id=post_id,
                 parent_id=reply_3,
                 user_id=1
                 )
 
     create_replies(content="I'll bring a picnic blanket and some drinks. I'm excited to meet everyone!",
                 reply_date="2024-05-14 08:17:20",
-                post_id=post_id,
                 parent_id=reply_3,
                 user_id=4
                 )
@@ -94,34 +86,29 @@ def scenario1():
                 )
     reply_4_1=create_replies(content="I can pick you up! I live in East Perth, so I can swing by Cannington to pick you up.",
                 reply_date="2024-05-14 09:02:01",
-                post_id=post_id,
                 parent_id=reply_4,
                 user_id=1
                 )
     create_replies(content="Thank you! I can share the fuel cost",
                 reply_date="2024-05-14 09:03:01",
-                post_id=post_id,
                 parent_id=reply_4_1,
                 user_id=7
                 )
 
     reply_4_2=create_replies(content="I can also pick you up! I live in Victoria Park, so I can pick you up on the way.",
                 reply_date="2024-05-14 09:05:01",
-                post_id=post_id,
                 parent_id=reply_4,
                 user_id=2
                 )
 
     create_replies(content="Thank you! Maybe we can carpool together. I can share the fuel cost.",
                 reply_date="2024-05-14 09:06:01",
-                post_id=post_id,
                 parent_id=reply_4_2,
                 user_id=7
                 )
     # reply to 4_1
     create_replies(content="So i will take victoria park carpool, no need to pick me up",
                 reply_date="2024-05-14 09:07:01",
-                post_id=post_id,
                 parent_id=reply_4_1,
                 user_id=7
                 )
