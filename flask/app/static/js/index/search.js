@@ -57,6 +57,14 @@ $(() => {
 			search();
 		}
 	});
+
+	if (window.location.href.includes('search')) {
+		$('#next-page a, #prev-page a').on('click', (e) => {
+			e.preventDefault();
+			const page = $(e.currentTarget).data('page');
+			search(page);
+		});
+	}
 });
 
 /**
@@ -139,7 +147,11 @@ const resetInputByParams = () => {
 /**
  * Search
  */
-const search = () => {
+const search = (page) => {
 	const params = setParams();
+	if (page)
+		params.set('page', page);
+	else
+		params.delete('page');
 	window.location.href = '/search?' + params.toString()
 };
