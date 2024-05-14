@@ -49,7 +49,7 @@
                 <div class="col-auto">
                   <a href="{{ url_for('profile.profile_view', user_id=post.user.id) }}">
                     {% if post.user.profile_image %}
-                      <img src="{{ url_for('index.serve_uploaded_file', filename=post.user.profile_image) }}" >
+                      <img src="{{ url_for('index.serve_uploaded_file', filename=post.user.profile_image) }}" alt="user profile img" >
                     {% else %}
                       <i class="fa-solid fa-circle-user" ></i>
                     {% endif %}
@@ -82,7 +82,7 @@
             <div class="row mt-2">
                 <div class="col">
                     <div class="search-post-body">
-                        <p>{{ post.body | safe }}</p>
+                        <div>{{ post.body | safe }}</div>
                         <div class="more">
                           <a href="{{ url_for('post.post', post_id=post.id) }}" role="button">...more</a>
                         </div>
