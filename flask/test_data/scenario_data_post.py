@@ -19,8 +19,6 @@ def create_post(content, post_date, title, location, topic, selected_tags, img_p
     body = f'<p>{content}</p>'
     hash_tag = ''
     if selected_tags:
-        selected_tags = ["#Stargazing #Carpool #Mandurah #event"]
-        # img_path="/static/images/scenario1/stars.jpg"
         for tag in selected_tags:
             hash_tag += f'<a href="#" rel="noopener noreferrer">{tag}</a>'
         body = hash_tag + '<br>' + body
@@ -28,7 +26,7 @@ def create_post(content, post_date, title, location, topic, selected_tags, img_p
         img =  f'<img src="{img_path}" alt="Uploaded Image">'
         body = body + '<br>' + img
 
-    tags = ', '.join(selected_tags)
+    tags = ','.join(selected_tags)
 
     post = Post(
         title=title,

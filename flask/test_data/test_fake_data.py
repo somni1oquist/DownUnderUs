@@ -10,6 +10,7 @@ from flask import current_app as app
 from werkzeug.security import generate_password_hash
 from sqlalchemy.exc import IntegrityError
 from test_data.scenario1 import scenario1
+from test_data.scenario2 import scenario2
 
 fake = Faker()
 topic_tags = {
@@ -242,3 +243,5 @@ def create_fake_data():
     create_fake_profile_img()
     scenario1()
     print("Created scenario1 data")
+    scenario2()
+    print("Created scenario2 data")

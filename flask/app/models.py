@@ -50,7 +50,11 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=func.now())
     last_edited = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    replies = db.relationship('Reply', back_populates='post', lazy='dynamic', cascade='all, delete-orphan')
+    replies = db.relationship('Reply',
+                              back_populates='post',
+                              lazy='dynamic',
+                              cascade='all, delete-orphan',
+                              order_by='Reply.timestamp')
     topic = db.Column(db.String(100), nullable=False)
     tags = db.Column(db.String(200))
     location = db.Column(db.String(100))
@@ -98,7 +102,10 @@ class Reply(db.Model):
     post = db.relationship(Post, back_populates='replies')
     accepted = db.Column(db.Boolean, default=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('reply.id', name='fk_reply_parent_id'))
-    replies = db.relationship('Reply', backref=db.backref('parent', remote_side=[id]), lazy='dynamic', cascade='all, delete-orphan')
+    replies = db.relationship('Reply',
+                              backref=db.backref('parent', remote_side=[id]),
+                              lazy='dynamic', cascade='all, delete-orphan',
+                              order_by='Reply.timestamp')
 
     @property
     def real_timestamp(self):
