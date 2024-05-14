@@ -6,7 +6,7 @@ def scenario1():
                 title="Stargazing Carpool Adventure!",
                 location="East Perth",
                 topic="Social",
-                selected_tags=["#Stargazing #Carpool #Mandurah #event"],
+                selected_tags=["#Stargazing","#Carpool","#Mandurah","#event"],
                 img_path="/static/images/scenario1/stars.jpg",
                 user_id=1)
 
@@ -127,7 +127,7 @@ def scenario1():
                 )
     # reply 5
     create_replies(content="To All Brave Stargazers,Weather: Current forecasts suggest clear skies and mild winds on Saturday night, but it will still be chilly, so it is recommended to wear windbreakers. Since we'll be at a seaside beach, wearing hiking shoes is also advisable to protect your feet from the fine sand.Destination: Preston Beach, equipped with public restrooms and formal parking.Drive: It is about an hour's drive, all on asphalt roads with cell service. However, please watch out for kangaroos and rabbits that might dash across from the woods.Time: The Milky Way will be visible from 19:44 to 03:21, so lets plan to meet between 6:30 and 7:00 PM.Other Gear: Bring beach chairs, beach mats, snacks, and drinks.",
-                reply_date="2024-05-14 10:00:01",
+                reply_date="2024-05-16 10:00:01",
                 post_id=post_id,
                 user_id=1,
                 img_path="/static/images/scenario1/night.jpg"
