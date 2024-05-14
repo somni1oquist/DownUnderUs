@@ -19,7 +19,7 @@ As per specification of the project, Python Flask framework is adopted for the a
 
 In addition, from the MVC perspective, since it's a mini-mid level size project, we put all models in `app/models.py` and all views in `app/templates/`. For controller part, we separate and name them by functionality and put them right under `flask/app/`.
 
-For testing part, the `tests/` includes all selenium and unit tests.
+For testing part, the `tests/` includes all selenium and unit tests, the `test_data/` includes all test data.
 
 The basic structure is as follow:
 ```
