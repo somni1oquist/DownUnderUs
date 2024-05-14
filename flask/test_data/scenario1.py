@@ -24,11 +24,24 @@ def scenario1():
                 parent_id=reply_1,
                 user_id=3
                 )
-    create_replies(content="I am in, too! I have a car and can drive. I can pick up people from the city. I'm excited to see the stars!😍",
+    reply_1_2=create_replies(content="I am in, too! I have a car and can drive. I can pick up people from the city. If you need a ride, let me know!",
                 reply_date="2024-05-13 23:19:24",
                 parent_id=reply_1,
                 user_id=4
                 )
+    
+    reply_1_2_1=create_replies(content="I live in the northbridge area and would love to join the carpool! Can you pick me up?",
+                reply_date="2024-05-14 00:01:24",
+                parent_id=reply_1_2,
+                user_id=9
+                )
+    
+    create_replies(content="Sure! I can pick you up. Let's meet at the Northbridge Piazza at 6:00 PM.",
+                reply_date="2024-05-14 00:12:24",
+                parent_id=reply_1_2_1,
+                user_id=4
+                )
+
     create_replies(content="Very nice recommendation! Let's go to Preston Beach!😍",
                 reply_date="2024-05-14 00:01:24",
                 parent_id=reply_1,
@@ -42,25 +55,25 @@ def scenario1():
                 )
 
     reply_2_1= create_replies(content="How about this Saturday 6PM? We could have dinner at a restaurant in Mandurah before we start stargazing.😀",
-                reply_date="2024-05-13 00:18:20",
+                reply_date="2024-05-15 00:18:20",
                 parent_id=reply_2,
                 user_id=1
                 )
 
     reply_2_1_1=create_replies(content="Sounds good! Saturday is a sunny day, but i have a shift at work until 5PM. Can we leave at 6:30PM?",
-                reply_date="2024-05-13 00:20:20",
+                reply_date="2024-05-15 00:20:20",
                 parent_id=reply_2_1,
                 user_id=2
                 )
 
     create_replies(content="Sure! We can leave at 6:30PM. I'll update the post.😂",
-                reply_date="2024-05-13 00:22:20",
+                reply_date="2024-05-15 03:22:20",
                 parent_id=reply_2_1_1,
                 user_id=1      
     )
 
 
-    reply_3=create_replies(content="This is a great idea! I live downtown and can pick up people nearby. What should we bring?",
+    reply_3=create_replies(content="This is a great idea! I live in Nedlands and can pick up people nearby. What should we bring?",
                 reply_date="2024-05-14 08:13:20",
                 post_id=post_id,
                 user_id=6
