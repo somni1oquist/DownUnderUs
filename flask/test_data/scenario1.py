@@ -1,4 +1,4 @@
-from scenario_data_post import create_post, create_replies
+from test_data.scenario_data_post import create_post, create_replies
 
 def scenario1():
     post_id = create_post(content = "Recently, I've been doing project every day at uni and it's making me feel dull. I heard that this season is the best time to stargaze. Is anyone interested in forming a carpool to go stargazing together? I'm thinking of going to Mandurah. Let me know if you're interested!😁",

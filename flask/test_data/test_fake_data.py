@@ -8,20 +8,21 @@ import requests
 import os
 from flask import current_app as app
 from werkzeug.security import generate_password_hash
-from scenario1 import scenario1
+from sqlalchemy.exc import IntegrityError
+from test_data.scenario1 import scenario1
 
 fake = Faker()
 topic_tags = {
-    "Rentals": ["apartment", "lease", "tenant", "landlord", "rent agreement"],
-    "Pets": ["dogs", "cats", "pet care", "veterinarian", "pet adoption"],
-    "Gardening": ["plants", "horticulture", "landscaping", "gardening tools", "flower gardening"],
+"Rentals": ["apartment", "lease", "tenant", "landlord", "rent_agreement"],
+    "Pets": ["dogs", "cats", "pet_care", "veterinarian", "pet_adoption"],
+    "Gardening": ["plants", "horticulture", "landscaping", "gardening_tools", "flower_gardening"],
     "Give and Take": ["swap", "exchange", "freebies", "donation", "recycle"],
-    "Job": ["career", "part-time jobs", "interviews", "hiring", "resumes"],
-    "Food and Cooking": ["recipes", "cooking tips", "healthy eating", "baking", "foodie"],
-    "Sports and Games": ["fitness", "team sports", "board games", "outdoor activities", "competitions"],
-    "Ride Share": ["carpool", "commuting", "rides", "transportation", "eco-friendly travel"],
-    "Pick Up and Delivery": ["courier", "package", "mail", "delivery services", "logistics"],
-    "Social": ["events", "meetups", "community", "networking", "social media"]
+    "Job": ["career", "part-time_jobs", "interviews", "hiring", "resumes"],
+    "Food and Cooking": ["recipes", "cooking_tips", "healthy_eating", "baking", "foodie"],
+    "Sports and Games": ["fitness", "team_sports", "board_games", "outdoor_activities", "competitions"],
+    "Ride Share": ["carpool", "commuting", "rides", "transportation", "eco-friendly_travel"],
+    "Pick Up and Delivery": ["courier", "package", "mail", "delivery_services", "logistics"],
+    "Social": ["events", "meetups", "community", "networking", "social_media"]
 }
 
 suburbs = [
@@ -111,9 +112,11 @@ def create_fake_replies(num_reply=100):
         # last_edited time must be greater than timestamp
         last_edited = timestamp + datetime.timedelta(hours=delta_hours)
         user_id = random.randint(1, 20) # Assuming we have 20 users
-        post_id = random.randint(1, 50) # Assuming we have 50 posts
-        parent_id = random.choice([None, random.randint(1, 50)])
-
+        post_id = random.choice([None, random.randint(1, 50)]) # Assuming we have 50 posts
+        if post_id is not None:
+            parent_id = None
+        else:
+            parent_id = random.randint(1, 50)
         if post_id in accepted_posts:
             accepted = False
         else:
@@ -145,7 +148,10 @@ def create_fake_vote(num_vote = 50):
             vote_type=vote_type
         )
         db.session.add(vote)
-    db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
 
 '''
 >>> fake.image_url()
@@ -198,6 +204,5 @@ def create_fake_data():
     create_fake_vote()
     print("Created 50 fake votes")
     create_fake_profile_img()
-    print("Created 20 fake profile images")
     scenario1()
     print("Created scenario1 data")
