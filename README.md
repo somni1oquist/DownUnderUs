@@ -38,7 +38,12 @@ DownUnderUs/
 │   │   └── ...
 │   ├── instance/
 │   │   └── duu.db
-│   ├── tests/
+|   ├── test_data/
+|   |   ├──test_fake_data.py
+|   |   ├──scenario_data_post.py
+|   |   ├──scenario*.py
+|   |   └──...
+|   ├── tests/
 │   │   ├── selenium_*.py
 │   │   ├── ...
 │   │   ├── test_*.py
@@ -72,7 +77,7 @@ source .venv/bin/activate (Linux/Mac)
 5. Check if migrations are up-to-date and execuete: `flask db upgrade` to apply all migrations to the database file.
 6. Enter shell by `flask shell` and type the following commands. It may take few minutes to generate images, after they're created press `Ctrl+D` to leave.
 ```
-from test_fake_data import create_fake_data
+from test_data.test_fake_data import create_fake_data
 create_fake_data()
 ```
 7. Set a secret key for the app e.g. `export SECRET_KEY=cynthia-is-ceo`
