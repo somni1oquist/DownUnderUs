@@ -101,28 +101,28 @@ def create_fake_titles(num_titles=20):
             db.session.add(title_data)
         db.session.commit()
 
-def create_fake_replies(num_reply=100):
+def create_fake_depth1_replies(num_reply=50):
     # use set to make sure we don't accept the same post twice
-    accepted_posts=set()
+    accepted_replies=set()
     for _ in range(num_reply):
         body = fake.text(max_nb_chars=400)
         votes = random.randint(0, 100)
-        timestamp = fake.date_time_this_year()
+        user_id = random.randint(1, 20) # Assuming we have 20 users
+        post_id = random.randint(1, 50) # Assuming we have 50 posts
+
+        # reply timestamp must be greater than post timestamp
         delta_hours=random.randint(0, 100)
+        parent_id = None
+        post = Post.query.filter_by(id=post_id).first()
+        timestamp = post.timestamp + datetime.timedelta(hours=delta_hours)
         # last_edited time must be greater than timestamp
         last_edited = timestamp + datetime.timedelta(hours=delta_hours)
-        user_id = random.randint(1, 20) # Assuming we have 20 users
-        post_id = random.choice([None, random.randint(1, 50)]) # Assuming we have 50 posts
-        if post_id is not None:
-            parent_id = None
-        else:
-            parent_id = random.randint(1, 50)
-        if post_id in accepted_posts:
+        if post_id in accepted_replies:
             accepted = False
         else:
             accepted = random.choice([True, False])
             if accepted:
-                accepted_posts.add(post_id)
+                accepted_replies.add(post_id)
 
         reply = Reply(
             body=body,
@@ -136,6 +136,36 @@ def create_fake_replies(num_reply=100):
         )
         db.session.add(reply)
     db.session.commit()
+
+# reply depth more than 2
+def create_fake_depth2_replies(num_reply=50,parent_id=None):
+    for _ in range(num_reply):
+        body = fake.text(max_nb_chars=400)
+        votes = random.randint(0, 100)
+        user_id = random.randint(1, 20) # Assuming we have 20 users
+        # reply timestamp must be greater than post timestamp
+        delta_hours=random.randint(0, 100)
+        if parent_id is None:
+            parent_id = random.randint(1, 50)
+        reply = Reply.query.filter_by(id=parent_id).first()
+        timestamp = reply.timestamp + datetime.timedelta(hours=delta_hours)
+        # last_edited time must be greater than timestamp
+        last_edited = timestamp + datetime.timedelta(hours=delta_hours)
+
+        reply = Reply(
+            body=body,
+            votes=votes,
+            timestamp=timestamp,
+            last_edited=last_edited,
+            user_id=user_id,
+            post_id=None,
+            accepted=False,
+            parent_id=parent_id
+        )
+        db.session.add(reply)
+    db.session.commit()
+
+
 
 def create_fake_vote(num_vote = 50):
     for _ in range(num_vote):
@@ -199,8 +229,14 @@ def create_fake_data():
     print("Created 50 fake posts")
     create_fake_titles()
     print("Created 20 fake titles")
-    create_fake_replies()
-    print("Created 100 fake replies")
+    create_fake_depth1_replies()
+    print("Created 50 fake depth-1 replies")
+    create_fake_depth2_replies()
+    print("Created 50 fake depth-2 replies")
+    # create replies depends on the depth-2 replies
+    parent_id = random.randint(50, 100)
+    create_fake_depth2_replies(parent_id=parent_id)
+    print("Created 50 fake depth-3 replies")
     create_fake_vote()
     print("Created 50 fake votes")
     create_fake_profile_img()
