@@ -125,7 +125,10 @@
               {% endif %}
             </div>
           {% else %}
-            <p> No results found </p>
+          <div class="no-search-result">
+            <img src="{{ url_for('static', filename='images/no-result-found.png') }}" alt="No results found ">
+            <p> No matching results found. Please try other keywords. </p>  
+          </div>
           {% endif %}
         </div>
 
