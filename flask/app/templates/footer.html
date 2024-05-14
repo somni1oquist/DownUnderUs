@@ -59,7 +59,7 @@
             <ul class="dropdown-menu" id="topic-list">
               <!-- dropdwn items will be added here -->
             </ul>
-            {{ create_post_form.topic(class="form-control", id="topic", readonly="true") }}
+            {{ create_post_form.topic(class="form-control", id="topic", readonly='readonly') }}
             <span class="input-group-text">
               <i class="fas fa-location-dot"></i>
             </span>
@@ -99,12 +99,8 @@
                 <h4> More than 10,000 people already use our website! </h4>
                 <button type="button" class="btn-close" aria-label="Close"></button>
               </div>
-              <a href="{{ url_for('auth.signup') }}">
-              <button type="button" class="btn btn-outline-light">Register Now</button>
-              </a>
-              <a href="{{ url_for('auth.signin') }}">
-              <button type="button" class="btn btn-outline-light">Sign In</button>
-              </a>
+              <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-light">Register Now</a>
+              <a href="{{ url_for('auth.signin') }}" class="btn btn-outline-light">Login</a>
             </div>
 
       </div>
