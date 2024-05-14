@@ -11,7 +11,7 @@ $(() => {
     initEditor($modalEditor[0], false);
 
   $('#title-btn').on('click', () => {
-    const $title = $('#title');
+    const $title = $('#post-title');
     const title = prompt('Enter title', $title.text());
     const url = $('#title-btn').data('url');
     if (title.trim())
@@ -19,9 +19,9 @@ $(() => {
   });
 
   // Event listener for location button
-  $('#location').on('click', () => {
+  $('#location-btn').on('click', () => {
     const location = prompt('Enter location (leave empty to remove location)');
-    const url = $('#location').data('url');
+    const url = $('#location-btn').data('url');
     if (location.trim()) {
       // Save location
       save(url, { location: location});

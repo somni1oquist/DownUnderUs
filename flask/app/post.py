@@ -105,12 +105,14 @@ def edit(post_id):
         post.title = title
         update_title = True
 
-    # Sanitise body
-    body = nh3.clean(data.get('body'), tags=ALLOWED_TAGS)
-    if len(body) < 10 or len(title) < 3:
-        return json_response(ResponseStatus.ERROR, 'Please enter proper contents.'), 400
+    if update_title and len(title) < 3:
+            return json_response(ResponseStatus.ERROR, 'Please enter proper title.'), 400
     
     if not update_location and not update_title:
+        # Sanitise body
+        body = nh3.clean(data.get('body'), tags=ALLOWED_TAGS)
+        if len(body) < 10:
+            return json_response(ResponseStatus.ERROR, 'Please enter proper content.'), 400
         post.body = body
         post.tags = ','.join(data.get('tags')) if data.get('tags') else None
 
