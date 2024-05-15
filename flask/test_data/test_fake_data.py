@@ -246,3 +246,5 @@ def create_fake_data():
     print("Created scenario1 data")
     scenario2()
     print("Created scenario2 data")
+    scenario3()
+    print("Created scenario3 data")
