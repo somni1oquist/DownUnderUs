@@ -4,7 +4,7 @@
     <button type="button" class="btn" data-bs-toggle="dropdown" data-bs-auto-close="false" name="search-filter">
       <i class="fa-solid fa-rectangle-list" data-bs-toggle="tooltip" data-bs-title="Click to add more"></i>
     </button>
-    <label for="topics-filter"> Filter Topics</label>
+    <span>Filtered Topics</span>
     <ul class="dropdown-menu">
       {% for topic in topics %}
       <li class="dropdown-item"><i class="fa-solid fa-plus"></i>{{ topic }}</li>
@@ -24,7 +24,7 @@
     <button type="button" class="btn">
       <i class="fa-solid fa-hashtag" data-bs-toggle="tooltip" data-bs-title="Click to add more"></i>
     </button>
-    <label for="tags-filter"> Filter Tags</label>
+    <span>Filtered Tags</span>
   </div>
   <div class="d-none">
     <div id="tag-filter" class="row">
@@ -39,25 +39,25 @@
 </button>
 <ul class="dropdown-menu">
   <li class="dropdown-item">
-    <input id="timestamp_desc" name="sort-by" type="radio" class="btn-check" value="timestamp_desc" autocomplete="off" checked>
+    <input id="timestamp_desc" name="sort-by" type="radio" class="btn-check" value="timestamp_desc" checked>
     <label class="btn" for="timestamp_desc">
       New to Old
     </label>
   </li>
   <li class="dropdown-item">
-    <input id="timestamp_asc" name="sort-by" type="radio" class="btn-check" value="timestamp_asc" autocomplete="off">
+    <input id="timestamp_asc" name="sort-by" type="radio" class="btn-check" value="timestamp_asc">
     <label class="btn" for="timestamp_asc">
       Old to New
     </label>
   </li>
   <li class="dropdown-item">
-    <input id="views_desc" name="sort-by" type="radio" class="btn-check" value="views_desc" autocomplete="off">
+    <input id="views_desc" name="sort-by" type="radio" class="btn-check" value="views_desc">
     <label class="btn" for="views_desc">
       Most Views
     </label>
   </li>
   <li class="dropdown-item">
-    <input id="views_asc" name="sort-by" type="radio" class="btn-check" value="views_asc" autocomplete="off">
+    <input id="views_asc" name="sort-by" type="radio" class="btn-check" value="views_asc">
     <label class="btn" for="views_asc">
       Least Views
     </label>
