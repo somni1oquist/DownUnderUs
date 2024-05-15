@@ -18,7 +18,7 @@
           <img src="{{ url_for('index.serve_uploaded_file', filename=reply.user.profile_image) }}" alt="Profile Image"
             class="rounded-circle">
           {% else %}
-          <h1><i class="fa-solid fa-circle-user"></i></h1>
+          <i class="fa-solid fa-circle-user fa-2x"></i>
           {% endif %}
         </a>
         <!-- author name and level -->
@@ -64,9 +64,9 @@
     <div class="col-sm-2">
       <div class="action-panel">
         {% if reply.accepted %}
-        <h2 class="text-success" data-bs-toggle="tooltip" data-bs-title="This reply has been accepted by {{ post.user.username }}">
-          <i class="fa-solid fa-check-double"></i>
-        </h2>
+        <div class="text-success" data-bs-toggle="tooltip" data-bs-title="This reply has been accepted by {{ post.user.username }}">
+          <i class="fa-solid fa-check-double fa-2x"></i>
+        </div>
         {% endif %}
         <h5>{{ reply.votes }}</h5>
         <!-- Post author can accept reply if there is no answer yet -->

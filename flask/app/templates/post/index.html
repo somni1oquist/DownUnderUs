@@ -8,7 +8,7 @@
 {% block container %}
 <div class="container-fluid post-container">
   <div class="header-container">
-    <h1 id="title">{{ post.title }}</h1>
+    <h1 id="post-title">{{ post.title }}</h1>
     {% if current_user.is_authenticated and current_user.id == post.user.id %}
     <!-- Edit title button -->
     <button id="title-btn" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
@@ -21,7 +21,7 @@
     {% if post.location %}
     {% if current_user.is_authenticated and current_user.id == post.user.id %}
     <!-- Edit location button -->
-    <button id="location" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
+    <button id="location-btn" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
       data-bs-toggle="tooltip" data-bs-title="Edit location" data-bs-placement="bottom">
       <i class="fa-solid fa-location-dot"></i>
       {{ post.location }}
@@ -34,7 +34,7 @@
     {% endif %}
     {% elif current_user.is_authenticated and current_user.id == post.user.id %}
     <!-- Add location button -->
-    <button id="location" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
+    <button id="location-btn" type="button" class="btn" data-url="{{ url_for('post.edit', post_id=post.id) }}"
       data-bs-toggle="tooltip" data-bs-title="Add location" data-bs-placement="bottom">
       <i class="fa-solid fa-circle-plus"></i>
       Add location
@@ -50,9 +50,7 @@
           <img src="{{ url_for('index.serve_uploaded_file', filename=post.user.profile_image) }}"
             alt="Profile Image" class="rounded-circle">
           {% else %}
-          <h1>
-            <i class="fa-solid fa-circle-user"></i>
-          </h1>
+          <i class="fa-solid fa-circle-user fa-2x"></i>
           {% endif %}
         </a>
         <!-- author name and level -->
@@ -171,7 +169,7 @@
 <!-- Modal for image zoom in -->
 <div id="imageModal" class="image-modal">
   <span class="close">&times;</span>
-  <img class="modal-content">
+  <img class="modal-content" src="{{ url_for('static', filename='no-result-found') }}" alt="Target image">
 </div>
 {% endblock %}
 
