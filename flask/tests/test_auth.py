@@ -3,6 +3,7 @@ from app import create_app, db
 from app.models import User
 from werkzeug.security import generate_password_hash
 from config import TestConfig
+from app.enums import ResponseMessage
 
 class AuthTestCase (unittest.TestCase):
     def setUp(self):
@@ -48,21 +49,21 @@ class AuthTestCase (unittest.TestCase):
 
         # Correct login
         response = self.client.post('/auth/signin', json={
-            'username': 'testuser',
+            'email': 'test@example.com',
             'password': 'password'
         })
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('Login successful' in response.get_json()['message'])
+        self.assertTrue(ResponseMessage.LOGIN_SUCCESS in response.get_json()['message'])
 
         # Incorrect login
         response = self.client.post('/auth/signin', json={
-            'username': 'testuser',
+            'email': 'test@example.com',
             'password': 'wrongpassword'
         })
         
         self.assertEqual(response.status_code, 401)
-        self.assertTrue('Incorrect username or password' in response.get_json()['message'])
+        self.assertTrue(ResponseMessage.INCORRECT_CREDENTIALS in response.get_json()['message'])
 
 if __name__ == '__main__':
     unittest.main()

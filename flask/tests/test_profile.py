@@ -46,7 +46,7 @@ class ProfileTestCase(unittest.TestCase):
 
     def login(self):
         return self.client.post('/auth/signin', json={
-            'username': 'testuser',
+            'email': 'test@example.com',
             'password': 'testpass'
         })
 
@@ -115,8 +115,6 @@ class ProfileTestCase(unittest.TestCase):
         self.assertIn('<h3>Recent 10 interactions</h3>', data)
         self.assertIn('Test Post 0', data)  
         self.assertNotIn('Test Post 11', data)
-
-
 
     def test_upload_profileimg(self):
         example_image = './app/static/images/icons8-bmo-48.png'

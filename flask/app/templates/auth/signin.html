@@ -3,8 +3,8 @@
 {% set show_banner = False %}
 
 {% block head %}
-  {{ super() }}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 {% endblock %}
 
 {% block container %}
@@ -19,8 +19,8 @@
 
           <form id="login-form" action="{{ url_for('auth.signin') }}" method="post">
             <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" name="username" id="username" required>
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" name="email" id="email" required>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
@@ -44,6 +44,6 @@
 {% endblock %}
 
 {% block script %}
-  {{ super() }}
-  <script type="module" src="{{ url_for('static', filename='js/auth/main.js') }}"></script>
+{{ super() }}
+<script type="module" src="{{ url_for('static', filename='js/auth/main.js') }}"></script>
 {% endblock %}

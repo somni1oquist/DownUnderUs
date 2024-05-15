@@ -33,7 +33,7 @@ class CreatePostTestClass(unittest.TestCase):
         # Log in the user
         with self.client:
             self.client.post('/auth/signin', json={
-                'username': 'testuser',
+                'email': 'test@example.com',
                 'password': 'testpassword'
             })
     

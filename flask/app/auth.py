@@ -49,16 +49,16 @@ def signup():
 def signin():
     if request.method == 'POST':
         data = request.get_json()
-        username = data.get('username')
+        email = data.get('email')
         password = data.get('password')
         redirect_url = data.get('callbackUrl') or url_for('index.index')
 
-        if not username:
-            return json_response(ResponseStatus.ERROR, ResponseMessage.USERNAME_REQUIRED, {'success': False}), 400
+        if not email:
+            return json_response(ResponseStatus.ERROR, ResponseMessage.EMAIL_REQUIRED, {'success': False}), 400
         if not password:
             return json_response(ResponseStatus.ERROR, ResponseMessage.PASSWORD_REQUIRED, {'success': False}), 400
         
-        user = User.query.filter_by(username=username).first() 
+        user = User.query.filter_by(email=email).first() 
         if user is None or not check_password_hash(user.password_hash, password):
             return json_response(ResponseStatus.ERROR, ResponseMessage.INCORRECT_CREDENTIALS, {'success': False}), 401
 
@@ -95,5 +95,3 @@ def get_perth_suburbs():
         "Gosnells", "Joondalup", "Kalamunda", "Kwinana", "Melville"
     ]
     return suburbs
-
-# TODO: Implement view and edit user profile, DO USE decorator @login_required

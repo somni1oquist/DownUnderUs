@@ -68,7 +68,7 @@ class ResponseMessage(str, Enum):
     TOPIC_SELECTED = 'Topic selected successfully'
     TOPIC_RANGE = 'Please select at least 2 topics, but no more than 6.'
     # Sign-in and Sign-up
-    INCORRECT_CREDENTIALS = 'Incorrect username or password'
+    INCORRECT_CREDENTIALS = 'Incorrect email or password'
     LOGIN_SUCCESS = 'Login successful'
     USERNAME_REQUIRED = 'Username is required'
     PASSWORD_REQUIRED = 'Password is required'
