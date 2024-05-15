@@ -69,9 +69,9 @@ class TestE2E(unittest.TestCase):
         sign_in_btn = self.driver.find_element(By.LINK_TEXT, 'Sign In')
         sign_in_btn.click()
 
-        # Enter username and password
-        username_input = self.driver.find_element(By.ID, 'username')
-        username_input.send_keys(self.user.username)
+        # Enter email and password
+        email_input = self.driver.find_element(By.ID, 'email')
+        email_input.send_keys(self.user.email)
         password_input = self.driver.find_element(By.ID, 'password')
         password_input.send_keys('password')
         

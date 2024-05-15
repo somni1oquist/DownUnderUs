@@ -21,7 +21,7 @@ class ReplyTests(unittest.TestCase):
 
         # Sign in the user
         self.client = self.app.test_client()
-        self.signin('testuser', 'testpassword')
+        self.signin('test@example.com', 'testpassword')
 
         # Create a post
         self.post = Post(title='Test Post', body='This is a test post.', user_id=self.user.id, topic='Food and Cooking')
@@ -33,9 +33,9 @@ class ReplyTests(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def signin(self, username, password):
+    def signin(self, email, password):
         response = self.client.post('/auth/signin', json={
-            'username': username,
+            'email': email,
             'password': password
         })
         return response

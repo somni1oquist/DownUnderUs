@@ -16,23 +16,25 @@ function setupSignIn() {
   if (signInButton) {
     signInButton.addEventListener("click", function (e) {
       e.preventDefault();
-      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      const callbackUrl = new URLSearchParams(window.location.search).get("callbackUrl");
+      const callbackUrl = new URLSearchParams(window.location.search).get(
+        "callbackUrl"
+      );
       const errorMessageDiv = document.getElementById("error-message");
 
       errorMessageDiv.style.display = "none";
 
       // Check if either field is empty
-      if (!username || !password) {
-        errorMessageDiv.innerText = "Please enter username and password";
+      if (!email || !password) {
+        errorMessageDiv.innerText = "Please enter email and password";
         errorMessageDiv.style.display = "block";
       } else {
         // AJAX request for sign-in
         csrfFetch("/auth/signin", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password, callbackUrl }),
+          body: JSON.stringify({ email, password, callbackUrl }),
         })
           .then((response) => response.json())
           .then((data) => {
@@ -40,7 +42,10 @@ function setupSignIn() {
               throw new Error(data.message);
             }
             makeToast(`Sign-in successful!`, BsType.SUCCESS).then(() => {
-              makeToast(`Points added: ${data.points_added}`, BsType.SUCCESS).then(() => {
+              makeToast(
+                `Points added: ${data.points_added}`,
+                BsType.SUCCESS
+              ).then(() => {
                 window.location.href = data.redirect;
               });
             });
