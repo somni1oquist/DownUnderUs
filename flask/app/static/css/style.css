@@ -395,40 +395,38 @@ body {
 }
 
 #rank_top_container{
-  background-color:#3d98b4;
   padding: 0%;
 }
 #rank_header{
-  padding: 0%;
+  padding: 8px;
   padding-bottom: 0%;
   height: 100px;
   margin-bottom: 0%;
-  font-size: 50px;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 30px;
   text-align: center;
-  color:  whitesmoke;;
+  color:  black;
+  border-bottom: 1px solid #7e7b7b;
 }
 
-#rank_name{
-  color: whitesmoke;
-}
 #rank_container {
   align-items: center;
   padding: 0%;
-  width: 100%;
+  width: 60%;
   margin: 0 auto;
-  color: #BAE4E6;
   margin-bottom: 5px;
+  border-radius: 8px;
+}
+
+rank_table th, rank_table td {
+  padding: 8px;
+  text-align: left;
 }
 
 #rank_table {
-  margin-left: 10%;
-  color:  whitesmoke;;
-  width: 80%;
-  border-collapse: collapse;
-  border: 1px solid #ddd;
-  margin-top: 10px;
-  margin-bottom: 5px;
+padding-left: 15%;
+width: 100%;
+border-collapse: collapse;
+color: black;
 }
 
 #nav-profile-img {
