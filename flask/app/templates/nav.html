@@ -28,8 +28,13 @@
         <li class="nav-item">
           <a class="nav-link" href="/about">About us</a>
         </li>
-        <li class="nav-item center">
-          <p style="color:white; font-size:20px;">LOGO and Name</p>
+        <li class="nav-item center" class="row" id="logo_box">
+          <div id="logo_cantainer">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="DownUnderUs Logo" id="logo">
+          </div>
+          <a style="color:white; font-size:20px;" href="/home">
+            No Worries, Neighbour
+          </a>
         </li>
         {% if not current_user.is_authenticated %}
         <li class="nav-item login-item">

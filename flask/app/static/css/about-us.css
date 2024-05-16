@@ -12,8 +12,8 @@ body {
 #us_heading{
   justify-content: center;
   align-items: center;
-  height: 300px;
-  margin-bottom: 0%;
+  height: 180px;
+  margin-bottom: 0px;
   text-align: center;
 }
 
@@ -25,6 +25,7 @@ body {
 
 #us_heading h4{
   padding-top: 30px;
+  padding-bottom: 0px;
 }
 
 .web_intro{
@@ -178,12 +179,4 @@ body {
   font-weight: 700;
   text-align: center;
   align-items: center; 
-}
-
-#feature3{
-  margin-right: 0%;
-}
-
-#feature6{
-  margin-right: 0%;
 }
