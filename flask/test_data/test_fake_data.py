@@ -11,6 +11,7 @@ from werkzeug.security import generate_password_hash
 from sqlalchemy.exc import IntegrityError
 from test_data.scenario1 import scenario1
 from test_data.scenario2 import scenario2
+from test_data.scenario3 import scenario3
 
 fake = Faker()
 topic_tags = {
@@ -245,3 +246,5 @@ def create_fake_data():
     print("Created scenario1 data")
     scenario2()
     print("Created scenario2 data")
+    scenario3()
+    print("Created scenario3 data")
