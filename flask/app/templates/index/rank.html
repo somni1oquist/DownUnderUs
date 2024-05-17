@@ -17,13 +17,13 @@
             {% for user in users %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td id="rank-profile_img">
+                <td class="rank-profile_img">
                     <a href="{{ url_for('profile.profile_view', user_id=user.id) }}">
-                        <div id="rank_name" class="d-flex align-items-center">
+                        <div class="d-flex align-items-center">
                             {% if user.profile_image %}
-                            <img id=nav-profile-img src="{{ url_for('index.serve_uploaded_file', filename=user.profile_image) }}" alt="Profile Image">
+                            <img class="nav-profile-img rank_img" src="{{ url_for('index.serve_uploaded_file', filename=user.profile_image) }}" alt="Profile Image">
                             {% else %}
-                            <i class="fa-solid fa-face-smile fa-2xl" id="substitute-img"></i>
+                            <i class="fa-solid fa-face-smile fa-2xl substitute-img"></i>
                             {% endif %}
                             {{ user.username }}
                         </div>

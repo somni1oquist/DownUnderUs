@@ -213,7 +213,7 @@ ul.topnav li.center {
 
 }
 
-#nav-profile-img{
+.nav-profile-img{
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -423,6 +423,10 @@ rank_table th, rank_table td {
   text-align: left;
 }
 
+.rank_img{
+  margin-right: 10px;
+}
+
 #rank_table {
 padding-left: 15%;
 width: 100%;
@@ -430,16 +434,12 @@ border-collapse: collapse;
 color: black;
 }
 
-#nav-profile-img {
-  margin-right: 20px;
-}
-
-#substitute-img{
+.substitute-img{
   color: #f3d37c; 
   padding-right: 20px;
 }
 
-#rank-profile_img div {
+.rank-profile_img div {
   display: inline-block;
 }
 

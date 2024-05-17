@@ -189,7 +189,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <iframe src="{{ url_for('profile.points_history', user_id=user.id) }}" width="100%" height="400px" frameborder="0"></iframe>
+        <iframe src="{{ url_for('profile.points_history', user_id=user.id) }}" id="frame"></iframe>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
