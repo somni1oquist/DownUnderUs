@@ -288,6 +288,7 @@ ul.topnav li.center {
   padding: 15px;
   border-radius: 5px;
   border: 2px solid #22c1c3;
+  text-align: center;
 }
 
 .top-box a {
@@ -295,7 +296,9 @@ ul.topnav li.center {
   text-decoration: none;
 }
 
-
+.top-box ul {
+  padding: 10px;
+}
 
 .box-head {
   border-bottom: 1px solid rgba(12, 12, 12, 30%);
