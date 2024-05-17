@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block title %}Welcome{% endblock %}
 {% block head %}
   {{ super() }}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
@@ -13,6 +14,8 @@
         Welcome to No Worries, Neighbour - 
         your friendly online community hub where neighbours come together to lend a hand, share knowledge, 
         and build meaningful connections.
+      </p>
+      <p>
         Join us in creating a neighbourhood 
         where no worry goes unanswered and every neighbour is a valued member of our close-knit community.
       </p>

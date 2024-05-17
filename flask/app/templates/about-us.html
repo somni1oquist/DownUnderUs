@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %}About Us{% endblock %}
 {% block head %}
   {{ super() }}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/about-us.css') }}">
@@ -23,7 +23,7 @@
       </p>
     </div>
     <div id="about_us_img1" class="col-sm-6">
-      <img src="../static/images/about_1.png" alt="about_us_img1">
+      <img src="{{ url_for('static', filename='images/about_1.png') }}" alt="about_us_img1">
     </div>
   </div>
   <div class="us_container_parts row">
@@ -66,7 +66,7 @@
     <div class="row">
       <div id="user_1_container" class="col-sm-6">
         <div id="user_1">
-          <img src="../static/images/users_2.png" alt="user_2_img">
+          <img src="{{ url_for('static', filename='images/users_2.png') }}" alt="user_2_img">
           <p><strong>John</strong> is a university student who recently moved to Perth. 
             He is looking for a place to stay and is unfamiliar with the local housing market.<br> 
             John posts a request on <strong>No Worries, Neighbour</strong> 
@@ -77,8 +77,8 @@
       </div>
       <div id="user_2_container" class="col-sm-6">
         <div id="user_2">
-          <img src="../static/images/users_1.png" alt="user_1_img">
-          <p><strong>Mary</strong></strong> is a busy working professional who struggles to find time to cook healthy meals. <br>
+          <img src="{{ url_for('static', filename='images/users_1.png') }}" alt="user_1_img">
+          <p><strong>Mary</strong> is a busy working professional who struggles to find time to cook healthy meals. <br>
             She posts a request on <strong>No Worries, Neighbour</strong> asking for meal prep tips and recipes. 
             Community members share their favorite recipes and meal planning strategies, 
             enabling Mary to maintain a balanced diet despite her hectic schedule.
@@ -95,18 +95,16 @@
   </div>
   <div id="contact" class="row">
     <h2>Contact Information</h2>
-    <strong>
-      <p>
+    <p><strong>
         We warmly welcome new members to join our community support platform. If you're interested in becoming part of No Worries, Neighbour or if you have suggestions, please contact us:
-      </p>
+      </strong></p>
       <ul>
         <li>Website: <a href="xxx">www.no_worries_neighbour.com</a></li>
         <li>Email: <a href="mailto:support@noworries.neighbour.com">support@noworries.neighbour.com</a> </li>
       </ul>
-      <p>
+      <p><strong>
         <a href="{{ url_for('auth.signup') }}">Register an account </a>today with No Worries, Neighbour and begin your journey of mutual support as we strive together to make Perth a more welcoming community!
-      </p>
-    </strong>
+      </strong></p>
   </div>
 </div>
 {% endblock %}

@@ -51,10 +51,9 @@
 }
 
 #landing_intro{
-    display: flex;
     justify-content: center;
     align-content: center;
-    padding:  5% 20%, 0%, 20%;
+    padding: 0 10% 0 10%;
     color: rgb(81, 78, 78);
     text-align: center;
     font-weight: 600;
@@ -63,7 +62,7 @@
 }
 
 #landing_intro p{
-    padding: 0 10% 0 10%;
+    padding: 0 8% 0 8%;
 }
 
 .button_landing{
@@ -71,7 +70,6 @@
     background-color: #259B99;
     height: 40%;
     color: #FEFEFE;
-    padding: 0 20;
     font-size: 110%; 
     font-weight: 800;
     text-align: center;
