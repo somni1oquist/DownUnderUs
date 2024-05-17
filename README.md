@@ -15,13 +15,14 @@ At the heart of our application lies a carefully curated incentives mechanism. W
 
 # Summary of Architecture
 
-As per specification of the project, Python Flask framework is adopted for the app, alongside its extensitons e.g., Flask-Login, Flask-SQLAlchemy, Flask-Migrate and WTForms. The main program folder is `flask/`, containing main app files, database, migrations and tests. 
+As per specification of the project, Python Flask framework is adopted for the app, alongside its extensitons e.g., Flask-Login, Flask-SQLAlchemy, Flask-Migrate and WTForms. The main program folder is `flask/`, containing main app files, database, migrations and tests.
 
 In addition, from the MVC perspective, since it's a mini-mid level size project, we put all models in `app/models.py` and all views in `app/templates/`. For controller part, we separate and name them by functionality and put them right under `flask/app/`.
 
 For testing part, the `tests/` includes all selenium and unit tests, the `test_data/` includes all test data.
 
 The basic structure is as follow:
+
 ```
 DownUnderUs/
 ├── flask/
@@ -68,18 +69,22 @@ DownUnderUs/
 0. Make sure the directory in terminal is correct: in `flask/` folder.
 1. Generate virtual environment for app: `python3 -m venv .venv`.
 2. Activate virtual environment:
+
 ```
 source .venv/bin/activate (Linux/Mac)
 .venv\Scripts\activate (Windows)
 ```
+
 3. Install all required packages: `pip install -r requirements.txt`.
 4. Check database by `flask db check`, the command will generate database file if there is none.
 5. Check if migrations are up-to-date and execuete: `flask db upgrade` to apply all migrations to the database file.
 6. Enter shell by `flask shell` and type the following commands. It may take few minutes to generate images, after they're created press `Ctrl+D` to leave.
+
 ```
 from test_data.test_fake_data import create_fake_data
 create_fake_data()
 ```
+
 7. Set a secret key for the app e.g. `export SECRET_KEY=cynthia-is-ceo`
 8. Launch the app: `flask run` (add `--debug` parameter when developing) and access website through designated url.
 
@@ -110,6 +115,12 @@ python -m unittest discover -s tests -p 'test_*.py' -v
 ```
 
 This command will execute all test cases found in the tests directory and its subdirectories.
+
+Note: In order to ignore any deprecation warnings while test execution, below command can be used:
+
+```
+python -W ignore::DeprecationWarning -m unittest discover -s tests -p 'test_*.py' -v
+```
 
 #### Run a Specific Test File
 
@@ -155,10 +166,30 @@ With these cleanup procedures in place, tests are self-contained and do not leav
 
 ## Selenium Tests
 
-### Run test
-There are 3 selenium tests in the `tests/` folder, use the following command to run each selenium test:
-```
-python -m unittest tests.selenium_signup -v
-python -m unittest tests.selenium_post -v
-python -m unittest tests.selenium_search_reply -v
-```
+The project includes a series of Selenium end-to-end tests that simulate user interactions with the web interface to ensure the application behaves correctly from a user's perspective.
+
+- Each test utilizes a `setUp` method to prepare the testing environment by initializing the application with test-specific configurations, setting up a clean database, launching the Flask server in a separate process, and opening a browser in incognito mode.
+- After the tests, a `tearDown` method ensures all resources are properly released by terminating the server, closing the browser, clearing the database, and cleaning up the application context.
+
+This setup and cleanup help maintain a stable and isolated environment for each test, ensuring reliable and repeatable testing outcomes.
+
+### Running Tests
+
+There are three main Selenium test scenarios implemented in the `tests/` folder. Each test can be run individually to verify different aspects of the application:
+
+1. **User Sign-up Flow**: Tests the complete sign-up process from clicking the sign-up link to selecting topics and verifying user details in the profile.
+
+   ```
+   python -m unittest tests.selenium_signup -v
+   ```
+
+2. **Post Creation Flow**: Covers the sign-in process, post creation, and asserts the successful addition of a new post.
+
+   ```
+   python -m unittest tests.selenium_post -v
+   ```
+
+3. **Post Search and Reply Flow**: Tests the sign-in process, searching for a post, replying to it, and verifying the reply.
+   ```
+   python -m unittest tests.selenium_search_reply -v
+   ```
