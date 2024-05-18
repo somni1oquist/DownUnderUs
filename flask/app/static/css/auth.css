@@ -1,6 +1,7 @@
 /* Full Page Background Setup */
 .auth-background {
   height: 100vh;
+  /* Image source: https://www.freepik.com/premium-vector/line-drawing-autumn-town-scape-with-people_75958715.htm */
   background-image: url("../images/background.jpg");
   background-size: cover;
   background-position: center;
