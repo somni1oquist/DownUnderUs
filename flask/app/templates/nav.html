@@ -28,8 +28,13 @@
         <li class="nav-item">
           <a class="nav-link" href="/about">About Us</a>
         </li>
-        <li class="nav-item center">
-          <p style="color:white; font-size:20px;">LOGO and Name</p>
+        <li class="nav-item center" id="logo_box">
+          <div id="logo_cantainer">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="DownUnderUs Logo" id="logo">
+          </div>
+          <a style="color:white; font-size:20px;" href="/home">
+            No Worries, Neighbour
+          </a>
         </li>
         {% if not current_user.is_authenticated %}
         <li class="nav-item login-item">
@@ -42,7 +47,7 @@
         <li class="nav-item login-item">
           <a href="/profile/">
             {% if current_user.profile_image %}
-            <img id=nav-profile-img src="{{ url_for('index.serve_uploaded_file', filename=current_user.profile_image) }}" alt="Profile Image">
+            <img class="nav-profile-img" src="{{ url_for('index.serve_uploaded_file', filename=current_user.profile_image) }}" alt="Profile Image">
             {% else %}
             <i class="fa-solid fa-circle-user" ></i>
             {% endif %}
