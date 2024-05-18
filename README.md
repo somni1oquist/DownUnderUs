@@ -193,3 +193,16 @@ There are three main Selenium test scenarios implemented in the `tests/` folder.
    ```
    python -m unittest tests.selenium_search_reply -v
    ```
+
+# Reference
+- Third party libraries are used in the application:
+  - `fontawesome` icon free library is downloaded via official website and used across the whole website.
+  - `jQuery` and `Bootstrap` are used via CDN link in `base.html`.
+  - The editor we utilised is `quill.js`, its source code and theme are also used via CDN link in `base.html`.
+
+- We have different sources for media contents in the application:
+  - All profile images source is from package `Faker`.
+  - Part of the images are downloaded from the Internet and is credited above or below the image element by a comment.
+  - Part of the images/pictures/screenshots in the post contents are taken or captured by ourselves.
+  - Other than the images/pictures/screenshots mentioned above, all other media contents are designed and created by our group member Yali Ou (10Yaly).
+- The `loading-mask.css` is derrived and altered from the CodePen https://codepen.io/bartezic/pen/ByqeNq.

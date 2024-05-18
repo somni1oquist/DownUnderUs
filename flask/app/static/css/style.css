@@ -365,11 +365,13 @@ ul.topnav li.center {
 body {
   /* this padding make sure no content is covered by navbar */
   padding-top: 100px;
-  /* this padding make sure no content is covered by banner */
-  padding-bottom: 200px;
   font-family: "Helvetica Neue";
 }
 
+body:has(div.bottom-banner:visible) {
+  /* this padding make sure no content is covered by banner */
+  padding-bottom: 200px;
+}
 /* pagination */
 
 /* alert for non-login user login or register */
