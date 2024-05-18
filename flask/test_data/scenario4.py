@@ -8,7 +8,7 @@ def scenario4():
         location="Perth",
         selected_tags=["#Cixin Liu", "#UWA", "#Perth", "#science fictiom", "#3 bodies", "#book signing"],
         img_path="/static/images/scenario4/3-body-1.jpg",
-        user_id=25,
+        user_id=20,
         post_date="2024-05-14 18:15:24"
     )
     first_reply_id = create_replies(
@@ -23,13 +23,13 @@ def scenario4():
         content="I'd love to go, but I have other appointments that day and I'm not sure if I can fit it in. I'll try to adjust my schedule to be sure to attend, though!",
         reply_date="2024-05-15 17:45:27",
         parent_id=first_reply_id,
-        user_id=24
+        user_id=19
     )
     create_replies(
         content="Where is the location does anyone know? My family lives in the Fremental area and I'm not sure if it's too far for me. If it's not too far, I'd consider attending.",
         reply_date="2024-05-14 23:19:24",
         parent_id=first_reply_id,
-        user_id=26,
+        user_id=17,
         votes=8
     )
 
@@ -47,7 +47,7 @@ def scenario4():
         content="I live in a dormitory on the UWA campus, which is great! ! I can go to the event directly from my dormitory. I am also a fan of science fiction novels, and I am very excited to meet Liu Cixin in person!",
         reply_date="2024-05-15 21:30:15",
         parent_id=second_reply_id,
-        user_id=33
+        user_id=16
     )
     create_replies(
         content="I'm also a huge fan of Cixin Liu's books! I heard he's coming to Perth for a book signing and I've been ready to go for a long time. I hope to be able to connect with other fans and share my love for his work then!",
@@ -59,14 +59,14 @@ def scenario4():
         content="I've heard the news as well! My house is not far from Perth and I'm really looking forward to attending the signing! However, I think it's important to plan ahead because it's sure to be crowded and I'll be in a mood to lose my mind if I don't grab an autograph by then.",
         reply_date="2024-05-15 16:20:09",
         parent_id=second_reply_id,
-        user_id=30,
+        user_id=10,
         votes=5
     )
     create_replies(
         content="It's great to see so many people going",
         reply_date="2024-05-15 17:10:29",
         parent_id=second_first_first_reply_id,
-        user_id=25
+        user_id=20
     )
     
     third_reply_id = create_replies(
@@ -81,35 +81,35 @@ def scenario4():
         content="Ditto! I've heard of him before, but never actually gotten around to reading his books. This book signing could be a great opportunity to get into his work.",
         reply_date="2024-05-15 22:23:50",
         parent_id=third_reply_id,
-        user_id=36,
+        user_id=6,
         votes=5
     )
     create_replies(
         content="Yes, book signings are not only a chance to meet the author in person, but also to share your love of his work and exchange ideas with other fans. I hope you have an enjoyable experience!",
         reply_date="2024-05-16 10:45:20",
         parent_id=third_reply_id,
-        user_id=31,
+        user_id=1,
         votes=10
     )
     create_replies(
         content="I've always been interested in science fiction, but I've never been exposed to Liu Cixin's work. This book signing seemed like a great opportunity to get to know his work, and incidentally, to share my thoughts with other fans.😁",
         reply_date="2024-05-16 11:30:59",
         parent_id=third_reply_id,
-        user_id=26
+        user_id=6
     )
     
     fourth_reply_id = create_replies(
         content="I watched the trilogy TV series and I felt it was pretty good, especially the special effects were done quite cool. But compared to the original, there are still some parts that weren't shown very well.",
         reply_date="2024-05-16 14:00:35",
         post_id=post_id,
-        user_id=38,
+        user_id=8,
         votes=7
     )
     create_replies(
         content="I felt the same way! The special effects were really stunning, but the plot was cut in some places compared to the original, causing the overall feel to be a bit distorted.",
         reply_date="2024-05-16 14:30:50",
         parent_id=fourth_reply_id,
-        user_id=34
+        user_id=4
     )
 
     create_replies(

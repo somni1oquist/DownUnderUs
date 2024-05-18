@@ -110,7 +110,7 @@ class TestE2E(unittest.TestCase):
         self.wait_for_load_mask()
 
         # Check if the post is displayed
-        post_title = self.driver.find_element(By.ID, 'title')
+        post_title = self.driver.find_element(By.ID, 'post-title')
         post_content = self.driver.find_element(By.CSS_SELECTOR, '#post .card-body').text
 
         self.assertEqual('Test Post', post_title.text)
