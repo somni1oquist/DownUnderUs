@@ -117,7 +117,7 @@ class ProfileTestCase(unittest.TestCase):
         self.assertNotIn('Test Post 11', data)
 
     def test_upload_profileimg(self):
-        example_image = './app/static/images/icons8-bmo-48.png'
+        example_image = './app/static/images/logo.png'
         with open(example_image, 'rb') as img:
             data={
                 'image': (img, 'example_image.png')
@@ -147,7 +147,7 @@ class ProfileTestCase(unittest.TestCase):
         self.assertEqual(response_data['message'], 'No selected file')
     
     def test_upload_profileimg_invalid_file_type(self):
-        example_image = './app/static/images/icons8-bmo-48.png'
+        example_image = './app/static/images/logo.png'
         with open(example_image, 'rb') as img:
             data={
                 'image': (img, 'example_image.ico')

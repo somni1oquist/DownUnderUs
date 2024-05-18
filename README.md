@@ -194,7 +194,9 @@ There are three main Selenium test scenarios implemented in the `tests/` folder.
    python -m unittest tests.selenium_search_reply -v
    ```
 
-# Reference
+Note: In case the selenium test fails in the first instance, please try running it again.
+
+# References
 - Third party libraries are used in the application:
   - `fontawesome` icon free library is downloaded via official website and used across the whole website.
   - `jQuery` and `Bootstrap` are used via CDN link in `base.html`.
@@ -205,5 +207,5 @@ There are three main Selenium test scenarios implemented in the `tests/` folder.
   - Part of the images are downloaded from the Internet and is credited above or below the image element by a comment.
   - Part of the images/pictures/screenshots in the post contents are taken or captured by ourselves.
   - Other than the images/pictures/screenshots mentioned above, all other media contents not stated are designed and created by our group member Yali Ou (10Yaly).
-- The `loading-mask.css` is derrived and altered from the CodePen https://codepen.io/bartezic/pen/ByqeNq.
-- AI tools e.g., GitHub Copilot, chatGPT were used for assistance, for example: correting the code logic, giving better design suggestions and optimising the code efficiency in few instances.
+- The `loading-mask.css` is derived and altered from the CodePen https://codepen.io/bartezic/pen/ByqeNq.
+- AI tools e.g., GitHub Copilot, chatGPT were used for assistance. For example: correcting the code logic, giving better design suggestions and optimising the code efficiency in few instances.
