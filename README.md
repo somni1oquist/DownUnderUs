@@ -204,5 +204,5 @@ There are three main Selenium test scenarios implemented in the `tests/` folder.
   - All profile images source is from package `Faker`.
   - Part of the images are downloaded from the Internet and is credited above or below the image element by a comment.
   - Part of the images/pictures/screenshots in the post contents are taken or captured by ourselves.
-  - Other than the images/pictures/screenshots mentioned above, all other media contents are designed and created by our group member Yali Ou (10Yaly).
+  - Other than the images/pictures/screenshots mentioned above, all other media contents not stated are designed and created by our group member Yali Ou (10Yaly).
 - The `loading-mask.css` is derrived and altered from the CodePen https://codepen.io/bartezic/pen/ByqeNq.
